@@ -1,5 +1,27 @@
 NextGEN Gallery
-by Alex Rabe & NextGEN DEV Team
+by Photocrati Media
+
+= V1.9.6 - 07.21.2012 =
+* Changed: Implemented workaround for bug found in WordPress SEO, resulting in no images being added to sitemap
+* Bugfix: Fixed an issue with users not being able to dismiss the "Photocrati Acquisition Notice"
+* Bugfix: Adjusted Javascript for activating social media pages to load on NextGEN Gallery pages only.
+* Bugfix: Fixed compatibility issue with Simple Facebook Connect
+* Bugfix: Using correct Facebook Page ID in Like button
+
+= V1.9.5 - 07.18.2012 =
+* Changed: Branding changes following Photocrati acquisition (removed donation messages and updated links)
+* Secured: Use WordPress-bundled JavaScript libraries for swfobject and swfupload instead of bundling our own
+* Bugfix: Adjusted thickbox effect styling to ensure that the lightbox is always displayed in the foreground
+* Bugfix: Fixed compatibility issues with Contact Form 7 and other plugins by following WordPress Plugin conventions
+* Bugfix: Fixed network-wide activation in WordPress 3.4
+* Bugfix: Plugin is no longer dependent on it's folder name
+
+= V1.9.3 - 26.02.2012 =
+* Bugfix : Ensure to set the slug for "all" albums
+* Bugfix : Updated german translation ( THX to Roger Hunziker )
+* Bugfix : Ensure error checking on IPTC array (THX to Kristian Edlund)
+* Bugfix : Handle IE8 cached images better in slideshow
+* Bugfix : Show album preview image if selected  (THX to Kristian Edlund)
 
 = V1.9.2 - 17.01.2012 =
 * NEW : Added more XMLRPC commands (THX to Vladimir Vinogradsky)

@@ -38,20 +38,6 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You 
     	$ngg_options['hideSupportInfo'] = true;
     	update_site_option('ngg_options', $ngg_options);			
     }
-    
-    if( !isset ( $ngg_options['hideSupportInfo']) ||  $ngg_options['hideSupportInfo'] !== true ) {
-    	?>	
-    		<div id="donator_message">
-    			<p><?php echo str_replace('%s', 'http://alexrabe.de/donation', __('Thanks for using this plugin, NextGEN Gallery is initially developed for self hosted blogs. A multisite setup is possible, but cannot currently fully supported, as it can have several special condition ( i.e. Domain mapping).<br /> If you would like to support the further development, please consider a <strong><a href="%s">donation</a></strong>! If you still need some help, please post your questions <a href="http://wordpress.org/tags/nextgen-gallery?forum_id=10">here</a> .', 'nggallery')); ?>
-    				<span>
-    					<a href="<?php echo add_query_arg( array( 'hideSupportInfo' => 'true') ); ?>" >
-    						<small><?php _e('OK, hide this message now !', 'nggallery'); ?></small>
-    					</a>
-    				<span>
-    			</p>
-    		</div>
-    	<?php
-    }
 	
 	// message windows
 	if( !empty($messagetext) ) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.$messagetext.'</p></div>'; }

@@ -3,8 +3,8 @@ if ( !class_exists('nggImage') ) :
 /**
 * Image PHP class for the WordPress plugin NextGEN Gallery
 * 
-* @author 		Alex Rabe 
-* @copyright 	Copyright 2007-2008
+* @author Alex Rabe 
+*  
 */
 class nggImage{
 	

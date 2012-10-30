@@ -1,79 +1,84 @@
 === NextGEN Gallery ===
-Contributors: alexrabe
-Donate link: http://alexrabe.de/donation/
+Contributors: photocrati
 Tags: photos,flash,slideshow,images,gallery,media,admin,post,photo-albums,pictures,widgets,photo,picture,image,nextgen-gallery,nextgen gallery
-Requires at least: 3.2
-Tested up to: 3.3
+Requires at least: 3.4
+Tested up to: 3.4.1
 Stable tag: trunk
+License: GPLv2
 
-NextGEN Gallery is a full integrated Image Gallery plugin for WordPress with dozens of options and features.
+NextGEN Gallery is a fully integrated image gallery plugin for WordPress with dozens of options and features.
 
 == Description ==
 
-NextGEN Gallery is a full integrated Image Gallery plugin for WordPress with a slideshow option. Before I started writing the plugin I studied all the existing image and gallery plugins for WordPress. 
-Some of them are really good and well designed, but the gap I filled was a simple administration system at the back end which can also handle multiple galleries.
+NextGEN Gallery is the most popular photo gallery plugin for WordPress, and one of the most popular WordPress plugins of any kind with over 5 million downloads. 
 
-[Demonstration](http://nextgen-gallery.com/) |
-[FAQ](http://alexrabe.de/wordpress-plugins/nextgen-gallery/faq/)|
-[Support](http://wordpress.org/tags/nextgen-gallery?forum_id=10)|
-[Translations](http://code.google.com/p/nextgen-gallery/downloads/list?q=label:Translation)
+It provides a powerful engine for uploading and managing galleries of images, with the ability to batch upload, import meta data, add/delete/rearrange/sort images, edit thumbnails, group galleries into albums, and more. It also provides two front-end display styles (slideshows and thumbnail galleries), both of which come with a wide array of options for controlling size, style, timing, transitions, controls, lightbox effects, and more. 
+
+*NextGEN Gallery is now proudly maintained by <a href='http://www.photocrati.com'>Photocrati Media</a>. Special thanks to Alex Rabe who created and maintained the plugin from 2007 through 2011.*
+
 
 = Features =
 
-* Templates : You can add custom templates for your theme.
-* Media RSS feed : Add the Cooliris Effect to your gallery
-* Role settings : Each gallery has a author
-* AJAX based thumbnail generator : No more server limitation during the batch process
-* Copy/Move : Copy or move images between galleries 
-* Sortable Albums : Create your own sets of images 
-* Upload or pictures via a zip-file (Not in Safe-mode)
-* Watermark function : You can add a watermark image or text 
-* JavaScript Effect : Use any available popular image effect : Shutter, Thickbox, Lightbox or Highslide
-* Multiple CSS Stylesheet : Use a nice shadow effect for your thumbnails with your own CSS file 
-* Slideshow : Full integrated slideshow as jQuery or Flash solution
-* TinyMCE : Button integration for easy adding the gallery tags
-* Sidebar Widget : Show a slideshow, random or recent picture at your sidebar 
-* Language support : Translated in more than 30 languages
-* Translation downloader : Download with one click the new translation file
-* Upload tab integration : You have access to all pictures via the upload tab
-* Tag support for images : Append related images to your post, create a image tag-cloud
-* Meta data support : Import EXIF, IPTC or XMP meta data 
-* Sort images feature
-* Support for XML Sitemaps : Add Images to your sitemaps with the <a href="http://wordpress.org/extend/plugins/wordpress-seo/" title="WordPress SEO by Yoast plugin">WordPress SEO by Yoast plugin</a>
+
+*Upload Galleries*
+
+* NextGEN Galleries offers diverse and powerful functionality for getting images from your desktop to your website. You can easily upload batches of images via a standard WordPress-style uploader, or upload images via zip file or FTP. NextGEN will automatically import your images’ meta data.
+
+
+*Manage Galleries*
+
+* Centralized gallery management.  Enjoy a single location where you can see and manage all your galleries.
+* Edit galleries.  Add or exclude images, change gallery title and description, reorder of images, resize thumbnails.
+* Thumbnail Management.  Turn thumbnail cropping on off, customize how individual thumbnails are cropped, and bulk resize thumbnails across one more galleries.
+* Edit Individual Images.  Edit meta data and image tags, rotate images, exclude images.
+* Watermarks.  Quickly add watermarks to batches or galleries of images.
+* Albums.  Create and organize collections of galleries (“albums”), and display them in either compact or extended format.
+
+
+*Display Galleries*
+
+* Two Gallery Types.  Choose between two main display styles: Slideshow and Thumbnail, and allow visitors to toggle between the two.
+* Slideshow Galleries.  Choose from a vast array of options for slideshows, including slideshow size, transition style, speed, image order, optional navigation bar.
+* Thumbnail Galleries.  Choose from a wide range of options to customize thumbnail galleries, including 5 different lightboxs for individual images, optional thumbnails cropping and editing, thumbnail styles, captions, and more.
+* Single Image Displays.  Display and format single images.
+* Work with Options Panel or ShortCodes.
+
+
+= Further Resources =
+
+*<a href="http://www.nextgen-gallery.com/nextgen-gallery-demos/" target="_blank">Demo</a><br>
+*<a href="http://wordpress.org/tags/nextgen-gallery?forum_id=10" target="_blank">Support</a><br>
+*<a href="http://www.nextgen-gallery.com/languages/" target="_blank">Translations</a><br>
+*<a href="http://www.nextgen-gallery.com" target="_blank">NextGEN Gallery Official Website</a><br>
+*<a href="http://www.photocrati.com" target="_blank">Author Website - Photocrati Media</a><br>
+*Follow NextGEN Gallery on <a title="Follow NextGEN Gallery on Facebook" href="http://www.facebook.com/NextGENGallery" target="_blank">Facebook</a>, <a title="Follow NextGEN Gallery on Twitter" href="http://twitter.com/NextGENGallery" target="_blank">Twitter</a>, and <a title="Follow NextGEN Gallery on Google +" href="http://plus.google.com/101643895780935290171" target="_blank">Google +</a><br>
+
 
 == Credits ==
 
-Copyright 2007-2012 by Alex Rabe & NextGEN DEV-Team
+Copyright:<br>
+Photocrati Media 2012<br>
+Alex Rabe 2007-2011
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
+This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 ** Please note **
 
-The JW Image Rotator (Flash Slideshow) is not part of this license and is available
-under a Creative Commons License, which allowing you to use, modify and redistribute 
-them for noncommercial purposes. 
+The JW Image Rotator (Flash Slideshow) is not part of this license and is available under a Creative Commons License, which allowing you to use, modify and redistribute  them for noncommercial purposes. 
 
 For commercial use please look at the Jeroen's homepage : http://www.longtailvideo.com/
 
 == Installation ==
 
-1. 	Install & Activate the plugin
+1. 	Download, install, and activate the NextGEN Gallery plugin.
 
-2.	Add a gallery and upload some images (the main gallery folder must have write permission)
+2.	From your Wordpress Dashboard, go to Gallery > Add Gallery/Images > Follow the on-screen cues.
 
-3. 	Go to your post/page an enter the tag '[nggallery id=x]' or '[slideshow id=x]'.	See more tags in the FAQ section
+3. 	Go to a post/page, and select the NextGEN Gallery button from the Kitchen Sink. Follow the on-screen cues to select, adjust, and publish your gallery.
 
 That's it ... Have fun
 
@@ -88,47 +93,126 @@ http://www.youtube.com/watch?v=Le_ZsNSuIvM
 5. Screenshot Flexible template layout
 6. Screenshot Show Exif data
 
+== Shortcode ==
+
+= Examples =
+
+*Use Image Tags to Create Galleries/Albums* - [ nggtags album=WordPress,Cologne,Ireland ]
+
+*Display Captions in Thumbnail Galleries* - [ nggallery id=1 template=caption ]
+
+*Basic Filmstrip Galleries* - [ nggallery id=2 template=carousel images=7 ]
+
+*Display Exif Data* - [ imagebrowser id=28 template=exif ]
+
+*Sort Images in a Gallery Based on Their Tags* - [ nggtags gallery=cologne,wordpress,.. ]
+
+*Add Tag Clouds* - [ tagcloud]
+
+*Single Pic Options* - [ singlepic id=x w=width h=height mode=web20|watermark float=left|right ]
+
+*Template Engine for Gallery Types*<br>
+[ nggallery id=1 template=sample1 ]<br>
+[ nggallery id=1 template=sample2 ]<br>
+[ nggallery id=1 template=sample3 ]<br>
+[ nggallery id=1 template=sample4 ]<br>
+[ nggallery id=1 template=sample5 ]<br>
+[ nggallery id=1 template=sample6 ]<br>
+
+*Integration with Third Party Plugins*<br>
+[ monoslideshow id=1 w=450 h=350 ]<br>
+[ nggallery id=1 template=galleryview images=0 ]<br>
+[ media id=6 width=320 height=240 plugins=revolt-1 ]<br>
+[ media id=3 width=320 height=240 plugins=rateit-2 ]<br>
+
 == Frequently Asked Questions ==
 
-When writing a page/post, you can use the follow tags:
+= Will NextGEN Gallery work with my theme? =
 
-For a slideshow : **[slideshow id=x w=width h=height]**
+Part of what makes NextGEN so popular is its flexibility - it works with the vast majority of premium and free themes, without requiring any coding.
 
-Example : http://nextgen-gallery.com/slideshow/
+ 
+= Are the galleries flash based? =
 
-For a album : **[album id=x template=extend]** or **[album id=x template=compact]**
+No, NextGEN Gallery uses Javascript (J-Query) based displays to ensure compatibility across the widest range of displays possible.
+ 
 
-Example : http://nextgen-gallery.com/album/
+= Are the galleries mobile friendly? =
 
-For a gallery : **[nggallery id=x]**
+Yes, since we use Javascript rather than flash, NextGEN Gallery is compatible with Android, iOS, and Blackberry.
 
-Example : http://nextgen-gallery.com/gallery-page/
+ 
+= What is the difference between a gallery and an album? =
 
-For a single picture : **[singlepic id=x w=width h=height mode=web20|watermark float=left|right]**
+In the simplest of terms, Galleries contain your images and Albums contain your Galleries. Albums act as links and placeholders to quickly and easily navigate your galleries - Galleries will actually display your images.
 
-Example : http://nextgen-gallery.com/singlepic/
+ 
+= Can I upload multiple images at once? =
 
-For a image browser : **[imagebrowser id=x]**
+Yes, you can batch upload entire galleries at a time.
 
-Example : http://nextgen-gallery.com/image-browser/
+ 
+= Can I password protect galleries? =
 
-To show image sorted by tags : **[nggtags gallery=mytag,wordpress,... ]**
+Yes, Wordpress allows you to password protect pages by default - which includes all galleries and content for the entire page. Password protection of pages can be turned on and off at any time, with just a few clicks.
 
-Example : http://nextgen-gallery.com/gallery-tags/
+ 
+= Can I add a watermark to the images/slideshows? =
 
-To show tag albums : **[nggtags album=mytag,wordpress,... ]**
+Yes, you can add text or image watermarks to your gallery images.
 
-Example : http://nextgen-gallery.com/albumtags/
 
-To show random mages : **[random max=x ]**
+= Can I crop thumbnails? =
 
-To show the most recent added mages : **[recent max=x ]**
+Yes, each thumbnail image can be individually adjusted to suit your needs.
 
-**A further FAQ you can found here :** http://alexrabe.de/wordpress-plugins/nextgen-gallery/faq/
+ 
+= Is there pagination for galleries? =
 
-**And at least request your question here :** http://wordpress.org/tags/nextgen-gallery?forum_id=10
+Yes, and you can adjust the amount of images to be shown on a page at any time.
+
+ 
+= Can I customize the lightbox? =
+
+Yes, the lightbox can be configured with multiple options directly from the Dashboard, and there are multiple CSS styles which can be applied and modified as well.
+
+ 
+= Can I add HTML to the captions? =
+
+Yes, caption areas are fully HMTL capable.
+
+ 
+= Can I add an external links to galleries? =
+
+Since the captions are fully HTML capable, you can add external links and any other type of mark up you wish.
+
+= Is NextGEN Gallery available in foreign languages? =
+
+Yes, NextGEN Gallery has been translated into dozens of languages - <a href="http://www.nextgen-gallery.com/languages/" target="_blank">click here to find out more.</a>
 
 == Changelog == 
+
+= V1.9.6 - 07.21.2012 =
+* Changed: Implemented workaround for bug found in WordPress SEO, resulting in no images being added to sitemap
+* Bugfix: Fixed an issue with users not being able to dismiss the "Photocrati Acquisition Notice"
+* Bugfix: Adjusted Javascript for activating social media pages to load on NextGEN Gallery pages only.
+* Bugfix: Fixed compatibility issue with Simple Facebook Connect
+* Bugfix: Using correct Facebook Page ID in Like button
+
+= V1.9.5 - 18.07.2012 =
+* Changed: Branding changes following Photocrati acquisition (removed donation messages and updated links)
+* Secured: Use WordPress-bundled JavaScript libraries for swfobject and swfupload instead of bundling our own
+* Bugfix: Adjusted thickbox effect styling to ensure that the lightbox is always displayed in the foreground
+* Bugfix: Fixed compatibility issues with Contact Form 7 and other plugins by following WordPress Plugin conventions
+* Bugfix: Fixed network-wide activation in WordPress 3.4
+* Bugfix: Plugin is no longer dependent on it's folder name
+
+= V1.9.3 - 26.02.2012 =
+* Bugfix : Ensure to set the slug for "all" albums
+* Bugfix : Updated german translation ( THX to Roger Hunziker )
+* Bugfix : Ensure error checking on IPTC array (THX to Kristian Edlund)
+* Bugfix : Handle IE8 cached images better in slideshow
+* Bugfix : Show album preview image if selected  (THX to Kristian Edlund)
 
 = V1.9.2 - 17.01.2012 =
 * NEW : Added more XMLRPC commands (THX to Vladimir Vinogradsky)
@@ -311,4 +395,4 @@ To show the most recent added mages : **[recent max=x ]**
 == Upgrade Notice ==
 
 = 1.5.5 =
-Compat issue for post thumbnails with WP2.9 and WP3.0. No Database changes...
+* Compat issue for post thumbnails with WP2.9 and WP3.0. No Database changes...

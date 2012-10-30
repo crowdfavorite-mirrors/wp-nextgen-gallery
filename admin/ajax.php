@@ -5,7 +5,7 @@ add_action('wp_ajax_ngg_ajax_operation', 'ngg_ajax_operation' );
  * Image edit functions via AJAX
  * 
  * @author Alex Rabe
- * @copyright 2008 - 2010
+ * 
  * 
  * @return void
  */

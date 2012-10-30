@@ -3,8 +3,8 @@
  * nggNavigation - PHP class for the pagination
  * 
  * @package NextGEN Gallery
- * @author Alex Rabe 
- * @copyright 2009-2011
+ * @author Alex Rabe
+ * 
  * @version 1.0.1
  * @access public
  */

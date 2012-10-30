@@ -6,6 +6,7 @@
  * @package NextGEN Gallery
  * @title TinyMCE V3 Button Integration (for WP2.5 and higher)
  * @author Alex Rabe
+ * 
  * @access public
  */
 class add_nextgen_button {

@@ -4,7 +4,7 @@ if ( !class_exists('nggdb') ) :
  * NextGEN Gallery Database Class
  * 
  * @author Alex Rabe, Vincent Prat
- * @copyright 2008-2011
+ * 
  * @since 1.0.0
  */
 class nggdb {
@@ -145,6 +145,7 @@ class nggdb {
             $this->galleries[$key]->counter = 0;
             $this->galleries[$key]->title = stripslashes($this->galleries[$key]->title);
             $this->galleries[$key]->galdesc  = stripslashes($this->galleries[$key]->galdesc);
+			$this->galleries[$key]->abspath = WINABSPATH . $this->galleries[$key]->path;
             wp_cache_add($key, $this->galleries[$key], 'ngg_gallery');      
         }
 
@@ -161,7 +162,7 @@ class nggdb {
         // add the counter to the gallery objekt    
         foreach ($picturesCounter as $key => $value) {
             $this->galleries[$value->galleryid]->counter = $value->counter;
-            wp_cache_add($value->galleryid, $this->galleries[$value->galleryid], 'ngg_gallery');
+            wp_cache_set($value->galleryid, $this->galleries[$value->galleryid], 'ngg_gallery');
         }
         
         return $this->galleries;

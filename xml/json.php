@@ -4,8 +4,8 @@
 * Should emulate some kind of Flickr JSON callback : ?callback=json&format=json&api_key=1234567890&method=search&term=myterm
 * 
 * @version      1.1.0
-* @author 		Alex Rabe 
-* @copyright 	Copyright 2010
+* @author Alex Rabe 
+* 
 * @require		PHP 5.2.0 or higher
 * 
 */

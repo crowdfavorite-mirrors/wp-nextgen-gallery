@@ -8,7 +8,7 @@
 *
 * @package NextGEN Gallery
 * @author Alex Rabe
-* @copyright 2008-2011
+* 
 */
 class nggRewrite {
 

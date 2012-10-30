@@ -64,9 +64,9 @@
 		getInfo : function() {
 			return {
 					longname  : 'NextGEN',
-					author 	  : 'Alex Rabe',
-					authorurl : 'http://alexrabe.de',
-					infourl   : 'http://alexrabe.de',
+					author 	  : 'Photocrati',
+					authorurl : 'http://www.photocrati.com/',
+					infourl   : 'http://www.nextgen-gallery.com/',
 					version   : "2.0"
 			};
 		}

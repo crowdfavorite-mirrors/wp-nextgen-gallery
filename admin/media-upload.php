@@ -3,7 +3,7 @@
 /**
  * @title  Add action/filter for the upload tab 
  * @author Alex Rabe
- * @copyright 2008-2011
+ * 
  */
 
 function ngg_wp_upload_tabs ($tabs) {

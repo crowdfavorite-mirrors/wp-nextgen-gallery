@@ -71,7 +71,7 @@ function nggShowSlideshow($galleryID, $width, $height) {
     // add now the script code
     $out .= "\n".'<script type="text/javascript" defer="defer">';
     // load script via jQuery afterwards
-    // $out .= "\n".'jQuery.getScript( "'  . NGGALLERY_URLPATH . 'admin/js/swfobject.js' . '", function() {} );';
+    // $out .= "\n".'jQuery.getScript( "' . esc_js( includes_url('js/swfobject.js') ) . '", function() {} );';
     if ($ngg_options['irXHTMLvalid']) $out .= "\n".'<!--';
     if ($ngg_options['irXHTMLvalid']) $out .= "\n".'//<![CDATA[';
     $out .= $swfobject->javascript();
@@ -448,6 +448,9 @@ function nggShowAlbum($albumID, $template = 'extend', $gallery_template = '') {
     // still no success ? , die !
     if( !$album ) 
         return __('[Album not found]','nggallery');
+
+    // ensure to set the slug for "all" albums
+    $album->slug = ($albumID == 'all') ? $album->id : $album->slug;
     
     if ( is_array($album->gallery_ids) )
         $out = nggCreateAlbum( $album->gallery_ids, $template, $album );
@@ -516,10 +519,14 @@ function nggCreateAlbum( $galleriesID, $template = 'extend', $album = 0) {
             
             //populate the sub album values
             $galleries[$key]->counter = 0;
-            if ($subalbum->previewpic > 0)
+            $galleries[$key]->previewurl = '';
+            // ensure that album contain a preview image
+            if ($subalbum->previewpic > 0){
                 $image = $nggdb->find_image( $subalbum->previewpic );
-            $galleries[$key]->previewpic = $subalbum->previewpic;
-            $galleries[$key]->previewurl = isset($image->thumbURL) ? $image->thumbURL : '';
+				$galleries[$key]->previewurl = isset($image->thumbURL) ? $image->thumbURL : '';
+			}
+            
+            $galleries[$key]->previewpic = $subalbum->previewpic;            
             $galleries[$key]->previewname = $subalbum->name;
             
             //link to the subalbum
@@ -540,7 +547,13 @@ function nggCreateAlbum( $galleriesID, $template = 'extend', $album = 0) {
 		// If a gallery is not found it should be ignored
         if (!$unsort_galleries[$key])
         	continue;
-		
+            
+		// No images found, set counter to 0
+        if (!isset($galleries[$key]->counter)){
+            $galleries[$key]->counter = 0;
+            $galleries[$key]->previewurl = '';
+        }
+        
 		// Add the counter value if avaible
         $galleries[$key] = $unsort_galleries[$key];
     	
@@ -550,9 +563,11 @@ function nggCreateAlbum( $galleriesID, $template = 'extend', $album = 0) {
             $galleries[$key]->previewurl  = site_url().'/' . $galleries[$key]->path . '/thumbs/thumbs_' . $albumPreview[$galleries[$key]->previewpic]->filename;
         } else {
             $first_image = $wpdb->get_row('SELECT * FROM '. $wpdb->nggpictures .' WHERE exclude != 1 AND galleryid = '. $key .' ORDER by pid DESC limit 0,1');
-            $galleries[$key]->previewpic  = $first_image->pid;
-            $galleries[$key]->previewname = $first_image->filename;
-            $galleries[$key]->previewurl  = site_url() . '/' . $galleries[$key]->path . '/thumbs/thumbs_' . $first_image->filename;
+            if (isset($first_image)) {
+                $galleries[$key]->previewpic  = $first_image->pid;
+                $galleries[$key]->previewname = $first_image->filename;
+                $galleries[$key]->previewurl  = site_url() . '/' . $galleries[$key]->path . '/thumbs/thumbs_' . $first_image->filename;                
+            }
         }
 
         // choose between variable and page link

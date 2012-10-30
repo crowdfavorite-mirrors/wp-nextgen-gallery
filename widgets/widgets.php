@@ -11,7 +11,7 @@ require_once(dirname (__FILE__) . '/media-rss-widget.php');
  *
  * @package NextGEN Gallery
  * @author Alex Rabe
- * @copyright 2008 - 2009
+ * 
  * @version 2.00
  * @since 1.3.2
  * @access public
@@ -149,7 +149,7 @@ add_action('widgets_init', create_function('', 'return register_widget("nggSlide
  *
  * @package NextGEN Gallery
  * @author Alex Rabe
- * @copyright 2009 - 2010
+ * 
  * @version 2.10
  * @since 1.4.4
  * @access public

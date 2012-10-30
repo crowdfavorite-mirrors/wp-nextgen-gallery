@@ -77,13 +77,13 @@ class nggSitemaps {
         $images = nggdb::get_gallery($id, 'pid', 'ASC', true, 1000);
 
         foreach ($images as $image) {
-            $src   = $image->imageURL;
             $newimage = array();
+            $newimage['src']   = $newimage['sc'] = $image->imageURL;
             if ( !empty($image->title) )
                 $newimage['title'] = $image->title;
             if ( !empty($image->alttext) )    
                 $newimage['alt']   = $image->alttext;
-            $this->images[$src] = $newimage;
+            $this->images[] = $newimage;
         }
             
         return;
@@ -111,13 +111,13 @@ class nggSitemaps {
         $images = nggdb::find_images_in_list( $pids );
         
         foreach ($images as $image) {
-            $src   = $image->imageURL;
             $newimage = array();
+            $newimage['src']   = $newimage['sc'] = $image->imageURL;
             if ( !empty($image->title) )
                 $newimage['title'] = $image->title;
             if ( !empty($image->alttext) )    
                 $newimage['alt']   = $image->alttext;
-            $this->images[$src] = $newimage;
+            $this->images[] = $newimage;
         }
 
         return;

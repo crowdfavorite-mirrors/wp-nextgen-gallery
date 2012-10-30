@@ -4,8 +4,8 @@
 * Tag PHP class for the WordPress plugin NextGEN Gallery
 * nggallery.lib.php
 * 
-* @author 		Alex Rabe 
-* @copyright 	Copyright 2007-2008
+* @author Alex Rabe 
+* 
 * 
 */
 class nggTags {

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: NextGEN Gallery\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-10-23 18:03+0100\n"
-"PO-Revision-Date: 2011-10-30 21:01+0100\n"
+"PO-Revision-Date: 2012-02-17 17:07+0100\n"
 "Last-Translator: Alex Rabe\n"
 "Language-Team: Alex Rabe\n"
 "MIME-Version: 1.0\n"
@@ -28,7 +28,7 @@ msgstr "Sollten jemand Rechtschreibfehler, Deppenapostrophe oder andere deutsche
 
 #: ../nggallery.php:205
 msgid "Sorry, NextGEN Gallery works only with a Memory Limit of 16 MB or higher"
-msgstr "Tut mir leid, aber NextGEN-Galerie benötigt minimum 16MB Speicher (Memory Limit) oder mehr"
+msgstr "Tut mir leid, aber NextGEN-Galerie benötigt mindestens 16MB Speicher (Memory Limit) oder mehr"
 
 #: ../nggallery.php:225
 msgid "Please update the database of NextGEN Gallery."
@@ -353,7 +353,7 @@ msgstr "Importieren aus Server-Pfad:"
 
 #: ../admin/addgallery.php:468
 msgid "Note : Change the default path in the gallery settings"
-msgstr "Hinweis : Der Default-Pfad kann in den Einstellungen angepasst werden"
+msgstr "Hinweis : Der Standard-Pfad kann in den Einstellungen angepasst werden"
 
 #: ../admin/addgallery.php:470
 msgid " Please note : For safe-mode = ON you need to add the subfolder thumbs manually"
@@ -377,7 +377,7 @@ msgstr "Wähle Datei"
 
 #: ../admin/addgallery.php:498
 msgid "Or you can drop the files into this window."
-msgstr "Du kannst auch die Bilder per Darg & Drop in den Browser schieben."
+msgstr "Du kannst auch die Bilder per Drag & Drop in den Browser schieben."
 
 #: ../admin/addgallery.php:501
 #, php-format
@@ -523,7 +523,7 @@ msgstr "Die Datei ist zu groß. "
 
 #: ../admin/admin.php:226
 msgid "An error occurred in the upload. Please try again later."
-msgstr "Ein Fehler trat während dem uplaod auf. Bitte verusche es später nochmal."
+msgstr "Währende dem upload trat ein Fehler. Bitte verusche es später nochmal."
 
 #: ../admin/admin.php:227
 msgid "There was a configuration error. Please contact the server administrator."
@@ -667,7 +667,7 @@ msgstr "Lade Deine Sprachdatei"
 
 #: ../admin/admin.php:409
 msgid "Contribute development"
-msgstr "Entwicklung helfen"
+msgstr "Bei der Entwicklung helfen"
 
 #: ../admin/admin.php:410
 msgid "Download latest version"
@@ -968,7 +968,7 @@ msgstr "Konnte Originalbild nicht wiederherstellen"
 
 #: ../admin/functions.php:682
 msgid "(Error : Couldn't not update data base)"
-msgstr "(Fehler : Konnte Datenbank nicht updaten)"
+msgstr "(Fehler : Konnte Datenbank nicht aktualisieren)"
 
 #: ../admin/functions.php:689
 msgid "(Error : Couldn't not update meta data)"
@@ -1211,7 +1211,7 @@ msgstr "Keine Einträge gefunden"
 #: ../admin/manage-galleries.php:308
 #: ../admin/manage-images.php:589
 msgid "Resize Images to"
-msgstr "Verkleiner Bilder auf"
+msgstr "Verkleinere Bilder auf"
 
 #: ../admin/manage-galleries.php:312
 #: ../admin/manage-images.php:593
@@ -1481,7 +1481,7 @@ msgstr "Sortierung speichern"
 
 #: ../admin/manage-sort.php:69
 msgid "Back to gallery"
-msgstr "Zurück zur Galerie"
+msgstr "Zurueck zur Galerie"
 
 #: ../admin/manage-sort.php:74
 msgid "Presort"
@@ -1555,7 +1555,7 @@ msgstr "erstellt"
 
 #: ../admin/manage.php:468
 msgid "Published a new post"
-msgstr "Verföffentliche einen neuen Beitrag"
+msgstr "Veröffentliche einen neuen Beitrag"
 
 #: ../admin/manage.php:582
 #, php-format
@@ -1723,7 +1723,7 @@ msgstr "Es konnte ein Bild erstellt werden"
 
 #: ../admin/overview.php:308
 msgid "Couldn't create image, check your memory limit"
-msgstr "Konne kein Bild erzeugen, überprüfe dein Speicherlimit (Server)"
+msgstr "Konnte kein Bild erzeugen, überprüfe dein Speicherlimit (Server)"
 
 #: ../admin/overview.php:311
 msgid "Check theme compatibility"
@@ -2888,7 +2888,7 @@ msgstr "Schlagwörter setzen:"
 
 #: ../admin/upgrade.php:22
 msgid "Upgrade database structure..."
-msgstr "Aktualisiere die Datenbank-Struturen..."
+msgstr "Aktualisiere die Datenbank-Strukturen..."
 
 #: ../admin/upgrade.php:108
 #: ../admin/upgrade.php:119
@@ -3483,7 +3483,7 @@ msgstr "[Mit PicLens anzeigen]"
 #: ../view/imagebrowser-exif.php:30
 #: ../view/imagebrowser.php:26
 msgid "Back"
-msgstr "Zurück"
+msgstr "Zurueck"
 
 #: ../view/imagebrowser-caption.php:29
 #: ../view/imagebrowser-exif.php:33
@@ -3850,7 +3850,7 @@ msgstr "Ungültiger Media-RSS-Befehl"
 
 #~ msgid "Sorry, NextGEN Gallery works only under WordPress 2.5 or higher"
 #~ msgstr ""
-#~ "Tut mir leid aber NextGEN Galerie arbeitet nur ab WordPress 2.5 und "
+#~ "Tut mir leid aber NextGEN Gallery arbeitet nur ab WordPress 2.5 und "
 #~ "aufwärts"
 
 #~ msgid "Watch gallery"
@@ -3893,7 +3893,7 @@ msgstr "Ungültiger Media-RSS-Befehl"
 #~ msgstr "Beschreibung"
 
 #~ msgid "Import a folder with images. Please note :"
-#~ msgstr "Importiere ein Verzeichniss mit Bildern. Bitte beachte:"
+#~ msgstr "Importiere ein Verzeichnis mit Bildern. Bitte beachte:"
 
 #~ msgid "For safe-mode = ON you need to add the subfolder thumbs manually"
 #~ msgstr ""

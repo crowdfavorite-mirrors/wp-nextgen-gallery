@@ -2,6 +2,7 @@
  * Ajax Plugin for NextGEN gallery
  * Version:  1.4.1
  * Author : Alex Rabe
+ * 
  */ 
 (function($) {
 nggAjax = {

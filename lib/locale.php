@@ -5,7 +5,7 @@ if ( !class_exists('ngg_locale') ) :
  * 
  * @version 1.0.0
  * @author Alex Rabe
- * @copyright 2010
+ * 
  * @package NextGEN Gallery
  * @since 1.5.0
  */

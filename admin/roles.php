@@ -4,7 +4,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You 
 
 function nggallery_admin_roles()  {
 
-if ( isset($_POST['update_cap']) ) {	
+if ( isset($_POST['update_cap']) ) {
 
 	check_admin_referer('ngg_addroles');
 
@@ -18,60 +18,61 @@ if ( isset($_POST['update_cap']) ) {
 	ngg_set_capability($_POST['edit_album'],"NextGEN Edit album");
 	ngg_set_capability($_POST['change_style'],"NextGEN Change style");
 	ngg_set_capability($_POST['change_options'],"NextGEN Change options");
-	
+
 	nggGallery::show_message(__('Updated capabilities',"nggallery"));
 }
-	
+
 ?>
 	<div class="wrap">
-    <?php screen_icon( 'nextgen-gallery' ); ?>    
+	<?php include('templates/social_media_buttons.php'); ?>
+    <?php screen_icon( 'nextgen-gallery' ); ?>
 	<h2><?php _e('Roles / capabilities', 'nggallery') ;?></h2>
 	<p><?php _e('Select the lowest role which should be able to access the following capabilities. NextGEN Gallery supports the standard roles from WordPress.', 'nggallery') ?> <br />
 	   <?php _e('For a more flexible user management you can use the', 'nggallery') ?> <a href="http://wordpress.org/extend/plugins/capsman/" target="_blank">Capability Manager</a>.</p>
 	<form name="addroles" id="addroles" method="POST" accept-charset="utf-8" >
 		<?php wp_nonce_field('ngg_addroles') ?>
-			<table class="form-table"> 
-			<tr valign="top"> 
-				<th scope="row"><?php _e('Main NextGEN Gallery overview', 'nggallery') ;?>:</th> 
+			<table class="form-table">
+			<tr valign="top">
+				<th scope="row"><?php _e('Main NextGEN Gallery overview', 'nggallery') ;?>:</th>
 				<td><label for="general"><select name="general" id="general"><?php wp_dropdown_roles( ngg_get_role('NextGEN Gallery overview') ); ?></select></label></td>
 			</tr>
-			<tr valign="top"> 
-				<th scope="row"><?php _e('Use TinyMCE Button / Upload tab', 'nggallery') ;?>:</th> 
+			<tr valign="top">
+				<th scope="row"><?php _e('Use TinyMCE Button / Upload tab', 'nggallery') ;?>:</th>
 				<td><label for="tinymce"><select name="tinymce" id="tinymce"><?php wp_dropdown_roles( ngg_get_role('NextGEN Use TinyMCE') ); ?></select></label></td>
 			</tr>
-			<tr valign="top"> 
-				<th scope="row"><?php _e('Add gallery / Upload images', 'nggallery') ;?>:</th> 
+			<tr valign="top">
+				<th scope="row"><?php _e('Add gallery / Upload images', 'nggallery') ;?>:</th>
 				<td><label for="add_gallery"><select name="add_gallery" id="add_gallery"><?php wp_dropdown_roles( ngg_get_role('NextGEN Upload images') ); ?></select></label></td>
 			</tr>
-			<tr valign="top"> 
-				<th scope="row"><?php _e('Manage gallery', 'nggallery') ;?>:</th> 
+			<tr valign="top">
+				<th scope="row"><?php _e('Manage gallery', 'nggallery') ;?>:</th>
 				<td><label for="manage_gallery"><select name="manage_gallery" id="manage_gallery"><?php wp_dropdown_roles( ngg_get_role('NextGEN Manage gallery') ); ?></select></label></td>
 			</tr>
-			<tr valign="top"> 
-				<th scope="row"><?php _e('Manage others gallery', 'nggallery') ;?>:</th> 
+			<tr valign="top">
+				<th scope="row"><?php _e('Manage others gallery', 'nggallery') ;?>:</th>
 				<td><label for="manage_others"><select name="manage_others" id="manage_others"><?php wp_dropdown_roles( ngg_get_role('NextGEN Manage others gallery') ); ?></select></label></td>
 			</tr>
-			<tr valign="top"> 
-				<th scope="row"><?php _e('Manage tags', 'nggallery') ;?>:</th> 
+			<tr valign="top">
+				<th scope="row"><?php _e('Manage tags', 'nggallery') ;?>:</th>
 				<td><label for="manage_tags"><select name="manage_tags" id="manage_tags"><?php wp_dropdown_roles( ngg_get_role('NextGEN Manage tags') ); ?></select></label></td>
 			</tr>
-			<tr valign="top"> 
-				<th scope="row"><?php _e('Edit Album', 'nggallery') ;?>:</th> 
+			<tr valign="top">
+				<th scope="row"><?php _e('Edit Album', 'nggallery') ;?>:</th>
 				<td><label for="edit_album"><select name="edit_album" id="edit_album"><?php wp_dropdown_roles( ngg_get_role('NextGEN Edit album') ); ?></select></label></td>
 			</tr>
-			<tr valign="top"> 
-				<th scope="row"><?php _e('Change style', 'nggallery') ;?>:</th> 
+			<tr valign="top">
+				<th scope="row"><?php _e('Change style', 'nggallery') ;?>:</th>
 				<td><label for="change_style"><select name="change_style" id="change_style"><?php wp_dropdown_roles( ngg_get_role('NextGEN Change style') ); ?></select></label></td>
 			</tr>
-			<tr valign="top"> 
-				<th scope="row"><?php _e('Change options', 'nggallery') ;?>:</th> 
+			<tr valign="top">
+				<th scope="row"><?php _e('Change options', 'nggallery') ;?>:</th>
 				<td><label for="change_options"><select name="change_options" id="change_options"><?php wp_dropdown_roles( ngg_get_role('NextGEN Change options') ); ?></select></label></td>
 			</tr>
 			</table>
 			<div class="submit"><input type="submit" class="button-primary" name= "update_cap" value="<?php _e('Update capabilities', 'nggallery') ;?>"/></div>
 	</form>
 	</div>
-<?php 
+<?php
 
 }
 
@@ -80,7 +81,7 @@ function ngg_get_sorted_roles() {
 	global $wp_roles;
 	$roles = $wp_roles->role_objects;
 	$sorted = array();
-	
+
 	if( class_exists('RoleManager') ) {
 		foreach( $roles as $role_key => $role_name ) {
 			$role = get_role($role_key);
@@ -108,7 +109,7 @@ function ngg_get_role($capability){
 	foreach ($check_order as $check_role) {
 		if ( empty($check_role) )
 			return false;
-			
+
 		if (call_user_func_array(array(&$check_role, 'has_cap'), $args))
 			return $check_role->name;
 	}
@@ -120,18 +121,18 @@ function ngg_set_capability($lowest_role, $capability){
 	$check_order = ngg_get_sorted_roles();
 
 	$add_capability = false;
-	
+
 	foreach ($check_order as $the_role) {
 		$role = $the_role->name;
 
 		if ( $lowest_role == $role )
 			$add_capability = true;
-		
+
 		// If you rename the roles, then please use a role manager plugin
-		
+
 		if ( empty($the_role) )
 			continue;
-			
+
 		$add_capability ? $the_role->add_cap($capability) : $the_role->remove_cap($capability) ;
 	}
 }

@@ -5,7 +5,7 @@
  * 
  * @package NextGEN Gallery
  * @author Alex Rabe 
- * @copyright 2010-2012
+ * 
  * @version 1.0.2
  * @access internal
  */

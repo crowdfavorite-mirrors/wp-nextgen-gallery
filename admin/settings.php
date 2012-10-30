@@ -1,26 +1,26 @@
-<?php  
+<?php
 if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You are not allowed to call this page directly.'); }
 
 class nggOptions {
 
     /**
      * PHP4 compatibility layer for calling the PHP5 constructor.
-     * 
+     *
      */
     function nggOptions() {
-        return $this->__construct();        
+        return $this->__construct();
     }
-    
+
     /**
      * nggOptions::__construct()
-     * 
+     *
      * @return void
      */
     function __construct() {
-        
+
        	// same as $_SERVER['REQUEST_URI'], but should work under IIS 6.0
 	   $this->filepath    = admin_url() . 'admin.php?page=' . $_GET['page'];
-        
+
   		//Look for POST updates
 		if ( !empty($_POST) )
 			$this->processor();
@@ -28,26 +28,26 @@ class nggOptions {
 
 	/**
 	 * Save/Load options and add a new hook for plugins
-	 * 
+	 *
 	 * @return void
 	 */
 	function processor() {
 
     	global $ngg, $nggRewrite;
-    	
+
     	$old_state = $ngg->options['usePermalinks'];
         $old_slug  = $ngg->options['permalinkSlug'];
-            
+
     	if ( isset($_POST['irDetect']) ) {
     		check_admin_referer('ngg_settings');
     		$ngg->options['irURL'] = ngg_search_imagerotator();
     		update_option('ngg_options', $ngg->options);
-    	}	
-    
-    	if ( isset($_POST['updateoption']) ) {	
+    	}
+
+    	if ( isset($_POST['updateoption']) ) {
     		check_admin_referer('ngg_settings');
     		// get the hidden option fields, taken from WP core
-    		if ( $_POST['page_options'] )	
+    		if ( $_POST['page_options'] )
     			$options = explode(',', stripslashes($_POST['page_options']));
 
     		if ($options) {
@@ -57,33 +57,33 @@ class nggOptions {
     		//		$value = sanitize_option($option, $value); // This does stripslashes on those that need it
     				$ngg->options[$option] = $value;
     			}
-                
+
                 // do not allow a empty string
-                if ( empty ( $ngg->options['permalinkSlug'] ) ) 
+                if ( empty ( $ngg->options['permalinkSlug'] ) )
                     $ngg->options['permalinkSlug'] = 'nggallery';
 
-        		// the path should always end with a slash	
+        		// the path should always end with a slash
         		$ngg->options['gallerypath']    = trailingslashit($ngg->options['gallerypath']);
         		$ngg->options['imageMagickDir'] = trailingslashit($ngg->options['imageMagickDir']);
-    
+
         		// the custom sortorder must be ascending
         		$ngg->options['galSortDir'] = ($ngg->options['galSort'] == 'sortorder') ? 'ASC' : $ngg->options['galSortDir'];
     		}
     		// Save options
     		update_option('ngg_options', $ngg->options);
-    
+
     		// Flush Rewrite rules
-    		if ( $old_state != $ngg->options['usePermalinks'] || $old_slug != $ngg->options['permalinkSlug'] ) 
+    		if ( $old_state != $ngg->options['usePermalinks'] || $old_slug != $ngg->options['permalinkSlug'] )
     			$nggRewrite->flush();
-    		
+
     	 	nggGallery::show_message(__('Update Successfully','nggallery'));
-    	}		
-    	
+    	}
+
     	if ( isset($_POST['clearcache']) ) {
     		check_admin_referer('ngg_settings');
-            
+
     		$path = WINABSPATH . $ngg->options['gallerypath'] . 'cache/';
-    		
+
     		if (is_dir($path))
     	    	if ($handle = opendir($path)) {
     				while (false !== ($file = readdir($handle))) {
@@ -93,7 +93,7 @@ class nggOptions {
     	        	}
     	      		closedir($handle);
     			}
-    
+
     		nggGallery::show_message(__('Cache cleared','nggallery'));
     	}
 
@@ -102,14 +102,14 @@ class nggOptions {
             include_once (dirname (__FILE__) . '/upgrade.php');
             ngg_rebuild_unique_slugs::start_rebuild();
     	}
-        
+
         do_action( 'ngg_update_options_page' );
-        
+
     }
 
     /**
      * Render the page content
-     * 
+     *
      * @return void
      */
     function controller() {
@@ -130,7 +130,7 @@ class nggOptions {
 			});
             */
             jQuery('#slider').tabs({ fxFade: true, fxSpeed: 'fast' });
-			jQuery('#slider').css('display', 'block');            
+			jQuery('#slider').css('display', 'block');
             /*
 			jQuery('.picker').ColorPicker({
 				onSubmit: function(hsb, hex, rgb, el) {
@@ -146,7 +146,7 @@ class nggOptions {
 			});
             */
 		});
-	
+
 		function insertcode(value) {
 			var effectcode;
 			switch (value) {
@@ -175,21 +175,21 @@ class nggOptions {
 			}
 			jQuery("#thumbCode").val(effectcode);
 		};
-		
+
 		function setcolor(fileid, color) {
 			jQuery(fileid).css("background-color", '#' + color );
 		};
 	</script>
-	
+	<?php include('templates/social_media_buttons.php'); ?>
 	<div id="slider" class="wrap" style="display: none;">
         <ul id="tabs">
-            <?php    
+            <?php
         	foreach($tabs as $tab_key => $tab_name) {
         	   echo "\n\t\t<li><a href='#$tab_key'>$tab_name</a></li>";
-            } 
+            }
             ?>
 		</ul>
-        <?php    
+        <?php
         foreach($tabs as $tab_key => $tab_name) {
             echo "\n\t<div id='$tab_key'>\n";
             // Looks for the internal class function, otherwise enable a hook for plugins
@@ -198,22 +198,22 @@ class nggOptions {
             else
                 do_action( 'ngg_tab_content_' . $tab_key );
              echo "\n\t</div>";
-        } 
+        }
         ?>
     </div>
     <?php
-        
+
     }
 
     /**
      * Create array for tabs and add a filter for other plugins to inject more tabs
-     * 
+     *
      * @return array $tabs
      */
     function tabs_order() {
-     
+
     	$tabs = array();
-    	
+
     	$tabs['generaloptions'] = __('General Options', 'nggallery');
     	$tabs['thumbnails'] = __('Thumbnails', 'nggallery');
     	$tabs['images'] = __('Images', 'nggallery');
@@ -221,15 +221,15 @@ class nggOptions {
     	$tabs['effects'] = __('Effects', 'nggallery');
     	$tabs['watermark'] = __('Watermark', 'nggallery');
     	$tabs['slideshow'] = __('Slideshow', 'nggallery');
-    	
+
     	$tabs = apply_filters('ngg_settings_tabs', $tabs);
-    
+
     	return $tabs;
-        
+
     }
 
     function tab_generaloptions() {
-        global $ngg;    
+        global $ngg;
 
     ?>
         <!-- General Options -->
@@ -258,7 +258,7 @@ class nggOptions {
 				<tr class="expert">
 					<th valign="top"><?php _e('Create new URL friendly image slugs','nggallery'); ?></th>
 					<td><input type="submit" name="createslugs" class="button-secondary"  value="<?php _e('Proceed now','nggallery') ;?> &raquo;"/></td>
-				</tr>                
+				</tr>
 				<tr class="expert">
 					<th valign="top"><?php _e('Select graphic library','nggallery'); ?></th>
 					<td><label><input name="graphicLibrary" type="radio" value="gd" <?php checked('gd', $ngg->options['graphicLibrary']); ?> /> <?php _e('GD Library', 'nggallery') ;?></label><br />
@@ -297,11 +297,11 @@ class nggOptions {
 					<span class="setting-description"><?php _e('0 will show all images','nggallery'); ?></span>
 					</td>
 				</tr>
-			</table> 				
+			</table>
 		<div class="alignright"><a href="" class="switch-expert" >[<?php _e('More settings','nggallery'); ?>]</a></div>
 		<div class="submit"><input class="button-primary" type="submit" name="updateoption" value="<?php _e('Save Changes'); ?>"/></div>
-		</form>	
-    <?php        
+		</form>
+    <?php
     }
 
     function tab_thumbnails() {
@@ -331,10 +331,10 @@ class nggOptions {
 			</table>
 		<div class="alignright"><a href="" class="switch-expert" >[<?php _e('More settings','nggallery'); ?>]</a></div>
 		<div class="submit"><input class="button-primary" type="submit" name="updateoption" value="<?php _e('Save Changes') ;?>"/></div>
-		</form> 
-    <?php        
+		</form>
+    <?php
     }
-    
+
     function tab_images() {
         global $ngg;
     ?>
@@ -355,12 +355,12 @@ class nggOptions {
 				</tr>
 				<tr>
 					<th valign="top"><?php _e('Backup original images','nggallery'); ?></th>
-					<td><input type="checkbox" name="imgBackup" value="1"<?php echo ($ngg->options['imgBackup'] == 1) ? ' checked ="chechked"' : ''; ?>/>	
+					<td><input type="checkbox" name="imgBackup" value="1"<?php echo ($ngg->options['imgBackup'] == 1) ? ' checked ="chechked"' : ''; ?>/>
 					<span class="setting-description"><?php _e('Creates a backup for inserted images','nggallery'); ?></span></td>
 				</tr>
 				<tr>
 					<th valign="top"><?php _e('Automatically resize','nggallery'); ?></th>
-					<td><input type="checkbox" name="imgAutoResize" value="1"<?php echo ($ngg->options['imgAutoResize'] == 1) ? ' checked ="chechked"' : ''; ?>/>	
+					<td><input type="checkbox" name="imgAutoResize" value="1"<?php echo ($ngg->options['imgAutoResize'] == 1) ? ' checked ="chechked"' : ''; ?>/>
 					<span class="setting-description"><?php _e('Automatically resize images on upload.','nggallery') ?></span></td>
 				</tr>
 			</table>
@@ -373,11 +373,11 @@ class nggOptions {
 			</table>
 		<div class="alignright"><a href="" class="switch-expert" >[<?php _e('More settings','nggallery'); ?>]</a></div>
 		<div class="submit"><input class="button-primary" type="submit" name="updateoption" value="<?php _e('Save Changes') ;?>"/></div>
-		</form>	
-    
-    <?php        
+		</form>
+
+    <?php
     }
-    
+
     function tab_gallery() {
         global $ngg;
     ?>
@@ -458,10 +458,10 @@ class nggOptions {
 			</table>
 		<div class="alignright"><a href="" class="switch-expert" >[<?php _e('More settings','nggallery'); ?>]</a></div>
 		<div class="submit"><input class="button-primary" type="submit" name="updateoption" value="<?php _e('Save Changes') ;?>"/></div>
-		</form>    
-    <?php        
+		</form>
+    <?php
     }
-    
+
     function tab_effects() {
         global $ngg;
     ?>
@@ -493,15 +493,15 @@ class nggOptions {
 			</table>
 		<div class="alignright"><a href="" class="switch-expert" >[<?php _e('More settings','nggallery'); ?>]</a></div>
 		<div class="submit"><input class="button-primary" type="submit" name="updateoption" value="<?php _e('Save Changes') ;?>"/></div>
-		</form>	
-   
-    <?php        
+		</form>
+
+    <?php
     }
-    
+
     function tab_watermark() {
 
         global $wpdb, $ngg;
-        
+
         // take the first image as sample
         $imageID  = $wpdb->get_var("SELECT MIN(pid) FROM $wpdb->nggpictures");
         $imageURL = ($imageID) ? $imageURL = '<img src="'. home_url('index.php') . '?callback=image&amp;pid=' . intval ($imageID) . '&amp;mode=watermark&amp;width=300&amp;height=250" />' : '';
@@ -556,7 +556,7 @@ class nggOptions {
 				</tr>
 				</table>
 			</div>
-		</div> 
+		</div>
 			<h3><label><input type="radio" name="wmType" value="image" <?php checked('image', $ngg->options['wmType']); ?> /> <?php _e('Use image as watermark','nggallery') ?></label></h3>
 			<table class="wm-table form-table">
 				<tr>
@@ -564,21 +564,21 @@ class nggOptions {
 					<td><input type="text" size="40" name="wmPath" value="<?php echo $ngg->options['wmPath']; ?>" /><br />
 					<?php if(!ini_get('allow_url_fopen')) _e('The accessing of URL files is disabled at your server (allow_url_fopen)','nggallery') ?> </td>
 				</tr>
-			</table>	
+			</table>
 			<h3><label><input type="radio" name="wmType" value="text" <?php checked('text', $ngg->options['wmType']); ?> /> <?php _e('Use text as watermark','nggallery') ?></label></h3>
-			<table class="wm-table form-table">	
+			<table class="wm-table form-table">
 				<tr>
 					<th><?php _e('Font','nggallery') ?></th>
-					<td><select name="wmFont" size="1">	<?php 
+					<td><select name="wmFont" size="1">	<?php
 							$fontlist = ngg_get_TTFfont();
 							foreach ( $fontlist as $fontfile ) {
 								echo "\n".'<option value="'.$fontfile.'" '.ngg_input_selected($fontfile, $ngg->options['wmFont']).' >'.$fontfile.'</option>';
 							}
 							?>
 						</select><br /><span class="setting-description">
-						<?php if ( !function_exists('ImageTTFBBox') ) 
+						<?php if ( !function_exists('ImageTTFBBox') )
 								_e('This function will not work, cause you need the FreeType library','nggallery');
-							  else 
+							  else
 							  	_e('You can upload more fonts in the folder <strong>nggallery/fonts</strong>','nggallery'); ?>
                         </span>
 					</td>
@@ -603,8 +603,8 @@ class nggOptions {
 			</table>
 		<div class="clear"> &nbsp; </div>
 		<div class="submit"><input class="button-primary" type="submit" name="updateoption" value="<?php _e('Save Changes') ;?>"/></div>
-		</form>	
-    <?php        
+		</form>
+    <?php
     }
 
     function tab_slideshow() {
@@ -622,11 +622,11 @@ class nggOptions {
 					<td><input type="text" size="3" maxlength="4" name="irWidth" value="<?php echo $ngg->options['irWidth']; ?>" /> x
 					<input type="text" size="3" maxlength="4" name="irHeight" value="<?php echo $ngg->options['irHeight']; ?>" /></td>
 				</tr>
-				<tr>					
+				<tr>
 					<th><?php _e('Duration time','nggallery') ?></th>
 					<td><input type="text" size="3" maxlength="3" name="irRotatetime" value="<?php echo $ngg->options['irRotatetime'] ?>" /> <?php _e('sec.', 'nggallery') ;?></td>
 				</tr>
-				<tr>					
+				<tr>
 				    <th><?php _e('Transition / Fade effect','nggallery') ?></th>
 					<td>
 					<select size="1" name="slideFx">
@@ -668,7 +668,7 @@ class nggOptions {
 						<input type="submit" name="irDetect" class="button-secondary"  value="<?php _e('Search now','nggallery') ;?> &raquo;"/>
 						<br /><span class="setting-description"><?php _e('Press the button to search automatically for the imagerotator, if you uploaded it to wp-content/uploads or a subfolder','nggallery') ?></span>
 					</td>
-				</tr>					
+				</tr>
 				<tr>
 					<th><?php _e('Shuffle mode','nggallery') ?></th>
 					<td><input name="irShuffle" type="checkbox" value="1" <?php checked('1', $ngg->options['irShuffle']); ?> /></td>
@@ -676,7 +676,7 @@ class nggOptions {
 				<tr class="expert">
 					<th><?php _e('Show next image on click','nggallery') ?></th>
 					<td><input name="irLinkfromdisplay" type="checkbox" value="1" <?php checked('1', $ngg->options['irLinkfromdisplay']); ?> /></td>
-				</tr>					
+				</tr>
 				<tr class="expert">
 					<th><?php _e('Show navigation bar','nggallery') ?></th>
 					<td><input name="irShownavigation" type="checkbox" value="1" <?php checked('1', $ngg->options['irShownavigation']); ?> /></td>
@@ -701,7 +701,7 @@ class nggOptions {
 					</select>
 					</td>
 				</tr>
-				<tr>					
+				<tr>
 					<th><?php _e('Transition / Fade effect','nggallery') ?></th>
 					<td>
 					<select size="1" name="irTransition">
@@ -727,22 +727,22 @@ class nggOptions {
 					<td><input class="picker" type="text" size="6" maxlength="6" id="irBackcolor" name="irBackcolor" onchange="setcolor('#previewBack', this.value)" value="<?php echo $ngg->options['irBackcolor'] ?>" />
 					<input type="text" size="1" readonly="readonly" id="previewBack" style="background-color: #<?php echo $ngg->options['irBackcolor'] ?>" /></td>
 				</tr>
-				<tr>					
+				<tr>
 					<th><?php _e('Texts / Buttons Color','nggallery') ?></th>
 					<td><input class="picker" type="text" size="6" maxlength="6" id="irFrontcolor" name="irFrontcolor" onchange="setcolor('#previewFront', this.value)" value="<?php echo $ngg->options['irFrontcolor'] ?>" />
 					<input type="text" size="1" readonly="readonly" id="previewFront" style="background-color: #<?php echo $ngg->options['irFrontcolor'] ?>" /></td>
 				</tr>
-				<tr class="expert">					
+				<tr class="expert">
 					<th><?php _e('Rollover / Active Color','nggallery') ?></th>
 					<td><input class="picker" type="text" size="6" maxlength="6" id="irLightcolor" name="irLightcolor" onchange="setcolor('#previewLight', this.value)" value="<?php echo $ngg->options['irLightcolor'] ?>" />
 					<input type="text" size="1" readonly="readonly" id="previewLight" style="background-color: #<?php echo $ngg->options['irLightcolor'] ?>" /></td>
 				</tr>
-				<tr class="expert">					
+				<tr class="expert">
 					<th><?php _e('Screen Color','nggallery') ?></th>
 					<td><input class="picker" type="text" size="6" maxlength="6" id="irScreencolor" name="irScreencolor" onchange="setcolor('#previewScreen', this.value)" value="<?php echo $ngg->options['irScreencolor'] ?>" />
 					<input type="text" size="1" readonly="readonly" id="previewScreen" style="background-color: #<?php echo $ngg->options['irScreencolor'] ?>" /></td>
 				</tr>
-				<tr class="expert">					
+				<tr class="expert">
 					<th><?php _e('Background music (URL)','nggallery') ?></th>
 					<td><input type="text" size="50" id="irAudio" name="irAudio" value="<?php echo $ngg->options['irAudio'] ?>" /></td>
 				</tr>
@@ -755,17 +755,17 @@ class nggOptions {
 			<div class="alignright"><a href="" class="switch-expert" >[<?php _e('More settings','nggallery'); ?>]</a></div>
 			<div class="submit"><input class="button-primary" type="submit" name="updateoption" value="<?php _e('Save Changes') ;?>"/></div>
 	</form>
-    <?php        
+    <?php
     }
 }
 
 function ngg_get_TTFfont() {
-	
+
 	$ttf_fonts = array ();
-	
+
 	// Files in wp-content/plugins/nggallery/fonts directory
 	$plugin_root = NGGALLERY_ABSPATH . 'fonts';
-	
+
 	$plugins_dir = @ dir($plugin_root);
 	if ($plugins_dir) {
 		while (($file = $plugins_dir->read()) !== false) {
@@ -799,8 +799,8 @@ function ngg_search_imagerotator() {
 	// look first at the old place and move it to wp-content/uploads
 	if ( file_exists( NGGALLERY_ABSPATH . 'imagerotator.swf' ) )
 		@rename(NGGALLERY_ABSPATH . 'imagerotator.swf', $upload['basedir'] . '/imagerotator.swf');
-		
-	// This should be the new place	
+
+	// This should be the new place
 	if ( file_exists( $upload['basedir'] . '/imagerotator.swf' ) )
 		return $upload['baseurl'] . '/imagerotator.swf';
 
@@ -815,11 +815,11 @@ function ngg_search_imagerotator() {
 	// or in the plugin folder
 	if ( file_exists( WP_PLUGIN_DIR . '/imagerotator.swf' ) )
 		return WP_PLUGIN_URL . '/imagerotator.swf';
-		
+
 	// this is deprecated and will be ereased during a automatic upgrade
 	if ( file_exists( NGGALLERY_ABSPATH . 'imagerotator.swf' ) )
 		return NGGALLERY_URLPATH . 'imagerotator.swf';
-		
+
 	return '';
 }
 
@@ -830,7 +830,7 @@ function ngg_input_selected( $selected, $current) {
 	if ( $selected == $current)
 		return ' selected="selected"';
 }
-	
+
 function ngg_input_checked( $checked, $current) {
 	if ( $checked == $current)
 		return ' checked="checked"';

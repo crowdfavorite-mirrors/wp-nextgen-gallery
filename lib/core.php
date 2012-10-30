@@ -2,8 +2,8 @@
 /**
 * Main PHP class for the WordPress plugin NextGEN Gallery
 * 
-* @author 		Alex Rabe 
-* @copyright 	Copyright 2007 - 2011
+* @author Alex Rabe
+* 
 * 
 */
 class nggGallery {
