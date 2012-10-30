@@ -4,8 +4,8 @@
  * Image METADATA PHP class for the WordPress plugin NextGEN Gallery
  * nggmeta.lib.php
  * 
- * @author 		Alex Rabe 
- * @copyright 	Copyright 2007-2011
+ * @author Alex Rabe
+ * 
  * 
  */
 	  
@@ -255,7 +255,7 @@ class nggMeta{
 		
 		// return one element if requested	
 		if ($object)
-			return $this->iptc_array[$object];	
+			return (isset($this->iptc_array[$object])) ? $this->iptc_array[$object] : NULL;
 
         // on request sanitize the output
 		if ( $this->sanitize == true )	

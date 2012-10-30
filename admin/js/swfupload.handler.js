@@ -1,6 +1,6 @@
 /**
  * NextGEN Gallery - SWFUpload Handler 
- *   http://alexrabe.boelinger.com/
+ *   http://www.nextgen-gallery.com/
  *
  * Built on top of the swfupload library
  *   http://swfupload.org version 2.2.0

@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Alex Rabe, Vincent Prat 
- * @copyright 2008 - 2011
+ * 
  * @since 1.0.0
  * @description Use WordPress Shortcode API for more features
  * @Docs http://codex.wordpress.org/Shortcode_API

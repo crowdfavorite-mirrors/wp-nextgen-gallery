@@ -2,6 +2,7 @@
  * Progress bar Plugin for NextGEN gallery
  * Version:  2.0.3
  * Author : Alex Rabe
+ * 
  */ 
 (function($) {
 	nggProgressBar = {

@@ -1,7 +1,7 @@
 /*!
  * NextGEN Slideshow based on jQuery Cycle Plugin
- * Copyright (c) 2010-2011 Alex Rabe
- * Version: 1.0.5
+ * Copyright (c) 2010-2012 Alex Rabe
+ * Version: 1.0.6
  * Requires: jQuery v1.2.6 or later
  */
 jQuery.fn.nggSlideshow = function ( args ) { 
@@ -47,7 +47,10 @@ jQuery.fn.nggSlideshow = function ( args ) {
             img.src = stack.shift();
 			stackLength--;
 			// wait to append image until the load is complete
-            jQuery( img ).bind('load', function() { appendImage(img, num); }); 
+        	jQuery( img ).one('load', function() { appendImage(img, num); }).each(function(){
+        		// IE browser : in case it's already cached
+        		if(this.complete) jQuery(this).trigger('load');	
+        	});
          }
 	}
 	

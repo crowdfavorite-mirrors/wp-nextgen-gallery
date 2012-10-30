@@ -2,8 +2,8 @@
 /**
 * Main PHP Class for Multisite setup
 * 
-* @author 		Alex Rabe 
-* @copyright 	Copyright 2010
+* @author Alex Rabe 
+* 
 * 
 */
 class nggWPMU{

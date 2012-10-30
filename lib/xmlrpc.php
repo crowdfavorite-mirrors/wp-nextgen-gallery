@@ -4,7 +4,7 @@
  *
  * @package NextGEN Gallery
  * @author Alex Rabe
- * @copyright 2009-2012
+ * 
  */
 class nggXMLRPC{
 	

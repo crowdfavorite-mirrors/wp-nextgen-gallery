@@ -7,7 +7,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You 
  * 
  * @package NextGEN Gallery
  * @author Alex Rabe
- * @copyright 2007-2010
+ * 
  * @access public
  */
 class nggAdmin{

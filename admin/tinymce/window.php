@@ -15,7 +15,10 @@ global $wpdb, $nggdb;
 	<script language="javascript" type="text/javascript" src="<?php echo site_url(); ?>/wp-includes/js/tinymce/utils/mctabs.js"></script>
 	<script language="javascript" type="text/javascript" src="<?php echo site_url(); ?>/wp-includes/js/tinymce/utils/form_utils.js"></script>
 	<script language="javascript" type="text/javascript" src="<?php echo site_url(); ?>/wp-includes/js/jquery/jquery.js"></script>
-    <script language="javascript" type="text/javascript" src="<?php echo NGGALLERY_URLPATH ?>admin/js/jquery-ui-1.8.6.min.js"></script>
+	<script language="javascript" type="text/javascript" src="<?php echo site_url(); ?>/wp-includes/js/jquery/ui/jquery.ui.core.min.js"></script>
+	<script language="javascript" type="text/javascript" src="<?php echo site_url(); ?>/wp-includes/js/jquery/ui/jquery.ui.widget.min.js"></script>
+    <script language="javascript" type="text/javascript" src="<?php echo site_url(); ?>/wp-includes/js/jquery/ui/jquery.ui.position.min.js"></script>
+	<script language="javascript" type="text/javascript" src="<?php echo site_url(); ?>/wp-includes/js/jquery/ui/jquery.ui.autocomplete.min.js"></script>
     <script language="javascript" type="text/javascript" src="<?php echo NGGALLERY_URLPATH ?>admin/js/ngg.autocomplete.js"></script>
 	<script language="javascript" type="text/javascript" src="<?php echo NGGALLERY_URLPATH ?>admin/tinymce/tinymce.js"></script>
     <link rel="stylesheet" type="text/css" href="<?php echo NGGALLERY_URLPATH ?>admin/css/jquery.ui.css" media="all" />

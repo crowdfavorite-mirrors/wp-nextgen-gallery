@@ -3,6 +3,7 @@
  * see http://jqueryui.com/demos/autocomplete/
  * Version:  1.0.1
  * Author : Alex Rabe
+ * 
  */ 
 jQuery.fn.nggAutocomplete = function ( args ) { 
     

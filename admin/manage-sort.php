@@ -2,7 +2,7 @@
 
 /**
  * @author Alex Rabe
- * @copyright 2008-2011
+ * 
  */
 
 function nggallery_sortorder($galleryID = 0){

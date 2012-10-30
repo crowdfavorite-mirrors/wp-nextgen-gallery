@@ -1,4 +1,4 @@
-<?php  
+<?php
 /**
 * Tag management page. Inspired from the Simple Tags plugin by Amaury Balmer.
 * http://code.google.com/p/simple-tags/
@@ -9,9 +9,9 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { 	die('You
 $action_status = array('message' => '', 'status' => 'ok');
 
 if ( isset($_POST['tag_action']) ) {
-    
+
 	check_admin_referer('nggallery_admin_tags');
-    
+
 	if ( $_POST['tag_action'] == 'renametag' ) {
 		$oldtag = (isset($_POST['renametag_old'])) ? $_POST['renametag_old'] : '';
 		$newtag = (isset($_POST['renametag_new'])) ? $_POST['renametag_new'] : '';
@@ -23,7 +23,7 @@ if ( isset($_POST['tag_action']) ) {
 		$matchtag = (isset($_POST['tagname_match'])) ? $_POST['tagname_match'] : '';
 		$newslug   = (isset($_POST['tagslug_new'])) ? $_POST['tagslug_new'] : '';
 		$action_status = nggTags::edit_tag_slug( $matchtag, $newslug );
-	} 
+	}
 }
 
 // Som useful variables
@@ -95,15 +95,16 @@ if ($nb_tags < $tag_count && $offset>0) {
 </style>
 
 <div class="wrap ngg_wrap">
+	<?php include('templates/social_media_buttons.php'); ?>
     <?php screen_icon( 'nextgen-gallery' ); ?>
 	<h2><?php _e('Manage image tags', 'nggallery'); ?></h2>
-	
+
 	<?php if ($action_status['message']!='') : ?>
 	<div id="message" class="<?php echo ($action_status['status']=='ok' ? 'updated' : $action_status['status']); ?> fade">
 		<p><strong><?php echo $action_status['message']; ?></strong></p>
 	</div>
 	<?php endif; ?>
-	
+
 	<table>
 		<tr>
 			<td class="list_tags">
@@ -158,10 +159,10 @@ if ($nb_tags < $tag_count && $offset>0) {
 									<input type="hidden" name="offset" value="<?php echo $prev_offset; ?>" />
 									<input class="button" type="submit" value="&laquo; <?php _e('Previous tags', 'nggallery'); ?>" />
 								</span>
-							</form>	
-							<?php } else { ?> 
+							</form>
+							<?php } else { ?>
 								<span><span class="button disabled">&laquo; <?php _e('Previous tags', 'nggallery'); ?></span></span>
-							<?php } ?> 
+							<?php } ?>
 
 							<?php if ($next_offset!='') { ?>
 							<form method="get" style="display: inline;">
@@ -171,11 +172,11 @@ if ($nb_tags < $tag_count && $offset>0) {
 									<input type="hidden" name="offset" value="<?php echo $next_offset; ?>" />
 									<input class="button" type="submit" value="<?php _e('Next tags', 'nggallery'); ?> &raquo;" />
 								</span>
-							</form>	
-							<?php } else { ?> 
+							</form>
+							<?php } else { ?>
 								<span><span class="button disabled"><?php _e('Previous tags', 'nggallery'); ?> &raquo;</span></span>
-							<?php } ?> 
-						</div>						
+							<?php } ?>
+						</div>
 						<?php endif; ?>
 					</div>
 				</fieldset>
@@ -192,19 +193,19 @@ if ($nb_tags < $tag_count && $offset>0) {
 								<p><?php _e('Enter the tag to rename and its new value.  You can use this feature to merge tags too. Click "Rename" and all posts which use this tag will be updated.', 'nggallery'); ?></p>
 								<p><?php _e('You can specify multiple tags to rename by separating them with commas.', 'nggallery'); ?></p>
 							</td>
-						</tr>	
+						</tr>
 						<tr valign="top">
 							<th scope="row"><label for="renametag_old"><?php _e('Tag(s) to rename:', 'nggallery'); ?></label></th>
 							<td><input type="text" id="renametag_old" name="renametag_old" value="" size="40" /></td>
-						</tr>		
+						</tr>
 						<tr valign="top">
 							<th scope="row"><label for="renametag_new"><?php _e('New tag name(s):', 'nggallery'); ?></label></th>
 							<td>
 								<input type="text" id="renametag_new" name="renametag_new" value="" size="40" />
 								<input class="button" type="submit" name="rename" value="<?php _e('Rename', 'nggallery'); ?>" />
 							</td>
-						</tr>	
-					</table>							
+						</tr>
+					</table>
 				</form>
 
 				<h3><?php _e('Delete Tag', 'nggallery'); ?></h3>
@@ -218,7 +219,7 @@ if ($nb_tags < $tag_count && $offset>0) {
 								<p><?php _e('Enter the name of the tag to delete.  This tag will be removed from all posts.', 'nggallery'); ?></p>
 								<p><?php _e('You can specify multiple tags to delete by separating them with commas', 'nggallery'); ?>.</p>
 							</td>
-						</tr>	
+						</tr>
 						<tr valign="top">
 							<th scope="row"><label for="deletetag_name"><?php _e('Tag(s) to delete:', 'nggallery'); ?></label></th>
 							<td>
@@ -227,20 +228,20 @@ if ($nb_tags < $tag_count && $offset>0) {
 							</td>
 						</tr>
 					</table>
-				</form>				
+				</form>
 
 				<h3><?php _e('Edit Tag Slug', 'nggallery'); ?></h3>
 				<form action="<?php echo $action_url; ?>" method="post">
 					<input type="hidden" name="tag_action" value="editslug" />
                     <?php wp_nonce_field('nggallery_admin_tags'); ?>
-				
+
 					<table class="form-table">
 						<tr valign="top">
 							<td colspan="2">
 								<p><?php _e('Enter the tag name to edit and its new slug. <a href="http://codex.wordpress.org/Glossary#Slug">Slug definition</a>', 'nggallery'); ?></p>
 								<p><?php _e('You can specify multiple tags to rename by separating them with commas.', 'nggallery'); ?></p>
 							</td>
-						</tr>	
+						</tr>
 						<tr valign="top">
 							<th scope="row"><label for="tagname_match"><?php _e('Tag(s) to match:', 'nggallery'); ?></label></th>
 							<td><input type="text" id="tagname_match" name="tagname_match" value="" size="40" /></td>
@@ -267,12 +268,12 @@ if ($nb_tags < $tag_count && $offset>0) {
 				addTag(this.innerHTML, "tagname_match");
 			});
   		}
-  		
+
 		// Register initial event
  		jQuery(document).ready(function() {
 			registerClick();
 		});
-		
+
 		// Add tag into input
 		function addTag( tag, name_element ) {
 			var input_element = document.getElementById( name_element );
