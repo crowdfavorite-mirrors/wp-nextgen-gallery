@@ -600,7 +600,7 @@ class ngg_Thumbnail {
 	            }
 	            else {
 	               header('Content-type: image/jpeg');
-	               ImageJpeg($this->newImage,'',$quality);
+	               ImageJpeg($this->newImage,NULL,$quality);
 	            }
 	            break;
 	        case 'PNG':

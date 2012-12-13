@@ -56,7 +56,26 @@ function nggallery_sortorder($galleryID = 0){
 		$base_url = $clean_url;
 	
 ?>
-	<script type='text/javascript' src='<?php echo NGGALLERY_URLPATH ?>admin/js/sorter.js'></script>
+	<script type="text/javascript">
+		// seralize the ImageOrder
+		function saveImageOrder()
+		{
+			var serial = "";
+			var objects = document.getElementsByTagName('div');
+			for(var no=0;no<objects.length;no++){
+				if(objects[no].className=='imageBox' || objects[no].className=='imageBoxHighlighted'){
+					if (serial.length > 0)	serial = serial + '&'
+					serial = serial + "sortArray[]=" + objects[no].id;
+				}			
+			}
+			jQuery('input[name=sortorder]').val(serial);
+			// debug( 'This is the new order of the images(IDs) : <br>' + orderString );
+			
+		}
+		jQuery(document).ready(function($) {
+			$(".jqui-sortable").sortable({items: 'div.imageBox'});
+		});
+	</script>	
 	<div class="wrap">
 		<form id="sortGallery" method="POST" action="<?php echo $clean_url ?>" onsubmit="saveImageOrder()" accept-charset="utf-8">
 			<h2><?php _e('Sort Gallery', 'nggallery') ?></h2>
@@ -82,24 +101,20 @@ function nggallery_sortorder($galleryID = 0){
 			</ul>
 		</form>
 		<div id="debug" style="clear:both"></div>
-		<?php 
-		if($picturelist) {
-			foreach($picturelist as $picture) {
-				?>
-				<div class="imageBox" id="pid-<?php echo $picture->pid ?>">
-					<div class="imageBox_theImage" style="background-image:url('<?php echo esc_url( $picture->thumbURL ); ?>')"></div>	
-					<div class="imageBox_label"><span><?php echo esc_html( stripslashes($picture->alttext) ); ?></span></div>
-				</div>
-				<?php
+		<div class='jqui-sortable'>
+			<?php 
+			if($picturelist) {
+				foreach($picturelist as $picture) {
+					?>
+					<div class="imageBox" id="pid-<?php echo $picture->pid ?>">
+						<div class="imageBox_theImage" style="background-image:url('<?php echo esc_url( $picture->thumbURL ); ?>')"></div>	
+						<div class="imageBox_label"><span><?php echo esc_html( stripslashes($picture->alttext) ); ?></span></div>
+					</div>
+					<?php
+				}
 			}
-		}
-		?>
-		<div id="insertionMarker">
-			<img src="<?php echo NGGALLERY_URLPATH ?>admin/images/marker_top.gif"/>
-			<img src="<?php echo NGGALLERY_URLPATH ?>admin/images/marker_middle.gif" id="insertionMarkerLine"/>
-			<img src="<?php echo NGGALLERY_URLPATH ?>admin/images/marker_bottom.gif"/>
+			?>
 		</div>
-		<div id="dragDropContent"></div>
 	</div>
 	
 <?php

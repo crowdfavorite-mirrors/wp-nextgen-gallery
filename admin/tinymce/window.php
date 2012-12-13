@@ -2,10 +2,20 @@
 
 if ( !defined('ABSPATH') )
     die('You are not allowed to call this page directly.');
-    
+
 global $wpdb, $nggdb;
 
 @header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
+
+// Get WordPress scripts and styles
+wp_enqueue_script('jquery-ui-core');
+wp_enqueue_script('jquery-ui-widget');
+wp_enqueue_script('jquery-ui-position');
+global $wp_scripts;
+if (!isset($wp_scripts->registered['jquery-ui-autocomplete'])) {
+	wp_register_script( 'jquery-ui-autocomplete', NGGALLERY_URLPATH .'admin/js/jquery.ui.autocomplete.min.js', array('jquery-ui-core'), '1.8.15');
+}
+wp_enqueue_script('jquery-ui-autocomplete');
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -14,18 +24,14 @@ global $wpdb, $nggdb;
 	<script language="javascript" type="text/javascript" src="<?php echo site_url(); ?>/wp-includes/js/tinymce/tiny_mce_popup.js"></script>
 	<script language="javascript" type="text/javascript" src="<?php echo site_url(); ?>/wp-includes/js/tinymce/utils/mctabs.js"></script>
 	<script language="javascript" type="text/javascript" src="<?php echo site_url(); ?>/wp-includes/js/tinymce/utils/form_utils.js"></script>
-	<script language="javascript" type="text/javascript" src="<?php echo site_url(); ?>/wp-includes/js/jquery/jquery.js"></script>
-	<script language="javascript" type="text/javascript" src="<?php echo site_url(); ?>/wp-includes/js/jquery/ui/jquery.ui.core.min.js"></script>
-	<script language="javascript" type="text/javascript" src="<?php echo site_url(); ?>/wp-includes/js/jquery/ui/jquery.ui.widget.min.js"></script>
-    <script language="javascript" type="text/javascript" src="<?php echo site_url(); ?>/wp-includes/js/jquery/ui/jquery.ui.position.min.js"></script>
-	<script language="javascript" type="text/javascript" src="<?php echo site_url(); ?>/wp-includes/js/jquery/ui/jquery.ui.autocomplete.min.js"></script>
+	<?php wp_print_scripts() ?>
     <script language="javascript" type="text/javascript" src="<?php echo NGGALLERY_URLPATH ?>admin/js/ngg.autocomplete.js"></script>
 	<script language="javascript" type="text/javascript" src="<?php echo NGGALLERY_URLPATH ?>admin/tinymce/tinymce.js"></script>
     <link rel="stylesheet" type="text/css" href="<?php echo NGGALLERY_URLPATH ?>admin/css/jquery.ui.css" media="all" />
     <base target="_self" />
 </head>
 <script type="text/javascript">
-jQuery(document).ready(function(){ 
+jQuery(document).ready(function(){
     jQuery("#gallerytag").nggAutocomplete( {
         type: 'gallery',domain: "<?php echo home_url('index.php', is_ssl() ? 'https' : 'http'); ?>"
     });
@@ -47,7 +53,7 @@ jQuery(document).ready(function(){
 			<li id="singlepic_tab"><span><a href="javascript:mcTabs.displayTab('singlepic_tab','singlepic_panel');" onmousedown="return false;"><?php _e('Picture', 'nggallery'); ?></a></span></li>
 		</ul>
 	</div>
-	
+
 	<div class="panel_wrapper">
 		<!-- gallery panel -->
 		<div id="gallery_panel" class="panel current">
@@ -69,7 +75,7 @@ jQuery(document).ready(function(){
         </table>
 		</div>
 		<!-- gallery panel -->
-		
+
 		<!-- album panel -->
 		<div id="album_panel" class="panel">
 		<br />
@@ -89,7 +95,7 @@ jQuery(document).ready(function(){
         </table>
 		</div>
 		<!-- album panel -->
-		
+
 		<!-- single pic panel -->
 		<div id="singlepic_panel" class="panel">
 		<br />

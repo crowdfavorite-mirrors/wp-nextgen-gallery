@@ -186,7 +186,7 @@ class nggAdminPanel{
 		// no need to go on if it's not a plugin page
 		if( !isset($_GET['page']) )
 			return;
-			
+
 		// If we're on a NextGen Page
 		if (preg_match("/ngg|nextgen-gallery/", $_GET['page'])) {
 			wp_register_script('ngg_social_media', path_join(
@@ -250,6 +250,7 @@ class nggAdminPanel{
 				wp_enqueue_script( 'ngg-ajax' );
 				wp_enqueue_script( 'ngg-progressbar' );
 				wp_enqueue_script( 'jquery-ui-dialog' );
+				wp_enqueue_script( 'jquery-ui-sortable' );
     			wp_register_script('shutter', NGGALLERY_URLPATH .'shutter/shutter-reloaded.js', false ,'1.3.2');
     			wp_localize_script('shutter', 'shutterSettings', array(
     						'msgLoading' => __('L O A D I N G', 'nggallery'),

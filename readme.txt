@@ -1,56 +1,58 @@
 === NextGEN Gallery ===
 Contributors: photocrati
-Tags: photos,flash,slideshow,images,gallery,media,admin,post,photo-albums,pictures,widgets,photo,picture,image,nextgen-gallery,nextgen gallery
+Tags:gallery,image,images,photo,photos,picture,pictures,slideshow,flash,media,thumbnails,photo-albums,nextgen-gallery,nextgen
 Requires at least: 3.4
 Tested up to: 3.4.1
 Stable tag: trunk
 License: GPLv2
 
-NextGEN Gallery is a fully integrated image gallery plugin for WordPress with dozens of options and features.
+The most popular WordPress gallery plugin with tons of features and over 6 million downloads.
 
 == Description ==
 
-NextGEN Gallery is the most popular photo gallery plugin for WordPress, and one of the most popular WordPress plugins of any kind with over 5 million downloads. 
+NextGEN Gallery is the most popular **WordPress gallery plugin**, and one of the most popular WordPress plugins of any kind, with over 6 million downloads. 
 
 It provides a powerful engine for uploading and managing galleries of images, with the ability to batch upload, import meta data, add/delete/rearrange/sort images, edit thumbnails, group galleries into albums, and more. It also provides two front-end display styles (slideshows and thumbnail galleries), both of which come with a wide array of options for controlling size, style, timing, transitions, controls, lightbox effects, and more. 
 
-*NextGEN Gallery is now proudly maintained by <a href='http://www.photocrati.com'>Photocrati Media</a>. Special thanks to Alex Rabe who created and maintained the plugin from 2007 through 2011.*
+*The NextGEN Gallery WordPress plugin is now proudly maintained by <a href='http://www.photocrati.com'>Photocrati Media</a>. Special thanks to Alex Rabe who created and maintained NextGEN from 2007 through 2011.*
 
 
-= Features =
+= NextGEN WordPress Gallery Plugin - Features =
 
 
 *Upload Galleries*
 
-* NextGEN Galleries offers diverse and powerful functionality for getting images from your desktop to your website. You can easily upload batches of images via a standard WordPress-style uploader, or upload images via zip file or FTP. NextGEN will automatically import your images’ meta data.
-
+* Our WordPress gallery plugin offers diverse and powerful functionality for getting images from your desktop to your website. You can easily upload batches of images via a standard WordPress-style uploader, or upload images via zip file or FTP. NextGEN will automatically import your images‚Äô meta data.
 
 *Manage Galleries*
 
-* Centralized gallery management.  Enjoy a single location where you can see and manage all your galleries.
+* Centralized gallery management. Enjoy a single location where you can see and manage all your galleries.
 * Edit galleries.  Add or exclude images, change gallery title and description, reorder of images, resize thumbnails.
-* Thumbnail Management.  Turn thumbnail cropping on off, customize how individual thumbnails are cropped, and bulk resize thumbnails across one more galleries.
-* Edit Individual Images.  Edit meta data and image tags, rotate images, exclude images.
-* Watermarks.  Quickly add watermarks to batches or galleries of images.
-* Albums.  Create and organize collections of galleries (“albums”), and display them in either compact or extended format.
-
+* Thumbnail Management. Turn thumbnail cropping on off, customize how individual thumbnails are cropped, and bulk resize thumbnails across one more galleries.
+* Edit Individual Images. Edit meta data and image tags, rotate images, exclude images.
+* Watermarks. Quickly add watermarks to batches or galleries of images.
+* Albums. Create and organize collections of galleries (‚Äúalbums‚Äù), and display them in either compact or extended format.
 
 *Display Galleries*
 
-* Two Gallery Types.  Choose between two main display styles: Slideshow and Thumbnail, and allow visitors to toggle between the two.
-* Slideshow Galleries.  Choose from a vast array of options for slideshows, including slideshow size, transition style, speed, image order, optional navigation bar.
-* Thumbnail Galleries.  Choose from a wide range of options to customize thumbnail galleries, including 5 different lightboxs for individual images, optional thumbnails cropping and editing, thumbnail styles, captions, and more.
-* Single Image Displays.  Display and format single images.
+* Two Gallery Types. Choose between two main display styles: Slideshow and Thumbnail, and allow visitors to toggle between the two.
+* Slideshow Galleries. Choose from a vast array of options for slideshows, including slideshow size, transition style, speed, image order, optional navigation bar.
+* Thumbnail Galleries. Choose from a wide range of options to customize thumbnail galleries, including 5 different lightboxs for individual images, optional thumbnails cropping and editing, thumbnail styles, captions, and more.
+* Single Image Displays. Display and format single images.
 * Work with Options Panel or ShortCodes.
 
+= NextGEN WordPress Gallery Plugin - Community & Extensions =
 
-= Further Resources =
+NextGEN has been the dominant WordPress gallery plugin for years. As a result, there is large and great community of users and developers, as well as a large number of dedicated extension plugins. For a list of extension plugins, just search for NextGEN in the WordPress.org plugin repository, or visit our <a href="http://www.nextgen-gallery.com/nextgen-gallery-extension-plugins/">Complete List of NextGEN Extension Plugins</a>.
 
-*<a href="http://www.nextgen-gallery.com/nextgen-gallery-demos/" target="_blank">Demo</a><br>
-*<a href="http://wordpress.org/tags/nextgen-gallery?forum_id=10" target="_blank">Support</a><br>
-*<a href="http://www.nextgen-gallery.com/languages/" target="_blank">Translations</a><br>
-*<a href="http://www.nextgen-gallery.com" target="_blank">NextGEN Gallery Official Website</a><br>
-*<a href="http://www.photocrati.com" target="_blank">Author Website - Photocrati Media</a><br>
+= NextGEN WordPress Gallery Plugin - Resources =
+
+*Visit the NextGEN <a href="http://www.nextgen-gallery.com" target="_blank">WordPress Gallery Plugin</a> official homepage<br>
+*View <a href="http://www.nextgen-gallery.com/nextgen-gallery-demos/" target="_blank">NextGEN Gallery Demos</a><br>
+*See the <a href="http://www.nextgen-gallery.com/nextgen-gallery-extension-plugins/">Complete List of NextGEN Extension Plugins</a><br>
+*Get <a href="http://wordpress.org/tags/nextgen-gallery?forum_id=10" target="_blank">NextGEN Support</a> via the WordPress.org forums<br>
+*Get <a href="http://www.nextgen-gallery.com/languages/" target="_blank">Translations</a> for your own language<br>
+*See <a href="http://www.photocrati.com/photography-wordpress-themes" target="_blank">WordPress Photography Themes</a> by the same author<br>
 *Follow NextGEN Gallery on <a title="Follow NextGEN Gallery on Facebook" href="http://www.facebook.com/NextGENGallery" target="_blank">Facebook</a>, <a title="Follow NextGEN Gallery on Twitter" href="http://twitter.com/NextGENGallery" target="_blank">Twitter</a>, and <a title="Follow NextGEN Gallery on Google +" href="http://plus.google.com/101643895780935290171" target="_blank">Google +</a><br>
 
 
@@ -191,6 +193,21 @@ Since the captions are fully HTML capable, you can add external links and any ot
 Yes, NextGEN Gallery has been translated into dozens of languages - <a href="http://www.nextgen-gallery.com/languages/" target="_blank">click here to find out more.</a>
 
 == Changelog == 
+
+= V1.9.8 - 12.05.2012 =
+* Secured: Removed bundled version of swfupload. See fix below for SCM information.
+* Changed: All transients created by NextGEN are flushed when the plugin is activated.
+* Fixed:   Our primary SCM is conducted at http://bitbucket.org/photocrati/nextgen-gallery, but was not synchronizing correctly with the WordPress Plugin SVN Repository
+* Fixed:   The transient adjustment fixes: http://wordpress.org/support/topic/plugin-nextgen-gallery-_transient_ngg_request-entry-in-wp_options
+
+= V1.9.7 - 11.13.2012 =
+* Secured: Removed bundled version of swfupload; using WordPress-bundled version instead for WordPress 3.2 instances
+* Changed: Using JQuery UI for the image sorting interface (thanks Tomás Soler)
+* Bugfix:  Image uploads work in WP 3.2 when using Safari
+* Bugfix:  Adjusted TinyMCE window to use built-in JavaScript libraries
+* Bugfix:  Removed Photocrati acquisition announcement
+* Bugfix:  Fixed incorrect usage of ImageJpeg() function
+* Bugfix:  Switched from "template_redirect" to "wp_enqueue_script" hook to load scripts and styles
 
 = V1.9.6 - 07.21.2012 =
 * Changed: Implemented workaround for bug found in WordPress SEO, resulting in no images being added to sitemap
