@@ -104,14 +104,6 @@ class nggAdminPanel{
 
 		global $ngg;
 
-		// check for upgrade and show upgrade screen
-		if( get_option( 'ngg_db_version' ) != NGG_DBVERSION ) {
-			include_once ( dirname (__FILE__) . '/functions.php' );
-			include_once ( dirname (__FILE__) . '/upgrade.php' );
-			nggallery_upgrade_page();
-			return;
-		}
-
 		// Set installation date
 		if( empty($ngg->options['installDate']) ) {
 			$ngg->options['installDate'] = time();

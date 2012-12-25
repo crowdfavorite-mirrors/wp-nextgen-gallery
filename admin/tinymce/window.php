@@ -43,7 +43,7 @@ jQuery(document).ready(function(){
     });
 });
 </script>
-<body id="link" onload="tinyMCEPopup.executeOnLoad('init();');document.body.style.display='';" style="display: none">
+<body class="nextgen_tinymce_window" id="link" onload="tinyMCEPopup.executeOnLoad('init();');document.body.style.display='';" style="display: none">
 <!-- <form onsubmit="insertLink();return false;" action="#"> -->
 	<form name="NextGEN" action="#">
 	<div class="tabs">

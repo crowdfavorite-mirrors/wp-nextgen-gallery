@@ -3,34 +3,34 @@
 /**
 * Tag PHP class for the WordPress plugin NextGEN Gallery
 * nggallery.lib.php
-* 
-* @author Alex Rabe 
-* 
-* 
+*
+* @author Alex Rabe
+*
+*
 */
 class nggTags {
-	
+
 	/**
 	 * Copy tags
 	 */
-	function copy_tags($src_pid, $dest_pid) {		
+	function copy_tags($src_pid, $dest_pid) {
 		$tags = wp_get_object_terms( $src_pid, 'ngg_tag', 'fields=ids' );
 		$tags = array_map('intval', $tags);
 		wp_set_object_terms( $dest_pid, $tags, 'ngg_tag', true );
-		
+
 		return implode(',', $tags);
 	}
-	
+
 	/**
 	 * Rename tags
 	 */
 	function rename_tags($old = '', $new = '') {
-		
+
 		$return_value = array(
 			'status' => 'ok',
 			'message' => ''
-		); 
-		
+		);
+
 		if ( trim( str_replace(',', '', stripslashes($new)) ) == '' ) {
 			$return_value['message'] = __('No new tag specified!', 'nggallery');
 			$return_value['status'] = 'error';
@@ -68,14 +68,14 @@ class nggTags {
 
 				// Delete old term
 				wp_delete_term( $term->term_id, 'ngg_tag' );
-				
+
 				// Set objects to new term ! (Append no replace)
 				foreach ( (array) $objects_id as $object_id ) {
 					wp_set_object_terms( $object_id, $new_name, 'ngg_tag', true );
 				}
-				
+
 				// Clean cache
-				clean_object_term_cache( $objects_id, 'ngg_tag');	
+				clean_object_term_cache( $objects_id, 'ngg_tag');
 				clean_term_cache($term->term_id, 'ngg_tag');
 
 				// Increment
@@ -132,9 +132,9 @@ class nggTags {
 				nggTags::edit_tag_slug( $new_tag, $slug );
 				unset($slug);
 			}
-			
+
 			// Clean cache
-			clean_object_term_cache( $objects_id, 'ngg_tag');	
+			clean_object_term_cache( $objects_id, 'ngg_tag');
 			clean_term_cache($terms_id, 'ngg_tag');
 
 			if ( $counter == 0  ) {
@@ -146,10 +146,10 @@ class nggTags {
 			$return_value['message'] = sprintf(__('Error. No enough tags for rename. Too for merge. Choose !', 'nggallery'), $old);
 			$return_value['status'] = 'error';
 		}
-		
+
 		return $return_value;
 	}
-	
+
 	/**
 	 * Delete tags
 	 */
@@ -157,8 +157,8 @@ class nggTags {
 		$return_value = array(
 			'status' => 'ok',
 			'message' => ''
-		); 
-		
+		);
+
 		if ( trim( str_replace(',', '', stripslashes($delete)) ) == '' ) {
 			$return_value['message'] = __('No tag specified!', 'nggallery');
 			$return_value['status'] = 'error';
@@ -168,14 +168,14 @@ class nggTags {
 		// In array + filter
 		$delete_tags = explode(',', $delete);
 		$delete_tags = array_filter($delete_tags, 'nggtags_delete_empty_element');
-		
+
 		// Delete tags
 		$counter = 0;
 		foreach ( (array) $delete_tags as $tag ) {
 			$term = get_term_by('name', $tag, 'ngg_tag');
 			$term_id = (int) $term->term_id;
 
-			if ( $term_id != 0 ) {				
+			if ( $term_id != 0 ) {
 				wp_delete_term( $term_id, 'ngg_tag');
 				clean_term_cache( $term_id, 'ngg_tag');
 				$counter++;
@@ -188,7 +188,7 @@ class nggTags {
 			$return_value['message'] = sprintf(__('%1s tag(s) deleted.', 'nggallery'), $counter);
 		}
 	}
-	
+
 	/**
 	 * Edit tag slug given the name of the tag
 	 */
@@ -196,8 +196,8 @@ class nggTags {
 		$return_value = array(
 			'status' => 'ok',
 			'message' => ''
-		); 
-		
+		);
+
 		if ( trim( str_replace(',', '', stripslashes($slugs)) ) == '' ) {
 			$return_value['message'] = __('No new slug(s) specified!', 'nggallery');
 			$return_value['status'] = 'error';
@@ -231,7 +231,7 @@ class nggTags {
 
 				// Update term
 				wp_update_term($term->term_id, 'ngg_tag', array('slug' => $new_slug));
-				
+
 				// Clean cache
 				clean_term_cache($term->term_id, 'ngg_tag');
 			}
@@ -242,28 +242,28 @@ class nggTags {
 		} else {
 			$return_value['message'] = sprintf(__('%s slug(s) edited.', 'nggallery'), $counter);
 		}
-		
+
 		return $return_value;
 	}
-		
+
 	/**
 	 * Get a list of the tags used by the images
 	 */
 	function find_all_tags() {
 		return get_terms('ngg_tag', '');
 	}
-	
+
 	/**
-	 * 
+	 *
 	 */
 	function find_tags( $args = '', $skip_cache = false ) {
 		$taxonomy = 'ngg_tag';
-		
+
 		if ( $skip_cache == true ) {
 			$terms = get_terms( $taxonomy, $args );
 		} else {
 			$key = md5(serialize($args));
-			
+
 			// Get cache if exist
 			//--
 			if ( $cache = wp_cache_get( 'ngg_get_tags', 'nggallery' ) ) {
@@ -286,13 +286,13 @@ class nggTags {
 		$terms = apply_filters('get_tags', $terms, $args);
 		return $terms;
 	}
-	
+
 	/**
 	* Get images corresponding to a list of tags
 	*/
 	/**
 	 * nggTags::find_images_for_tags()
-	 * 
+	 *
 	 * @param mixed $taglist
 	 * @param string $mode could be 'ASC' or 'RAND'
 	 * @return array of images
@@ -300,67 +300,67 @@ class nggTags {
 	function find_images_for_tags($taglist, $mode = "ASC") {
 		// return the images based on the tag
 		global $wpdb;
-		
+
 		// extract it into a array
 		$taglist = explode(",", $taglist);
-				
+
 		if ( !is_array($taglist) )
 			$taglist = array($taglist);
-		
+
 		$taglist = array_map('trim', $taglist);
 		$new_slugarray = array_map('sanitize_title', $taglist);
 		$sluglist   = "'" . implode("', '", $new_slugarray) . "'";
-		
+
 		//Treat % as a litteral in the database, for unicode support
 		$sluglist=str_replace("%","%%",$sluglist);
 
-		// first get all $term_ids with this tag		
-		$term_ids = $wpdb->get_col( $wpdb->prepare("SELECT term_id FROM $wpdb->terms WHERE slug IN ($sluglist) ORDER BY term_id ASC "));
+		// first get all $term_ids with this tag
+		$term_ids = $wpdb->get_col( $wpdb->prepare("SELECT term_id FROM $wpdb->terms WHERE slug IN ($sluglist) ORDER BY term_id ASC ", NULL));
 		$picids = get_objects_in_term($term_ids, 'ngg_tag');
 
 		//Now lookup in the database
 		if ($mode == 'RAND')
 			$pictures = nggdb::find_images_in_list($picids, true, 'RAND' );
 		else
-			$pictures = nggdb::find_images_in_list($picids, true, 'ASC');			
+			$pictures = nggdb::find_images_in_list($picids, true, 'ASC');
 
 		return $pictures;
 	}
-	
+
 	/**
 	* Return one image based on the tag. Required for a tag based album overview
 	*/
 	function get_album_images($taglist) {
 		global $wpdb;
-		
+
 		$taxonomy = 'ngg_tag';
 
 		// extract it into a array
 		$taglist = explode(',', $taglist);
-		
+
 		if (!is_array($taglist)) {
 			$taglist = array($taglist);
 		}
-		
+
 		$taglist = array_map('trim', $taglist);
 		$slugarray = array_map('sanitize_title', $taglist);
 		$slugarray = array_unique($slugarray);
 
 		$picarray = array();
 
-		foreach($slugarray as $slug) {  
-			// get random picture of tag 
-			$tsql  = "SELECT p.*, g.*, t.*, tt.* FROM $wpdb->term_relationships AS tr";  
-			$tsql .= " INNER JOIN $wpdb->nggpictures AS p ON (tr.object_id = p.pid)"; 
-			$tsql .= " INNER JOIN $wpdb->nggallery AS g ON (g.gid = p.galleryid)"; 
-			$tsql .= " INNER JOIN $wpdb->term_taxonomy AS tt ON (tr.term_taxonomy_id = tt.term_taxonomy_id)"; 
-			$tsql .= " INNER JOIN $wpdb->terms AS t ON (tt.term_id = t.term_id)"; 
-			$tsql .= " WHERE tt.taxonomy = '$taxonomy' AND t.slug = '$slug' ORDER BY rand() limit 1 "; 
-			$pic_data = $wpdb->get_row($tsql, OBJECT);  
-			
-			if ($pic_data) $picarray[] = $pic_data;  
-		} 
-		
+		foreach($slugarray as $slug) {
+			// get random picture of tag
+			$tsql  = "SELECT p.*, g.*, t.*, tt.* FROM $wpdb->term_relationships AS tr";
+			$tsql .= " INNER JOIN $wpdb->nggpictures AS p ON (tr.object_id = p.pid)";
+			$tsql .= " INNER JOIN $wpdb->nggallery AS g ON (g.gid = p.galleryid)";
+			$tsql .= " INNER JOIN $wpdb->term_taxonomy AS tt ON (tr.term_taxonomy_id = tt.term_taxonomy_id)";
+			$tsql .= " INNER JOIN $wpdb->terms AS t ON (tt.term_id = t.term_id)";
+			$tsql .= " WHERE tt.taxonomy = '$taxonomy' AND t.slug = '$slug' ORDER BY rand() limit 1 ";
+			$pic_data = $wpdb->get_row($tsql, OBJECT);
+
+			if ($pic_data) $picarray[] = $pic_data;
+		}
+
 		return $picarray;
 	}
 }

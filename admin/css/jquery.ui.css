@@ -86,7 +86,7 @@
 /* Overlays */
 .ui-widget-overlay { background: #000000 50% 50% repeat-x; opacity: .75;filter:Alpha(Opacity=75); }
 .ui-widget-shadow { margin: -8px 0 0 -8px; padding: 8px; background: #000000 50% 50% repeat-x; opacity: .75;filter:Alpha(Opacity=75); -moz-border-radius: 8px; -webkit-border-radius: 8px; border-radius: 8px; }/*
- 
+
 /* jQuery UI Resizable */
 .ui-resizable { position: relative;}
 .ui-resizable-handle { position: absolute;font-size: 0.1px;z-index: 99999; display: block;}
@@ -104,7 +104,7 @@
 .ui-dialog { position: absolute; padding: .2em; width: 300px; overflow: hidden; }
 .ui-dialog { -moz-box-shadow: rgba(0,0,0,1) 0 4px 30px; -webkit-box-shadow: rgba(0,0,0,1) 0 4px 30px; -khtml-box-shadow: rgba(0,0,0,1) 0 4px 30px; box-shadow: rgba(0,0,0,1) 0 4px 30px; }
 .ui-dialog .ui-dialog-titlebar { padding: .5em 1em .3em; position: relative;  }
-.ui-dialog .ui-dialog-title { float: left; margin: .1em 16px .2em 0; } 
+.ui-dialog .ui-dialog-title { float: left; margin: .1em 16px .2em 0; }
 .ui-dialog .ui-dialog-titlebar-close { position: absolute; right: .3em; top: 50%; width: 19px; margin: -10px 0 0 0; padding: 1px; height: 18px; }
 .ui-dialog .ui-dialog-titlebar-close span { display: block; margin: 1px; }
 .ui-dialog .ui-dialog-titlebar-close:hover, .ui-dialog .ui-dialog-titlebar-close:focus { padding: 0; }
@@ -123,8 +123,8 @@
 #spinner {display: none; width:100px; height: 100px; position: fixed; top: 50%; left: 50%; background:url(../../images/loader.gif) no-repeat center #fff; padding:10px; border:1px solid #666; margin-left: -50px; margin-top: -50px; z-index:2; overflow: auto; }
 
 /* jQuery Autocomplete */
-.ui-autocomplete { position: absolute; cursor: default; }	
-.ui-autocomplete-start { background: white url('images/dropdown.png') right center no-repeat; }	
+.ui-autocomplete { position: absolute; cursor: default; }
+.ui-autocomplete-start { background: white url('images/dropdown.png') right center no-repeat; }
 * html .ui-autocomplete { width:1px; } /* without this, the menu expands to 100% in IE6 */
 .ui-autocomplete-loading { background: white url('images/ui-anim_basic_16x16.gif') right center no-repeat; }
 /* this limit the height of the result list*/
@@ -137,3 +137,4 @@
 .ui-menu .ui-menu { margin-top: -3px; }
 .ui-menu .ui-menu-item { margin:0; padding:0; zoom:1; float:left; clear:left; width:100%; }
 .ui-menu .ui-menu-item a { text-decoration:none; display:block;	zoom:1; color: black;}
+.ui-helper-hidden-accessible {display: none}

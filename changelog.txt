@@ -1,6 +1,20 @@
 NextGEN Gallery
 by Photocrati Media
 
+= V1.9.10 - 12.18.2012 =
+* Fixed:   XML-RPC error displayed when authenticating using WordPress 3.5
+* Fixed:   Restored compatibility with NextGEN Gallery Export Plugin
+* Fixed:   Removed some remaining references to database upgrade code
+* Fixed:   Deleted galleries within an album are handed gracefully without warning messages
+* Fixed:   Correct use of register_uninstall_hook
+* Fixed:   CSS and usability issues with the TinyMCE window used to display galleries
+
+= V1.9.9 - 12.14.2012 =
+* NEW:	   JW ImageRotator v3.17 is now bundled with the plugin and used by default.
+* Changed: Removed database upgrade code for versions of NextGEN Gallery earlier than 1.9.3
+* Fixed:   Compatibility with WordPress v3.5 ( wpdb->prepare() warnings )
+* Fixed:   Sorting by filename now produces expected results using a natural sorting algorithm
+
 = V1.9.8 - 12.05.2012 =
 * Secured: Removed bundled version of swfupload. See fix below for SCM information.
 * Changed: All transients created by NextGEN are flushed when the plugin is activated.

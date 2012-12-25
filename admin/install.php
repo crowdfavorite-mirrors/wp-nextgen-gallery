@@ -4,18 +4,18 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You 
 /**
  * creates all tables for the gallery
  * called during register_activation hook
- * 
+ *
  * @access internal
  * @return void
  */
 function nggallery_install () {
-	
+
    	global $wpdb , $wp_roles, $wp_version;
-   	
+
 	// Check for capability
-	if ( !current_user_can('activate_plugins') ) 
+	if ( !current_user_can('activate_plugins') )
 		return;
-	
+
 	// Set the capabilities for the administrator
 	$role = get_role('administrator');
 	// We need this role, no other chance
@@ -23,7 +23,7 @@ function nggallery_install () {
 		update_option( "ngg_init_check", __('Sorry, NextGEN Gallery works only with a role called administrator',"nggallery") );
 		return;
 	}
-	
+
 	$role->add_cap('NextGEN Gallery overview');
 	$role->add_cap('NextGEN Use TinyMCE');
 	$role->add_cap('NextGEN Upload images');
@@ -33,10 +33,10 @@ function nggallery_install () {
 	$role->add_cap('NextGEN Edit album');
 	$role->add_cap('NextGEN Change style');
 	$role->add_cap('NextGEN Change options');
-	
-	// upgrade function changed in WordPress 2.3	
+
+	// upgrade function changed in WordPress 2.3
 	require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-	
+
 	// add charset & collate like wp core
 	$charset_collate = '';
 
@@ -46,14 +46,14 @@ function nggallery_install () {
 		if ( ! empty($wpdb->collate) )
 			$charset_collate .= " COLLATE $wpdb->collate";
 	}
-		
+
    	$nggpictures					= $wpdb->prefix . 'ngg_pictures';
 	$nggallery						= $wpdb->prefix . 'ngg_gallery';
 	$nggalbum						= $wpdb->prefix . 'ngg_album';
 
     // could be case senstive : http://dev.mysql.com/doc/refman/5.1/en/identifier-case-sensitivity.html
 	if( !$wpdb->get_var( "SHOW TABLES LIKE '$nggpictures'" ) ) {
-      
+
 		$sql = "CREATE TABLE " . $nggpictures . " (
 		pid BIGINT(20) NOT NULL AUTO_INCREMENT ,
         image_slug VARCHAR(255) NOT NULL ,
@@ -69,12 +69,12 @@ function nggallery_install () {
 		PRIMARY KEY pid (pid),
 		KEY post_id (post_id)
 		) $charset_collate;";
-	
+
       dbDelta($sql);
     }
 
 	if( !$wpdb->get_var( "SHOW TABLES LIKE '$nggallery'" )) {
-      
+
 		$sql = "CREATE TABLE " . $nggallery . " (
 		gid BIGINT(20) NOT NULL AUTO_INCREMENT ,
 		name VARCHAR(255) NOT NULL ,
@@ -87,12 +87,12 @@ function nggallery_install () {
 		author BIGINT(20) DEFAULT '0' NOT NULL  ,
 		PRIMARY KEY gid (gid)
 		) $charset_collate;";
-	
+
       dbDelta($sql);
    }
-    
+
 	if( !$wpdb->get_var( "SHOW TABLES LIKE '$nggalbum'" )) {
-      
+
 		$sql = "CREATE TABLE " . $nggalbum . " (
 		id BIGINT(20) NOT NULL AUTO_INCREMENT ,
 		name VARCHAR(255) NOT NULL ,
@@ -103,7 +103,7 @@ function nggallery_install () {
 		pageid BIGINT(20) DEFAULT '0' NOT NULL,
 		PRIMARY KEY id (id)
 		) $charset_collate;";
-	
+
       dbDelta($sql);
     }
 
@@ -112,12 +112,12 @@ function nggallery_install () {
 		update_option( "ngg_init_check", __('NextGEN Gallery : Tables could not created, please check your database settings',"nggallery") );
 		return;
 	}
-	
+
 	$options = get_option('ngg_options');
 	// set the default settings, if we didn't upgrade
-	if ( empty( $options ) )	
+	if ( empty( $options ) )
  		ngg_default_options();
- 	
+
 	// if all is passed , save the DBVERSION
 	add_option("ngg_db_version", NGG_DBVERSION);
 
@@ -125,13 +125,13 @@ function nggallery_install () {
 
 /**
  * Setup the default option array for the gallery
- * 
+ *
  * @access internal
- * @since version 0.33 
+ * @since version 0.33
  * @return void
  */
 function ngg_default_options() {
-	
+
 	global $blog_id, $ngg;
 
 	$ngg_options['gallerypath']			= 'wp-content/gallery/';  		// set default path to the gallery
@@ -143,25 +143,25 @@ function ngg_default_options() {
 	$ngg_options['imageMagickDir']		= '/usr/local/bin/';			// default path to ImageMagick
 	$ngg_options['useMediaRSS']			= false;						// activate the global Media RSS file
 	$ngg_options['usePicLens']			= false;						// activate the PicLens Link for galleries
-	
+
 	// Tags / categories
 	$ngg_options['activateTags']		= false;						// append related images
 	$ngg_options['appendType']			= 'tags';						// look for category or tags
 	$ngg_options['maxImages']			= 7;  							// number of images toshow
-	
+
 	// Thumbnail Settings
 	$ngg_options['thumbwidth']			= 100;  						// Thumb Width
 	$ngg_options['thumbheight']			= 75;  							// Thumb height
 	$ngg_options['thumbfix']			= true;							// Fix the dimension
 	$ngg_options['thumbquality']		= 100;  						// Thumb Quality
-		
+
 	// Image Settings
 	$ngg_options['imgWidth']			= 800;  						// Image Width
 	$ngg_options['imgHeight']			= 600;  						// Image height
 	$ngg_options['imgQuality']			= 85;							// Image Quality
 	$ngg_options['imgBackup']			= true;							// Create a backup
 	$ngg_options['imgAutoResize']		= false;						// Resize after upload
-	
+
 	// Gallery Settings
 	$ngg_options['galImages']			= '20';		  					// Number of images per page
 	$ngg_options['galPagedGalleries']	= 0;		  					// Number of galleries per page (in a album)
@@ -179,7 +179,7 @@ function ngg_default_options() {
 
 	// Thumbnail Effect
 	$ngg_options['thumbEffect']			= 'shutter';  					// select effect
-	$ngg_options['thumbCode']			= 'class="shutterset_%GALLERY_NAME%"'; 
+	$ngg_options['thumbCode']			= 'class="shutterset_%GALLERY_NAME%"';
 
 	// Watermark settings
 	$ngg_options['wmPos']				= 'botRight';					// Postion
@@ -193,13 +193,13 @@ function ngg_default_options() {
 	$ngg_options['wmColor']				= '000000';  					// Font Color
 	$ngg_options['wmOpaque']			= '100';  						// Font Opaque
 
-	// Image Rotator settings 
+	// Image Rotator settings
 	$ngg_options['enableIR']		    = false;
     $ngg_options['slideFx']		        = 'fade';
-    $ngg_options['irURL']				= '';
+    $ngg_options['irURL']				= path_join(NGGALLERY_URLPATH, 'imagerotator.swf');
 	$ngg_options['irXHTMLvalid']		= false;
 	$ngg_options['irAudio']				= '';
-	$ngg_options['irWidth']				= 320; 
+	$ngg_options['irWidth']				= 320;
 	$ngg_options['irHeight']			= 240;
  	$ngg_options['irShuffle']			= true;
  	$ngg_options['irLinkfromdisplay']	= true;
@@ -213,35 +213,35 @@ function ngg_default_options() {
 	$ngg_options['irBackcolor']			= '000000';
 	$ngg_options['irFrontcolor']		= 'FFFFFF';
 	$ngg_options['irLightcolor']		= 'CC0000';
-	$ngg_options['irScreencolor']		= '000000';		
+	$ngg_options['irScreencolor']		= '000000';
 
 	// CSS Style
 	$ngg_options['activateCSS']			= true;							// activate the CSS file
 	$ngg_options['CSSfile']				= 'nggallery.css';  			// set default css filename
-	
-	// special overrides for WPMU	
+
+	// special overrides for WPMU
 	if (is_multisite()) {
 		// get the site options
 		$ngg_wpmu_options = get_site_option('ngg_options');
-		
+
 		// get the default value during first installation
 		if (!is_array($ngg_wpmu_options)) {
 			$ngg_wpmu_options['gallerypath'] = 'wp-content/blogs.dir/%BLOG_ID%/files/';
 			$ngg_wpmu_options['wpmuCSSfile'] = 'nggallery.css';
 			update_site_option('ngg_options', $ngg_wpmu_options);
 		}
-		
+
 		$ngg_options['gallerypath']  		= str_replace("%BLOG_ID%", $blog_id , $ngg_wpmu_options['gallerypath']);
 		$ngg_options['CSSfile']				= $ngg_wpmu_options['wpmuCSSfile'];
-	} 
-	
+	}
+
 	update_option('ngg_options', $ngg_options);
 
 }
 
 /**
  * Deregister a capability from all classic roles
- * 
+ *
  * @access internal
  * @param string $capability name of the capability which should be deregister
  * @return void
@@ -261,18 +261,18 @@ function ngg_remove_capability($capability){
 /**
  * Uninstall all settings and tables
  * Called via Setup and register_unstall hook
- * 
+ *
  * @access internal
  * @return void
  */
 function nggallery_uninstall() {
 	global $wpdb;
-	
+
 	// first remove all tables
 	$wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}ngg_pictures");
 	$wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}ngg_gallery");
 	$wpdb->query("DROP TABLE IF EXISTS {$wpdb->prefix}ngg_album");
-	
+
 	// then remove all options
 	delete_option( 'ngg_options' );
 	delete_option( 'ngg_db_version' );
