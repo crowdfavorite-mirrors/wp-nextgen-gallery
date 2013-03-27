@@ -1,51 +1,53 @@
 === NextGEN Gallery ===
 Contributors: photocrati
 Tags:gallery,image,images,photo,photos,picture,pictures,slideshow,flash,media,thumbnails,photo-albums,nextgen-gallery,nextgen
-Requires at least: 3.4
-Tested up to: 3.4.1
+Requires at least: 3.5
+Tested up to: 3.5.1
 Stable tag: trunk
 License: GPLv2
 
-The most popular WordPress gallery plugin with tons of features and over 6 million downloads.
+The most popular WordPress gallery plugin and one of the most popular plugins of all time with over 6 million downloads.
 
 == Description ==
 
-NextGEN Gallery is the most popular **WordPress gallery plugin**, and one of the most popular WordPress plugins of any kind, with over 6 million downloads.
+= WordPress Gallery Plugin =
+
+NextGEN Gallery is the most popular **WordPress gallery plugin**, and one of the most popular WordPress plugins of all time, with over 6 million downloads.
 
 It provides a powerful engine for uploading and managing galleries of images, with the ability to batch upload, import meta data, add/delete/rearrange/sort images, edit thumbnails, group galleries into albums, and more. It also provides two front-end display styles (slideshows and thumbnail galleries), both of which come with a wide array of options for controlling size, style, timing, transitions, controls, lightbox effects, and more.
 
-*The NextGEN Gallery WordPress plugin is now proudly maintained by <a href='http://www.photocrati.com'>Photocrati Media</a>. Special thanks to Alex Rabe who created and maintained NextGEN from 2007 through 2011.*
+*The NextGEN Gallery WordPress gallery plugin is now proudly maintained by <a href='http://www.photocrati.com'>Photocrati Media</a>. Special thanks to Alex Rabe who created and maintained NextGEN from 2007 through 2011.*
 
 
-= NextGEN WordPress Gallery Plugin - Features =
+= NextGEN WordPress Gallery Plugin Features =
 
 
 *Upload Galleries*
 
-* Our WordPress gallery plugin offers diverse and powerful functionality for getting images from your desktop to your website. You can easily upload batches of images via a standard WordPress-style uploader, or upload images via zip file or FTP. NextGEN will automatically import your images‚Äô meta data.
+* Our WordPress gallery plugin offers diverse and powerful functionality for getting images from your desktop to your website. You can easily upload batches of images via a standard WordPress-style uploader, or upload images via zip file or FTP. NextGEN will automatically import your images meta data.
 
 *Manage Galleries*
 
 * Centralized gallery management. Enjoy a single location where you can see and manage all your galleries.
 * Edit galleries.  Add or exclude images, change gallery title and description, reorder of images, resize thumbnails.
-* Thumbnail Management. Turn thumbnail cropping on off, customize how individual thumbnails are cropped, and bulk resize thumbnails across one more galleries.
-* Edit Individual Images. Edit meta data and image tags, rotate images, exclude images.
+* Thumbnail Management. Turn thumbnail cropping on and off, customize how individual thumbnails are cropped, and bulk resize thumbnails across one or more galleries.
+* Edit Individual Images. Edit meta data and image tags, rotate images, and exclude images.
 * Watermarks. Quickly add watermarks to batches or galleries of images.
-* Albums. Create and organize collections of galleries (‚Äúalbums‚Äù), and display them in either compact or extended format.
+* Albums. Create and organize collections of galleries, and display them in either compact or extended format.
 
 *Display Galleries*
 
 * Two Gallery Types. Choose between two main display styles: Slideshow and Thumbnail, and allow visitors to toggle between the two.
-* Slideshow Galleries. Choose from a vast array of options for slideshows, including slideshow size, transition style, speed, image order, optional navigation bar.
-* Thumbnail Galleries. Choose from a wide range of options to customize thumbnail galleries, including 5 different lightboxs for individual images, optional thumbnails cropping and editing, thumbnail styles, captions, and more.
+* Slideshow Galleries. Choose from a vast array of options for slideshows, including slideshow size, transition style, speed, image order, and optional navigation bar.
+* Thumbnail Galleries. Choose from a wide range of options to customize thumbnail galleries, including 5 different lightboxes for individual images, optional thumbnail cropping and editing, thumbnail styles, captions, and more.
 * Single Image Displays. Display and format single images.
-* Work with Options Panel or ShortCodes.
+* Work with Options Panel or Shortcodes.
 
-= NextGEN WordPress Gallery Plugin - Community & Extensions =
+= NextGEN WordPress Gallery Plugin Community & Extensions =
 
 NextGEN has been the dominant WordPress gallery plugin for years. As a result, there is large and great community of users and developers, as well as a large number of dedicated extension plugins. For a list of extension plugins, just search for NextGEN in the WordPress.org plugin repository, or visit our <a href="http://www.nextgen-gallery.com/nextgen-gallery-extension-plugins/">Complete List of NextGEN Extension Plugins</a>.
 
-= NextGEN WordPress Gallery Plugin - Resources =
+= NextGEN WordPress Gallery Plugin Resources =
 
 *Visit the NextGEN <a href="http://www.nextgen-gallery.com" target="_blank">WordPress Gallery Plugin</a> official homepage<br>
 *View <a href="http://www.nextgen-gallery.com/nextgen-gallery-demos/" target="_blank">NextGEN Gallery Demos</a><br>
@@ -70,19 +72,17 @@ You should have received a copy of the GNU General Public License along with thi
 
 ** Please note **
 
-The JW Image Rotator (Flash Slideshow) is not part of this license and is available under a Creative Commons License, which allowing you to use, modify and redistribute  them for noncommercial purposes.
-
-For commercial use please look at the Jeroen's homepage : http://www.longtailvideo.com/
+NextGEN Gallery's flash slideshow option is powered by the JW Image Rotator from Long Tail Video. The Image Rotator is provided free as part of our plugin package thanks to a special commercial license with Long Tail Video. It is NOT released under GNU General Public License, and cannot be redistributed. A free version of the Image Rotator was previously available under a Creative Commons License, but it has been discontinued. Over time, we will be moving away from reliance on this file. For more information, see the Long Tail Video website: http://www.longtailvideo.com.
 
 == Installation ==
 
-1. 	Download, install, and activate the NextGEN Gallery plugin.
+1. 	Download, upload and install .zip under Plugins >> Add New > Upload, and activate the NextGEN Gallery WordPress gallery plugin.
 
 2.	From your Wordpress Dashboard, go to Gallery > Add Gallery/Images > Follow the on-screen cues.
 
 3. 	Go to a post/page, and select the NextGEN Gallery button from the Kitchen Sink. Follow the on-screen cues to select, adjust, and publish your gallery.
 
-That's it ... Have fun
+That's it ... have fun! For more information, feel free to visit the official website for the NextGEN Gallery <a href="http://www.nextgen-gallery.com" target="_blank">WordPress Gallery Plugin</a>.
 
 http://www.youtube.com/watch?v=Le_ZsNSuIvM
 
@@ -127,11 +127,13 @@ http://www.youtube.com/watch?v=Le_ZsNSuIvM
 [ media id=6 width=320 height=240 plugins=revolt-1 ]<br>
 [ media id=3 width=320 height=240 plugins=rateit-2 ]<br>
 
+For more information, feel free to visit the official website for the NextGEN Gallery <a href="http://www.nextgen-gallery.com" target="_blank">WordPress Gallery Plugin</a>.
+
 == Frequently Asked Questions ==
 
 = Will NextGEN Gallery work with my theme? =
 
-Part of what makes NextGEN so popular is its flexibility - it works with the vast majority of premium and free themes, without requiring any coding.
+Part of what makes the NextGEN Gallery WordPress gallery plugin so popular is its flexibility - it works with the vast majority of premium and free themes, without requiring any coding.
 
 
 = Are the galleries flash based? =
@@ -156,7 +158,7 @@ Yes, you can batch upload entire galleries at a time.
 
 = Can I password protect galleries? =
 
-Yes, Wordpress allows you to password protect pages by default - which includes all galleries and content for the entire page. Password protection of pages can be turned on and off at any time, with just a few clicks.
+Yes, WordPress allows you to password protect pages by default - which includes all galleries and content for the entire page. Password protection of pages can be turned on and off at any time, with just a few clicks.
 
 
 = Can I add a watermark to the images/slideshows? =
@@ -188,11 +190,35 @@ Yes, caption areas are fully HMTL capable.
 
 Since the captions are fully HTML capable, you can add external links and any other type of mark up you wish.
 
+
 = Is NextGEN Gallery available in foreign languages? =
 
-Yes, NextGEN Gallery has been translated into dozens of languages - <a href="http://www.nextgen-gallery.com/languages/" target="_blank">click here to find out more.</a>
+Yes, the NextGEN Gallery WordPress gallery plugin has been translated into dozens of languages - <a href="http://www.nextgen-gallery.com/languages/" target="_blank">click here to find out more.</a>
+
+= More Information =
+
+For more information, feel free to visit the official website for the NextGEN Gallery <a href="http://www.nextgen-gallery.com" target="_blank">WordPress Gallery Plugin</a>.
+
 
 == Changelog ==
+
+= V1.9.12 - 02.15.2013 =
+* Fixed:   jQuery Conflict Detection was trying to dequeue irremovable scripts
+
+= V1.9.11 - 02.12.2013 =
+* NEW: Added the ability to detect JQuery conflicts on NGG Admin Pages and auto-resolve
+* Changed: Added "nggalbum" shortcode. Use this when Jetpack is installed.
+* Changed: Using natural sorting algorithm for alphanumeric values
+* Changed: Database schema is automatically updated when out-of-date
+* Fixed:   Fixed several incompatibility issues with Jetpack
+* Fixed:   Empty drop-down for "Page Link To"
+* Fixed:   Alphabetical image sorting
+* Fixed:   Compatibility with Arjuna X theme
+* Fixed:   “Creating default object from empty value” on album page
+* Fixed:   Compatibility issues with PHP 5.4 on album page
+* Fixed:   E_DEPRECATED warning when using get_userdatabylogin() function
+* Fixed:   Removed many E_NOTICE errors
+* Fixed:   Correct use of register_uninstall_hook across all PHP versions
 
 = V1.9.10 - 12.18.2012 =
 * Fixed:   XML-RPC error displayed when authenticating using WordPress 3.5
@@ -425,4 +451,4 @@ Yes, NextGEN Gallery has been translated into dozens of languages - <a href="htt
 == Upgrade Notice ==
 
 = 1.5.5 =
-* Compat issue for post thumbnails with WP2.9 and WP3.0. No Database changes...
+* Compatibility issue for post thumbnails with WP2.9 and WP3.0. No Database changes...

@@ -76,7 +76,6 @@ html>body .ngg-album {
 
 .ngg-album-compact {
 	float:left;
-	height:180px;
 	padding-right:6px !important;
 	margin:0px !important;
 	text-align:left;
@@ -161,6 +160,7 @@ html>body .ngg-album {
 
 .ngg-clear {
 	clear: both;
+	float: none;
 }
 
 /* ----------- Gallery navigation -------------*/

@@ -20,13 +20,13 @@ function getCheckedValue(radioObj) {
 }
 
 function insertNGGLink() {
-	
+
 	var tagtext;
-	
+
 	var gallery = document.getElementById('gallery_panel');
 	var album = document.getElementById('album_panel');
 	var singlepic = document.getElementById('singlepic_panel');
-	
+
 	// who is active ?
 	if (gallery.className.indexOf('current') != -1) {
 		var galleryid = document.getElementById('gallerytag').value;
@@ -41,7 +41,7 @@ function insertNGGLink() {
 		var albumid = document.getElementById('albumtag').value;
 		var showtype = getCheckedValue(document.getElementsByName('albumtype'));
 		if (albumid != 0 )
-			tagtext = "[album id=" + albumid + " template=" + showtype + "]";
+			tagtext = "[nggalbum id=" + albumid + " template=" + showtype + "]";
 		else
 			tinyMCEPopup.close();
 	}
@@ -62,12 +62,12 @@ function insertNGGLink() {
 			tinyMCEPopup.close();
 		}
 	}
-	
+
 	if(window.tinyMCE) {
         window.tinyMCE.execInstanceCommand(window.tinyMCE.activeEditor.id, 'mceInsertContent', false, tagtext);
-		//Peforms a clean up of the current editor HTML. 
+		//Peforms a clean up of the current editor HTML.
 		//tinyMCEPopup.editor.execCommand('mceCleanup');
-		//Repaints the editor. Sometimes the browser has graphic glitches. 
+		//Repaints the editor. Sometimes the browser has graphic glitches.
 		tinyMCEPopup.editor.execCommand('mceRepaint');
 		tinyMCEPopup.close();
 	}

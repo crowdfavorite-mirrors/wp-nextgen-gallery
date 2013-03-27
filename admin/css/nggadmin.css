@@ -1,4 +1,4 @@
-/* 
+/*
 ** NextGEN Gallery Style for Wordpress 3.3
 */
 
@@ -74,10 +74,10 @@
 	vertical-align:top;
 }
 
-/* SETTINGS FOR THE OPTIONS TABLE */ 
+/* SETTINGS FOR THE OPTIONS TABLE */
 .ngg-options th {
 	width:22%;
-} 
+}
 
 a.switch-expert {
 	text-decoration:none;
@@ -176,40 +176,40 @@ p#ngg-inlinebutton {
 
 div .progressborder {
 	border:1px solid #DDDDDD;
-	display: block; 
-	height: 30px; 
-	background-color: #464646; 
+	display: block;
+	height: 30px;
+	background-color: #464646;
 	width: 100%;
 	margin-top: 15px;
 	margin-bottom: 15px;
-    -moz-border-radius: 5px; 
-    -webkit-border-radius: 5px; 
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
     border-radius: 5px;
 }
 
 div .progressbar {
-	border: medium none ; 
-	display: block; 
-	height: 30px; 
-	background-color: #D54E21; 
+	border: medium none ;
+	display: block;
+	height: 30px;
+	background-color: #D54E21;
 	width: 0%;
-    -moz-border-radius: 5px; 
-    -webkit-border-radius: 5px; 
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
     border-radius: 5px;
 }
 
 div .progressbar span {
-	display: inline; 
-	position: absolute; 
-	color: white; 
-	font-weight: bold; 
+	display: inline;
+	position: absolute;
+	color: white;
+	font-weight: bold;
 	padding: 5px 0 0 5px;
 }
 
 .show_details
 {
 	height: 16px;
-	line-height: 20px; 
+	line-height: 20px;
 	overflow: hidden;
 	min-width: 8em;
 	padding: 3px;
@@ -221,7 +221,7 @@ div .progressbar span {
 	border-bottom:1px solid #999;
 	white-space:pre;
 }
-.show_details:hover 
+.show_details:hover
 {
 	height: auto;
 	overflow: visible;
@@ -289,8 +289,8 @@ div .innerhandle {
 }
 
 .itemContent p {
-	border: 0;  
-	margin: 0;  
+	border: 0;
+	margin: 0;
 	padding: 0;
 }
 
@@ -330,7 +330,7 @@ div .innerhandle {
 }
 
 .widget-holder {
-	min-height: 400px;	
+	min-height: 400px;
 	padding-top:1px;
 }
 
@@ -353,7 +353,7 @@ div.widget-top {
 	font-size: 13px;
 }
 
-.ui-autocomplete-start { background-position: 99% center; }	
+.ui-autocomplete-start { background-position: 99% center; }
 
 /* SETTINGS FOR SORT GALLERY */
 
@@ -372,13 +372,16 @@ p#sortButton{
 	width:130px;	/* Total width of each image box */
 	height:160px;	/* Total height of each image box */
 	float:left;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	padding: 5px;
 }
 .imageBox_theImage{
 	width:110px;	/* Width of image */
 	height:125px;	/* Height of image */
-	
+
 	background-position: center;
-	background-repeat: no-repeat;		
+	background-repeat: no-repeat;
 	margin: 0 auto;
 	margin-bottom:2px;
 }
@@ -386,7 +389,7 @@ p#sortButton{
 .imageBox_label{	/* Title of images - both selected and not selected */
 	text-align:center;
 	font-family: arial;
-	font-size:11px;		
+	font-size:11px;
 	padding-top:2px;
 	margin: 0 auto;
 }
@@ -400,9 +403,9 @@ p#sortButton{
 	padding:10px;
 }
 
-/* ABOUT PAGE */ 
+/* ABOUT PAGE */
 .ngg-list {
-	font-size:11px; 
+	font-size:11px;
 	margin-left:15px;
 	list-style-position:inside;
 	list-style-type:disc;
