@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
 Template Page for the album overview
 
@@ -14,11 +14,11 @@ Follow variables are useable :
 ?>
 <?php if (!defined ('ABSPATH')) die ('No direct access allowed'); ?><?php if (!empty ($galleries)) : ?>
 
-<div class="ngg-albumoverview">		
+<div class="ngg-albumoverview">
 
 	<!-- List of galleries -->
 	<?php foreach ($galleries as $gallery) : ?>
-	
+
 	<div class="ngg-album-compact">
 		<div class="ngg-album-compactbox">
 			<div class="ngg-album-link">
@@ -34,10 +34,9 @@ Follow variables are useable :
 	</div>
 
  	<?php endforeach; ?>
- 	
+
 	<!-- Pagination -->
  	<?php echo $pagination ?>
-
 </div>
 
 <?php endif; ?>

@@ -1,6 +1,23 @@
 NextGEN Gallery
 by Photocrati Media
 
+= V1.9.12 - 02.15.2013 =
+* Fixed:   jQuery Conflict Detection was trying to dequeue irremovable scripts
+
+= V1.9.11 - 02.12.2013 =
+* NEW:	   Added the ability to detect JQuery conflicts on NGG Admin Pages and auto-resolve
+* Changed: Added "nggalbum" shortcode. Use this when Jetpack is installed.
+* Changed: Using natural sorting algorithm for alphanumeric values
+* Changed: Database schema is automatically updated when out-of-date
+* Fixed:   Empty drop-down for "Page Link To"
+* Fixed:   Alphabetical image sorting
+* Fixed:   Compatibility with Arjuna X theme
+* Fixed:   “Creating default object from empty value” on album page
+* Fixed:   Compatibility issues with PHP 5.4 on album page
+* Fixed:   E_DEPRECATED warning when using get_userdatabylogin() function
+* Fixed:   Removed many E_NOTICE errors
+* Fixed:   Correct use of register_uninstall_hook across all PHP versions
+
 = V1.9.10 - 12.18.2012 =
 * Fixed:   XML-RPC error displayed when authenticating using WordPress 3.5
 * Fixed:   Restored compatibility with NextGEN Gallery Export Plugin

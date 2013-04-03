@@ -423,7 +423,8 @@ function nggShowAlbum($albumID, $template = 'extend', $gallery_template = '') {
 
         // subalbum support only one instance, you can't use more of them in one post
         //TODO: causes problems with SFC plugin, due to a second filter callback
-        if ( isset($GLOBALS['subalbum']) || isset($GLOBALS['nggShowGallery']) )
+		global $wp_current_filter;
+        if ( isset($GLOBALS['subalbum']) || isset($GLOBALS['nggShowGallery']))
                 return;
 
         // if gallery is submit , then show the gallery instead
@@ -470,13 +471,13 @@ function nggShowAlbum($albumID, $template = 'extend', $gallery_template = '') {
  * @return the content
  */
 function nggCreateAlbum( $galleriesID, $template = 'extend', $album = 0) {
-
-    global $wpdb, $nggRewrite, $nggdb;
+    global $wpdb, $nggRewrite, $nggdb, $ngg;
 
     // $_GET from wp_query
     $nggpage  = get_query_var('nggpage');
 
-    $ngg_options = nggGallery::get_option('ngg_options');
+	// Get options
+    $ngg_options = $ngg->options;
 
     //this option can currently only set via the custom fields
     $maxElement  = (int) $ngg_options['galPagedGalleries'];
@@ -511,82 +512,70 @@ function nggCreateAlbum( $galleriesID, $template = 'extend', $album = 0) {
     // re-order them and populate some
     foreach ($sortorder as $key) {
 
+		// Create a gallery object
+		if (isset($unsort_galleries[$key])) $galleries[$key] = $unsort_galleries[$key];
+		else $galleries[$key] = new stdClass;
+
         //if we have a prefix 'a' then it's a subalbum, instead a gallery
         if (substr( $key, 0, 1) == 'a') {
-            // get the album content
-             if ( !$subalbum = $nggdb->find_album(substr( $key, 1)) )
-                continue;
+			if (($subalbum = $nggdb->find_album(substr($key, 1)))) {
+				$galleries[$key]->counter = count($subalbum->gallery_ids);
+				if ($subalbum->previewpic > 0){
+					$image = $nggdb->find_image( $subalbum->previewpic );
+					$galleries[$key]->previewurl = isset($image->thumbURL) ? $image->thumbURL : '';
+				}
+				$galleries[$key]->previewpic = $subalbum->previewpic;
+				$galleries[$key]->previewname = $subalbum->name;
 
-            //populate the sub album values
-			if (!isset($galleries[$key])) $galleries[$key] = new stdClass;
-            $galleries[$key]->counter = 0;
-            $galleries[$key]->previewurl = '';
-            // ensure that album contain a preview image
-            if ($subalbum->previewpic > 0){
-                $image = $nggdb->find_image( $subalbum->previewpic );
-				$galleries[$key]->previewurl = isset($image->thumbURL) ? $image->thumbURL : '';
+				//link to the subalbum
+				$args['album'] = ( $ngg_options['usePermalinks'] ) ? $subalbum->slug : $subalbum->id;
+				$args['gallery'] = false;
+				$args['nggpage'] = false;
+				$pageid = (isset($subalbum->pageid) ? $subalbum->pageid : 0);
+				$galleries[$key]->pagelink = ($pageid > 0) ? get_permalink($pageid) : $nggRewrite->get_permalink($args);
+				$galleries[$key]->galdesc = html_entity_decode ( nggGallery::i18n($subalbum->albumdesc) );
+				$galleries[$key]->title = html_entity_decode ( nggGallery::i18n($subalbum->name) );
+			}
+        }
+		elseif (isset($unsort_galleries[$key])) {
+			$galleries[$key] = $unsort_galleries[$key];
+
+			// No images found, set counter to 0
+			if (!isset($galleries[$key]->counter)){
+				$galleries[$key]->counter = 0;
+				$galleries[$key]->previewurl = '';
 			}
 
-            $galleries[$key]->previewpic = $subalbum->previewpic;
-            $galleries[$key]->previewname = $subalbum->name;
+			// add the file name and the link
+			if ($galleries[$key]->previewpic  != 0) {
+				$galleries[$key]->previewname = $albumPreview[$galleries[$key]->previewpic]->filename;
+				$galleries[$key]->previewurl  = site_url().'/' . $galleries[$key]->path . '/thumbs/thumbs_' . $albumPreview[$galleries[$key]->previewpic]->filename;
+			} else {
+				$first_image = $wpdb->get_row('SELECT * FROM '. $wpdb->nggpictures .' WHERE exclude != 1 AND galleryid = '. $key .' ORDER by pid DESC limit 0,1');
+				if (isset($first_image)) {
+					$galleries[$key]->previewpic  = $first_image->pid;
+					$galleries[$key]->previewname = $first_image->filename;
+					$galleries[$key]->previewurl  = site_url() . '/' . $galleries[$key]->path . '/thumbs/thumbs_' . $first_image->filename;
+				}
+			}
 
-            //link to the subalbum
-            $args['album'] = ( $ngg_options['usePermalinks'] ) ? $subalbum->slug : $subalbum->id;
-            $args['gallery'] = false;
-            $args['nggpage'] = false;
-            $pageid = (isset($subalbum->pageid) ? $subalbum->pageid : 0);
-            $galleries[$key]->pagelink = ($pageid > 0) ? get_permalink($pageid) : $nggRewrite->get_permalink($args);
-            $galleries[$key]->galdesc = html_entity_decode ( nggGallery::i18n($subalbum->albumdesc) );
-            $galleries[$key]->title = html_entity_decode ( nggGallery::i18n($subalbum->name) );
+			// choose between variable and page link
+			if ($ngg_options['galNoPages']) {
+				$args['album'] = ( $ngg_options['usePermalinks'] ) ? $album->slug : $album->id;
+				$args['gallery'] = ( $ngg_options['usePermalinks'] ) ? $galleries[$key]->slug : $key;
+				$args['nggpage'] = false;
+				$galleries[$key]->pagelink = $nggRewrite->get_permalink($args);
 
-            // apply a filter on gallery object before the output
-            $galleries[$key] = apply_filters('ngg_album_galleryobject', $galleries[$key]);
+			} else {
+				$galleries[$key]->pagelink = get_permalink( $galleries[$key]->pageid );
+			}
 
-            continue;
-        }
+			// description can contain HTML tags
+			$galleries[$key]->galdesc = html_entity_decode ( nggGallery::i18n( stripslashes($galleries[$key]->galdesc), 'gal_' . $galleries[$key]->gid . '_description') ) ;
 
-		// If a gallery is not found it should be ignored
-        if (!$unsort_galleries[$key])
-        	continue;
-
-		// No images found, set counter to 0
-        if (!isset($galleries[$key]->counter)){
-            $galleries[$key]->counter = 0;
-            $galleries[$key]->previewurl = '';
-        }
-
-		// Add the counter value if avaible
-        $galleries[$key] = $unsort_galleries[$key];
-
-        // add the file name and the link
-        if ($galleries[$key]->previewpic  != 0) {
-            $galleries[$key]->previewname = $albumPreview[$galleries[$key]->previewpic]->filename;
-            $galleries[$key]->previewurl  = site_url().'/' . $galleries[$key]->path . '/thumbs/thumbs_' . $albumPreview[$galleries[$key]->previewpic]->filename;
-        } else {
-            $first_image = $wpdb->get_row('SELECT * FROM '. $wpdb->nggpictures .' WHERE exclude != 1 AND galleryid = '. $key .' ORDER by pid DESC limit 0,1');
-            if (isset($first_image)) {
-                $galleries[$key]->previewpic  = $first_image->pid;
-                $galleries[$key]->previewname = $first_image->filename;
-                $galleries[$key]->previewurl  = site_url() . '/' . $galleries[$key]->path . '/thumbs/thumbs_' . $first_image->filename;
-            }
-        }
-
-        // choose between variable and page link
-        if ($ngg_options['galNoPages']) {
-            $args['album'] = ( $ngg_options['usePermalinks'] ) ? $album->slug : $album->id;
-            $args['gallery'] = ( $ngg_options['usePermalinks'] ) ? $galleries[$key]->slug : $key;
-            $args['nggpage'] = false;
-            $galleries[$key]->pagelink = $nggRewrite->get_permalink($args);
-
-        } else {
-            $galleries[$key]->pagelink = get_permalink( $galleries[$key]->pageid );
-        }
-
-        // description can contain HTML tags
-        $galleries[$key]->galdesc = html_entity_decode ( nggGallery::i18n( stripslashes($galleries[$key]->galdesc), 'gal_' . $galleries[$key]->gid . '_description') ) ;
-
-        // i18n
-        $galleries[$key]->title = html_entity_decode ( nggGallery::i18n( stripslashes($galleries[$key]->title), 'gal_' . $galleries[$key]->gid . '_title') ) ;
+			// i18n
+			$galleries[$key]->title = html_entity_decode ( nggGallery::i18n( stripslashes($galleries[$key]->title), 'gal_' . $galleries[$key]->gid . '_title') ) ;
+		}
 
         // apply a filter on gallery object before the output
         $galleries[$key] = apply_filters('ngg_album_galleryobject', $galleries[$key]);

@@ -258,7 +258,9 @@ jQuery(document).ready( function() {
 					<th align="left">
 					<select <?php nggGallery::current_user_can_form( 'NextGEN Edit gallery page id' ); ?>  name="pageid" style="width:95%">
 						<option value="0" ><?php _e('Not linked', 'nggallery') ?></option>
-						<?php parent_dropdown($gallery->pageid); ?>
+						<?php $err = error_reporting(0); ?>
+						<?php parent_dropdown(intval($gallery->pageid)); ?>
+						<?php error_reporting($err); ?>
 					</select>
 					</th>
 				</tr>
@@ -311,7 +313,9 @@ jQuery(document).ready( function() {
 					<th align="left">
 					<select name="parent_id" style="width:95%">
 						<option value="0"><?php _e ('Main page (No parent)', 'nggallery'); ?></option>
+						<?php if (get_post()): ?>
 						<?php parent_dropdown (); ?>
+						<?php endif ?>
 					</select>
 					<input class="button-secondary action" type="submit" name="addnewpage" value="<?php _e ('Add page', 'nggallery'); ?>" id="group"/>
 					</th>
