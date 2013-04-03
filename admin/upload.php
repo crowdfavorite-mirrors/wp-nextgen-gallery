@@ -23,7 +23,7 @@ if (wp_validate_auth_cookie()) {
 	$logged_in = FALSE;
 	if (isset($results['username']) && isset($results['expiration'])) {
 		if (time() < floatval($results['expiration'])) {
-			if (($userdata = get_userdatabylogin($results['username'])))
+			if (($userdata = get_user_by('login', $results['username'])))
 				$logged_in = $userdata->ID;
 		}
 	}

@@ -226,17 +226,19 @@ class nggdb {
         $exclude_clause = ($exclude) ? ' AND tt.exclude<>1 ' : '';
 
         // Say no to any other value
-        $order_dir = ( $order_dir == 'DESC') ? 'DESC' : 'ASC';
-        $order_by  = ( empty($order_by) ) ? 'sortorder' : $order_by;
+        $order_dir		= ( $order_dir == 'DESC') ? 'DESC' : 'ASC';
+        $order_by		= ( empty($order_by) ) ? 'sortorder' : $order_by;
+		$order_clause	= "ABS(tt.{$order_by}) {$order_dir}, tt.{$order_by} {$order_dir}";
+//		$order_clause	= "LENGTH(tt.{$order_by}) {$order_dir}, tt.{$order_by} {$order_dir}";
 
         // Should we limit this query ?
         $limit_by  = ( $limit > 0 ) ? 'LIMIT ' . intval($start) . ',' . intval($limit) : '';
 
         // Query database
         if( is_numeric($id) )
-            $result = $wpdb->get_results( $wpdb->prepare( "SELECT SQL_CALC_FOUND_ROWS tt.*, t.* FROM $wpdb->nggallery AS t INNER JOIN $wpdb->nggpictures AS tt ON t.gid = tt.galleryid WHERE t.gid = %d {$exclude_clause} ORDER BY ABS(tt.{$order_by}) {$order_dir} {$limit_by}", $id ), OBJECT_K );
+            $result = $wpdb->get_results( $wpdb->prepare( "SELECT SQL_CALC_FOUND_ROWS tt.*, t.* FROM $wpdb->nggallery AS t INNER JOIN $wpdb->nggpictures AS tt ON t.gid = tt.galleryid WHERE t.gid = %d {$exclude_clause} ORDER BY {$order_clause} {$limit_by}", $id ), OBJECT_K );
         else
-            $result = $wpdb->get_results( $wpdb->prepare( "SELECT SQL_CALC_FOUND_ROWS tt.*, t.* FROM $wpdb->nggallery AS t INNER JOIN $wpdb->nggpictures AS tt ON t.gid = tt.galleryid WHERE t.slug = %s {$exclude_clause} ORDER BY ABS(tt.{$order_by}) {$order_dir} {$limit_by}", $id ), OBJECT_K );
+            $result = $wpdb->get_results( $wpdb->prepare( "SELECT SQL_CALC_FOUND_ROWS tt.*, t.* FROM $wpdb->nggallery AS t INNER JOIN $wpdb->nggpictures AS tt ON t.gid = tt.galleryid WHERE t.slug = %s {$exclude_clause} ORDER BY {$order_clause} {$limit_by}", $id ), OBJECT_K );
 
         // Count the number of images and calculate the pagination
         if ($limit > 0) {
