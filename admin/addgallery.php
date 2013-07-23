@@ -186,6 +186,9 @@ class nggAddGallery {
             preinit : {
     			Init: function(up, info) {
     				debug('[Init]', 'Info :', info,  'Features :', up.features);
+                    if (navigator.appVersion.indexOf("MSIE 10") > -1) {
+                        up.features.triggerDialog = true;
+                    }
                     initUploader();
     			}
             },

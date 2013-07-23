@@ -18,21 +18,22 @@ if ( empty($_COOKIE[LOGGED_IN_COOKIE]) && !empty($_REQUEST['logged_in_cookie']) 
 
 header('Content-Type: text/plain; charset=' . get_option('blog_charset'));
 
+$logged_in = FALSE;
+
 if (wp_validate_auth_cookie()) {
 	$results = wp_parse_auth_cookie();
-	$logged_in = FALSE;
 	if (isset($results['username']) && isset($results['expiration'])) {
 		if (time() < floatval($results['expiration'])) {
 			if (($userdata = get_user_by('login', $results['username'])))
 				$logged_in = $userdata->ID;
 		}
 	}
-
-	if (!$logged_in) die("Login failure. -1");
-	else if (!user_can($logged_in, 'NextGEN Upload images')) {
-		die('You do not have permission to upload files. -2');
-	}
 }
+
+if (!$logged_in)
+    die("Login failure. -1");
+else if (!user_can($logged_in, 'NextGEN Upload images'))
+    die('You do not have permission to upload files. -2');
 
 //check for nggallery
 if ( !defined('NGGALLERY_ABSPATH') )

@@ -202,6 +202,12 @@ For more information, feel free to visit the official website for the NextGEN Ga
 
 == Changelog ==
 
+= V1.9.13 - 06.11.2013 =
+* NEW:     Slideshows are now centered to their content area
+* Secured: Ensure that only logged in users can upload images
+* Fixed:   Import date is presered are no longer Jan 1 1970
+* Fixed:   Removed mention of upgrade.php, which no longer exists
+
 = V1.9.12 - 02.15.2013 =
 * Fixed:   jQuery Conflict Detection was trying to dequeue irremovable scripts
 

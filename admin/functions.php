@@ -1040,7 +1040,7 @@ class nggAdmin{
 	 * @param integer $galleryID
 	 * @return string $result
 	 */
-	function swfupload_image($galleryID = 0) {
+	static function swfupload_image($galleryID = 0) {
 
 		global $nggdb;
 		

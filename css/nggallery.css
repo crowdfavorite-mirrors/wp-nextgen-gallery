@@ -266,6 +266,8 @@ html>body .ngg-album {
 .ngg-slideshow {
     overflow:hidden;
     position: relative;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .ngg-slideshow * {
