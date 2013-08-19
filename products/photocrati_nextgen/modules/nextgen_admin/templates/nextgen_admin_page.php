@@ -1,4 +1,4 @@
-<div class="wrap" id='ngg_page_content' style='position: relative; visibility: hidden;'>
+<div class="wrap" id='ngg_page_content' style='position: relative;'>
 	<h2><?php echo_h($page_heading)?></h2>
 	<?php if ($errors): ?>
 	<?php foreach ($errors as $msg): ?>
