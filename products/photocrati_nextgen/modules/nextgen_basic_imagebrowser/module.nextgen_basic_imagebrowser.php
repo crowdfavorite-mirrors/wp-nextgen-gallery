@@ -19,7 +19,7 @@ class M_NextGen_Basic_ImageBrowser extends C_Base_Module
 			'photocrati-nextgen_basic_imagebrowser',
 			'NextGEN Basic ImageBrowser',
 			'Provides the NextGEN Basic ImageBrowser Display Type',
-			'0.1',
+            NEXTGEN_GALLERY_PLUGIN_VERSION,
 			'http://www.nextgen-gallery.com',
 			'Photocrati Media',
 			'http://www.photocrati.com'

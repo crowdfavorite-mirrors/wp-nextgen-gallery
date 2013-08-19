@@ -83,6 +83,11 @@ class Mixin_Attach_To_Post_Display_Tab extends Mixin
 	 */
 	function _get_display_tabs()
 	{
+		// The ATP requires more memmory than some applications, somewhere around 60MB.
+		// Because it's such an important feature of NextGEN Gallery, we temporarily disable
+		// any memory limits
+		@ini_set('memory_limit', -1);
+
 		return array(
 			$this->object->_render_display_types_tab(),
 			$this->object->_render_display_source_tab(),

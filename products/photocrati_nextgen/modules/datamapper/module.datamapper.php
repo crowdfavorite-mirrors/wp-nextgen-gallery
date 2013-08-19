@@ -14,7 +14,7 @@ class M_DataMapper extends C_Base_Module
 			'photocrati-datamapper',
 			'DataMapper',
 			'Provides a database abstraction layer following the DataMapper pattern',
-			'0.1',
+			'0.2',
 			'http://www.photocrati.com',
 			'Photocrati Media',
 			'http://www.photocrati.com'

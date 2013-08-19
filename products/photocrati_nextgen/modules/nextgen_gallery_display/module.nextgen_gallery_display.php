@@ -19,7 +19,7 @@ class M_Gallery_Display extends C_Base_Module
 			'photocrati-nextgen_gallery_display',
 			'Gallery Display',
 			'Provides the ability to display gallery of images',
-			'0.1',
+			'0.2',
 			'http://www.photocrati.com',
 			'Photocrati Media',
 			'http://www.photocrati.com'
@@ -100,6 +100,20 @@ class M_Gallery_Display extends C_Base_Module
 		add_shortcode('ngg_images', array(&$this, 'display_images'));
         add_action('init', array(&$this, '_register_resources'));
         add_action('admin_bar_menu', array(&$this, 'add_admin_bar_menu'), 100);
+		add_filter('the_content', array(&$this, 'disable_pp_formatter'), 1);
+	}
+
+	/**
+	 *
+	 */
+	function disable_pp_formatter($content)
+	{
+		// Reposition the filter
+		remove_filter('the_content', 'pp_formatter', 99);
+        if (function_exists('pp_formatter'))
+		    add_filter('the_content', 'pp_formatter');
+
+		return $content;
 	}
 
     /**

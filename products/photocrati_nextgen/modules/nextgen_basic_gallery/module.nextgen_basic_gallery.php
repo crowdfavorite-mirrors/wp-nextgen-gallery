@@ -25,7 +25,7 @@ class M_NextGen_Basic_Gallery extends C_Base_Module
             'photocrati-nextgen_basic_gallery',
             'NextGEN Basic Gallery',
             "Provides NextGEN Gallery's basic thumbnail/slideshow integrated gallery",
-            '0.2',
+            NEXTGEN_GALLERY_PLUGIN_VERSION,
             'http://www.nextgen-gallery.com',
             'Photocrati Media',
             'http://www.photocrati.com'
@@ -201,7 +201,7 @@ class M_NextGen_Basic_Gallery extends C_Base_Module
 		        $params['source']             = $this->_get_param('source', 'recent', $params);
         $params['images_per_page']    = $this->_get_param('max', NULL, $params);
         $params['disable_pagination'] = $this->_get_param('disable_pagination', TRUE, $params);
-        $params['display_type']       = $this->_get_param('display_type', 'photocrati-nextgen_basic_thumbnails', $params);
+        $params['display_type']       = $this->_get_param('display_type', NEXTGEN_GALLERY_BASIC_THUMBNAILS, $params);
 
         if (isset($params['id']))
         {
@@ -219,7 +219,7 @@ class M_NextGen_Basic_Gallery extends C_Base_Module
 	{
 		$params['entity_ids']   = $this->_get_param('id', NULL, $params);
         $params['source']       = $this->_get_param('source', 'galleries', $params);
-        $params['display_type'] = $this->_get_param('display_type', 'photocrati-nextgen_basic_thumbnails', $params);
+        $params['display_type'] = $this->_get_param('display_type', NEXTGEN_GALLERY_BASIC_THUMBNAILS, $params);
         unset($params['id']);
 
         $renderer = $this->get_registry()->get_utility('I_Displayed_Gallery_Renderer');
@@ -229,7 +229,7 @@ class M_NextGen_Basic_Gallery extends C_Base_Module
 	function render_slideshow($params, $inner_content=NULL)
 	{
 		$params['gallery_ids']    = $this->_get_param('id', NULL, $params);
-        $params['display_type']   = $this->_get_param('display_type', 'photocrati-nextgen_basic_slideshow', $params);
+        $params['display_type']   = $this->_get_param('display_type', NEXTGEN_GALLERY_BASIC_SLIDESHOW, $params);
         $params['gallery_width']  = $this->_get_param('w', NULL, $params);
         $params['gallery_height'] = $this->_get_param('h', NULL, $params);
         unset($params['id'], $params['w'], $params['h']);

@@ -97,12 +97,12 @@ class A_NextGen_Basic_Album_Controller extends Mixin
 
                 // Render legacy template
                 $this->object->add_mixin('Mixin_NextGen_Basic_Templates');
-                $display_settings = $this->prepare_legacy_album_params($display_settings);
+                $display_settings = $this->prepare_legacy_album_params($displayed_gallery->get_entity(), $display_settings);
                 return $this->object->legacy_render($display_settings['template'], $display_settings, $return, 'album');
             }
             else {
                 $params = $display_settings;
-                $albums = $this->prepare_legacy_album_params(array('entities' => $entities));;
+                $albums = $this->prepare_legacy_album_params($displayed_gallery->get_entity(), array('entities' => $entities));;
                 $params['galleries'] = $albums['galleries'];
                 $params['displayed_gallery'] = $displayed_gallery;
                 $params = $this->object->prepare_display_parameters($displayed_gallery, $params);
@@ -144,7 +144,7 @@ class A_NextGen_Basic_Album_Controller extends Mixin
 	}
 
 
-    function prepare_legacy_album_params($params)
+    function prepare_legacy_album_params($displayed_gallery, $params)
     {
         $image_mapper = $this->object->get_registry()->get_utility('I_Image_Mapper');
         $storage      = $this->object->get_registry()->get_utility('I_Gallery_Storage');
@@ -198,6 +198,11 @@ class A_NextGen_Basic_Album_Controller extends Mixin
                             'album',
                             $parent_album->slug
                         );
+                    }
+                    // Legacy compat: use an album slug of 'all' if we're missing a container_id
+                    else if($displayed_gallery->container_ids === array('0')
+                        || $displayed_gallery->container_ids === array('')) {
+                        $pagelink = $this->object->set_param_for($pagelink, 'album', 'all');
                     }
                     $gallery->pagelink = $this->object->set_param_for(
                         $pagelink,
