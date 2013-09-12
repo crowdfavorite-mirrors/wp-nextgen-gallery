@@ -76,7 +76,7 @@ class Mixin_Displayed_Gallery_Validation extends Mixin
 
 			// If no maximum_entity_count has been given, then set a maximum
 			if (!isset($this->object->maximum_entity_count)) {
-				$this->object->maximum_entity_count = C_Photocrati_Global_Settings_Manager::get('maximum_entity_count', 500);
+				$this->object->maximum_entity_count = C_Photocrati_Settings_Manager::get('maximum_entity_count', 500);
 			}
 
 		}

@@ -806,7 +806,7 @@ class C_Routing_App extends C_Component
     
     function get_routing_settings()
     {
-        $settings	= C_NextGen_Global_Settings::get_instance();
+        $settings	= C_NextGen_Settings::get_instance();
         $object = new stdClass();
         $object->router_param_separator = $settings->router_param_separator;
         $object->router_param_slug = $settings->router_param_slug;

@@ -114,9 +114,12 @@ class A_NextGen_Basic_Thumbnails_Controller extends Mixin_NextGen_Basic_Gallery_
             
             // Generate a slideshow link
             $slideshow_link = '';
-            if ($display_settings['show_slideshow_link']) {
+            if ($display_settings['show_slideshow_link'])
+            {
+                // origin_url is necessary for ajax operations. slideshow_link_origin will NOT always exist.
+                $origin_url = (empty($display_settings['slideshow_link_origin']) ? FALSE : $display_settings['slideshow_link_origin']);
                 $slideshow_link = $this->object->get_url_for_alternate_display_type(
-                    $displayed_gallery, NEXTGEN_GALLERY_BASIC_SLIDESHOW
+                    $displayed_gallery, NEXTGEN_GALLERY_BASIC_SLIDESHOW, $origin_url
                 );
             }
 

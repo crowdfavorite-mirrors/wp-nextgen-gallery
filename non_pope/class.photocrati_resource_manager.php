@@ -74,8 +74,12 @@ class C_Photocrati_Resource_Manager
 
 		$this->wrote_footer = TRUE;
 	}
-	
-	
+
+	/**
+	 * Output the buffer after PHP execution has ended (but before shutdown)
+	 * @param $content
+	 * @return string
+	 */
 	function output_buffer_handler($content)
 	{
 		return $this->output_buffer();
@@ -124,7 +128,7 @@ class C_Photocrati_Resource_Manager
 
 			// If W3TC is installed and activated, we can't output the
 			// scripts and manipulate the buffer, so we can only provide a warning
-			if (defined('W3TC')) {
+			if (defined('W3TC') && defined('WP_DEBUG') && WP_DEBUG) {
 				define('DONOTCACHEPAGE', TRUE);
 				if (!did_action('wp_footer')) {
 					error_log("We're sorry, but your theme's page template didn't make a call to wp_footer(), which is required by NextGEN Gallery. Please add this call to your page templates.");

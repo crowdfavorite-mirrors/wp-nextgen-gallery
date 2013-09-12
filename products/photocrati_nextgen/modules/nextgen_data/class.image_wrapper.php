@@ -82,10 +82,9 @@ class C_Image_Wrapper
 
         // cache the results
         ksort($image);
-        $this->_cache = $image;
         $id_field = (!empty($image['id_field']) ? $image['id_field'] : 'pid');
+        $this->_cache = (array) apply_filters('ngg_image_object', (object) $image, $image[$id_field]);
         $this->_orig_image_id = $image[$id_field];
-
         $this->_legacy = $legacy;
     }
 

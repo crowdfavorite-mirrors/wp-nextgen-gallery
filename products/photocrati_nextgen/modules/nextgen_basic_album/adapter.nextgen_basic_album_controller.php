@@ -253,7 +253,7 @@ class A_NextGen_Basic_Album_Controller extends Mixin
 
 	function prettify_pagelink($pagelink)
 	{
-		$param_separator = C_NextGen_Global_Settings::get_instance()->get('router_param_separator');
+		$param_separator = C_NextGen_Settings::get_instance()->get('router_param_separator');
 		$regex = implode('', array(
 			'#',
 			'/(gallery|album)',

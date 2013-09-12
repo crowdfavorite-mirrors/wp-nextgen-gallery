@@ -493,8 +493,8 @@ function ngg_overview_right_now() {
 	<table>
 		<tbody>
 			<tr class="first">
-				<td class="first b"><a href="admin.php?page=nggallery-add-gallery"><?php echo $images; ?></a></td>
-				<td class="t"><a href="admin.php?page=nggallery-add-gallery"><?php echo _n( 'Image', 'Images', $images, 'nggallery' ); ?></a></td>
+				<td class="first b"><a href="admin.php?page=ngg_addgallery"><?php echo $images; ?></a></td>
+				<td class="t"><a href="admin.php?page=ngg_addgallery"><?php echo _n( 'Image', 'Images', $images, 'nggallery' ); ?></a></td>
 				<td class="b"></td>
 				<td class="last"></td>
 			</tr>

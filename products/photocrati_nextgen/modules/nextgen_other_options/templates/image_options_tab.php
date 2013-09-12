@@ -129,10 +129,10 @@
 			</label>
 			<input
 				id="backup_images_yes"
-				name="image_options[backup_images]"
+				name="image_options[imgBackup]"
 				value="1"
 				type="radio"
-				<?php checked(1, $backup_images)?>
+				<?php checked(1, $backup_images ? 1 : 0)?>
 			/>
 			&nbsp;
 			<label for="backup_images_no">
@@ -140,10 +140,10 @@
 			</label>
 			<input
 				id="backup_images_no"
-				name="image_options[backup_images]"
+				name="image_options[imgBackup]"
 				value="0"
 				type="radio"
-				<?php checked(0, $backup_images)?>
+				<?php checked(0, $backup_images ? 1 : 0)?>
 			/>
 		</td>
 	</tr>

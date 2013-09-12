@@ -1,6 +1,22 @@
 NextGEN Gallery
 by Photocrati Media
 
+= V2.0.21 - 09.09.2013 =
+* NEW:	   Multisite support
+* Changed: Default image quality set to 100 for generated images
+* Changed: Removed dependence on simplehtmldom library
+* Fixed:   Related images functionality works as it did in 1.9.x
+* Fixed:   Don't compress inline JavaScript in post/page content
+* Fixed:   Click-to-advance slideshow behavior for slideshows
+* Fixed:   Security warnings from VaultPress
+* Fixed:   View as Slideshow link works with AJAX pagination
+* Fixed:   Broken links on Overview page
+* Fixed:   Backup images option
+* Fixed:   Stylesheet url generated correctly for Windows hosts
+* Fixed:   Compatibility with NextGen Custom Fields plugin
+* Fixed:   Compatibility with Adsense Explosion plugin
+* Fixed:   Suppress wp_footer notices unless WP_DEBUG is set to TRUE
+
 = V2.0.17 - 08.30.2013 =
 Fixed:     Match legacy behaviour when changing gallery path, i.e. don't move files
 
