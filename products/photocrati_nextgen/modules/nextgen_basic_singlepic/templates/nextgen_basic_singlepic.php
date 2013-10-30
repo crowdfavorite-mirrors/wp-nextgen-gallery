@@ -65,6 +65,7 @@
     	<a href="<?php echo esc_attr($settings['link']); ?>"
 		     title="<?php echo esc_attr($image->description)?>"
 		     data-image-id='<?php echo esc_attr($image->pid); ?>'
+             target='<?php echo esc_attr($target); ?>'
        <?php echo $effect_code ?>>
         	<img class="ngg-singlepic"
              src="<?php echo $thumbnail_url; ?>"

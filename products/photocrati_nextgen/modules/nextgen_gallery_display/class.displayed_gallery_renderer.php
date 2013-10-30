@@ -202,7 +202,12 @@ class Mixin_Displayed_Gallery_Renderer extends Mixin
                 // Display!
                 return $this->object->render($displayed_gallery, TRUE, $mode);
             }
-            else $retval =  "Invalid Displayed Gallery".var_dump($displayed_gallery->get_errors());
+            else {
+                if (C_NextGEN_Bootstrap::$debug)
+                    $retval = "Invalid Displayed Gallery" . var_dump($displayed_gallery->get_errors());
+                else
+                    $retval = "Gallery not found. Please <strong>check your settings</strong>.";
+            }
         }
         else {
             $retval = "Invalid Displayed Gallery";
@@ -217,13 +222,20 @@ class Mixin_Displayed_Gallery_Renderer extends Mixin
      */
     function render($displayed_gallery, $return=FALSE, $mode = null)
     {
+        // Simply throwing our rendered gallery into a feed will most likely not work correctly.
+        // The MediaRSS option in NextGEN is available as an alternative.
+        if(is_feed())
+            return '';
+
     		if ($mode == null)
     		{
     			$mode = 'normal';
     		}
-    		
-        // Save the displayed gallery as a transient
-        $displayed_gallery->transient_id = $displayed_gallery->to_transient();
+
+        // Save the displayed gallery as a transient if it hasn't already. Allows for ajax operations
+        // to add or modify the gallery without losing a retrievable ID
+        if (empty($displayed_gallery->transient_id))
+            $displayed_gallery->transient_id = $displayed_gallery->to_transient();
 
         // Get the display type controller
         $controller = $this->get_registry()->get_utility(

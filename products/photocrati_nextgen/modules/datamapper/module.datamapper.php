@@ -14,7 +14,7 @@ class M_DataMapper extends C_Base_Module
 			'photocrati-datamapper',
 			'DataMapper',
 			'Provides a database abstraction layer following the DataMapper pattern',
-			'0.2',
+			'0.3',
 			'http://www.photocrati.com',
 			'Photocrati Media',
 			'http://www.photocrati.com'
@@ -48,14 +48,16 @@ class M_DataMapper extends C_Base_Module
 	 */
 	function set_custom_wp_query($sql, &$wp_query)
 	{
-		// Set the custom query
-		if (($custom_sql = $wp_query->get('custom_sql'))) {
-			$sql = $custom_sql;
-		}
+		if ($wp_query->get('datamapper')) {
+			// Set the custom query
+			if (($custom_sql = $wp_query->get('custom_sql'))) {
+				$sql = $custom_sql;
+			}
 
-		// Perhaps we're to initiate a delete query instead?
-		elseif ($wp_query->get('is_delete')) {
-			$sql = preg_replace("/^SELECT.*FROM/i", "DELETE FROM", $sql);
+			// Perhaps we're to initiate a delete query instead?
+			elseif ($wp_query->get('is_delete')) {
+				$sql = preg_replace("/^SELECT.*FROM/i", "DELETE FROM", $sql);
+			}
 		}
 		
 		return $sql;
@@ -69,8 +71,13 @@ class M_DataMapper extends C_Base_Module
 	 */
 	function set_custom_wp_query_fields($fields, &$wp_query)
 	{
-		$custom_fields = $wp_query->get('fields');
-		return $custom_fields ? $custom_fields : $fields;
+		if ($wp_query->get('datmapper')) {
+			if (($custom_fields = $wp_query->get('fields'))) {
+				$fields = $custom_fields;
+			}
+		}
+
+		return $fields;
 	}
 
 
@@ -82,8 +89,11 @@ class M_DataMapper extends C_Base_Module
 	 */
 	function set_custom_wp_query_where($where, &$wp_query)
 	{
-		$this->add_post_title_where_clauses($where, $wp_query);
-		$this->add_post_name_where_clauses($where, $wp_query);
+		if ($wp_query->get('datamapper')) {
+			$this->add_post_title_where_clauses($where, $wp_query);
+			$this->add_post_name_where_clauses($where, $wp_query);
+		}
+
 		return $where;
 	}
 
@@ -184,7 +194,7 @@ class M_DataMapper extends C_Base_Module
         return array(
             'A_Datamapper_Factory' 		=> 'adapter.datamapper_factory.php',
             'C_Datamapper_Installer'	=> 'class.datamapper_installer.php',
-            'C_Datamapper' 				=> 'class.datamapper.php',
+            'C_Datamapper' 					=> 'class.datamapper.php',
             'C_Custompost_Datamapper_Driver' => 'class.custompost_datamapper_driver.php',
             'C_Customtable_Datamapper_Driver' => 'class.customtable_datamapper_driver.php',
             'C_Datamapper_Driver_Base'	=> 'class.datamapper_driver_base.php',

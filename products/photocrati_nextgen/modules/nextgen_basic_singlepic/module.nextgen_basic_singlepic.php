@@ -17,7 +17,7 @@ class M_NextGen_Basic_Singlepic extends C_Base_Module
             NEXTGEN_BASIC_SINGLEPIC_MODULE_NAME,
             'NextGen Basic Singlepic',
             'Provides a singlepic gallery for NextGEN Gallery',
-            '0.3',
+            '0.4',
             'http://www.photocrati.com',
             'Photocrati Media',
             'http://www.photocrati.com'

@@ -50,11 +50,11 @@ class Mixin_Routing_App extends Mixin
 		);
 
 		// We treat wildcards much differently then normal rewrites
-		if (preg_match("/\{[\.\\\*]/", $src)) {
+		if (preg_match("/\\{[\\.\\\\*]/", $src)) {
 			$pattern  = str_replace('{*}',	'(.*?)',  $src);
 			$pattern  = str_replace('{.*}', '(.*?)',	 $pattern);
-			$pattern  = str_replace('{\w}', '([\w-_]*)', $pattern);
-			$pattern  = str_replace('{\d}', '(\d*)', $pattern);
+			$pattern  = str_replace('{\\w}', '([\\w-_]*)', $pattern);
+			$pattern  = str_replace('{\\d}', '(\\d*)', $pattern);
 			$src = '#'.(strpos($src, '/') === 0 ? '^':'').$pattern.'/?$#';
 			$definition['wildcards'] = TRUE;
 		}
@@ -445,7 +445,7 @@ class Mixin_Routing_App extends Mixin
         $route_regex = '#' . $route_regex . '/?$#i';
 
         // convert placeholders to regex as well
-        return preg_replace('/~([^~]+)~/i', ($param_slug ? '('.preg_quote($param_slug,'#').'\K)?' : '').'(?<\1>[^/]+)/?', $route_regex);
+        return preg_replace('/~([^~]+)~/i', ($param_slug ? '('.preg_quote($param_slug,'#').'\K)?' : '').'(?P<\1>[^/]+)/?', $route_regex);
     }
 
 	/**
@@ -519,8 +519,7 @@ class Mixin_Routing_App extends Mixin
 			if (!isset($parts['path'])) $parts['path'] = '';
 			$parts['path'] = $this->object->join_paths(
 				$parts['path'],
-				$param_slug && strpos($retval, $param_slug) === FALSE ?
-					$param_slug : '',
+                $param_slug && strpos($parts['path'], $param_slug) === FALSE ? $param_slug : '',
 				$this->object->create_parameter_segment($key, $value, $id, $use_prefix)
 			);
 			$retval = $this->object->construct_url_from_parts($parts);

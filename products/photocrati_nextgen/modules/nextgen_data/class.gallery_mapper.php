@@ -57,6 +57,24 @@ class Mixin_Gallery_Mapper extends Mixin
 		return $entity->title;
 	}
 
+	/**
+	 * Override the save method to avoid trying to save the 'new_sortorder' property
+	 * to the database, which will fail since the column doesn't exist in the
+	 * database.
+	 * TODO: This is just a workaround and should be removed when we implement
+	 * https://www.wrike.com/open.htm?id=8250095
+	 * @param stdClass|C_DataMapper_Model $entity
+	 * @return boolean
+	 */
+	function _convert_to_table_data($entity)
+	{
+		$new_sortorder 	= property_exists($entity, 'new_sortorder') ? $entity->new_sortorder : NULL;
+		unset($entity->new_sortorder);
+		$retval = $this->call_parent('_convert_to_table_data', $entity);
+		if ($new_sortorder) $entity->new_sortorder = $new_sortorder;
+		return $retval;
+	}
+
 
     function _save_entity($entity)
     {

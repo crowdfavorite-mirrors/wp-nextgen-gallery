@@ -84,10 +84,13 @@ class Mixin_Album_Mapper extends Mixin
 	 */
 	function _convert_to_table_data($entity)
 	{
-		$exclude = $entity->exclude;
+		$exclude 		= $entity->exclude;
+		$new_sortorder 	= property_exists($entity, 'new_sortorder') ? $entity->new_sortorder : NULL;
 		unset($entity->exclude);
+		unset($entity->new_sortorder);
 		$retval = $this->call_parent('_convert_to_table_data', $entity);
 		$entity->exclude = $exclude;
+		if ($new_sortorder) $entity->new_sortorder = $new_sortorder;
 		return $retval;
 	}
 

@@ -75,7 +75,7 @@ class A_NextGen_AddGallery_Ajax extends Mixin
 		    }
 
         if ($error) header('HTTP/1.1 400 Bad Request');
-        else $retval['gallery_name'] = $gallery_name;
+        else $retval['gallery_name'] = esc_html($gallery_name);
 
         return $retval;
     }
@@ -135,7 +135,8 @@ class A_NextGen_AddGallery_Ajax extends Mixin
 		          $storage = $this->get_registry()->get_utility('I_Gallery_Storage');
 		          $fs      = $this->get_registry()->get_utility('I_Fs');
 		          try {
-		              $retval = $storage->import_gallery_from_fs($fs->join_paths($fs->get_document_root(), 'wp-content', $folder));
+		          		$keep_files = $this->param('keep_location') == 'on';
+		              $retval = $storage->import_gallery_from_fs($fs->join_paths($fs->get_document_root(), 'wp-content', $folder), false, !$keep_files);
 		              if (!$retval) $retval = array('error' => "Could not import folder. No images found.");
 		          }
 		          catch (Exception $ex) {

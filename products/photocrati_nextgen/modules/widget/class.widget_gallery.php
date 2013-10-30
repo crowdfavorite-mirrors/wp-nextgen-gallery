@@ -45,6 +45,32 @@ class C_Widget_Gallery extends WP_Widget
     function update($new_instance, $old_instance)
     {
         $instance = $old_instance;
+
+        // do not allow 0 or less
+        if ((int)$new_instance['items'] <= 0)
+            $new_instance['items'] = 4;
+
+        // for clarity: empty the list if we're showing every gallery anyway
+        if ($new_instance['exclude'] == 'all')
+            $new_instance['list'] = '';
+
+        // remove gallery ids that do not exist
+        if (in_array($new_instance['exclude'], array('denied', 'allow')))
+        {
+            // do search
+            $mapper = C_Component_Registry::get_instance()->get_utility('I_Gallery_Mapper');
+            $ids = explode(',', $new_instance['list']);
+            foreach ($ids as $ndx => $id) {
+                if (!$mapper->find($id))
+                    unset($ids[$ndx]);
+            }
+            $new_instance['list'] = implode(',', $ids);
+        }
+
+        // reset to show all galleries IF there are no valid galleries in the list
+        if ($new_instance['exclude'] !== 'all' && empty($new_instance['list']))
+            $new_instance['exclude'] = 'all';
+
         $instance['title'] = strip_tags($new_instance['title']);
         $instance['items'] = (int)$new_instance['items'];
         $instance['type'] = $new_instance['type'];

@@ -63,12 +63,19 @@ class C_Gallery extends C_DataMapper_Model
 	 * @param C_DataMapper $mapper
 	 * @param string $context
 	 */
-	function initialize($properties = FALSE, $mapper=FALSE) {
+	function initialize($properties = FALSE, $mapper=FALSE)
+	{
 
 		// Get the mapper is not specified
 		if (!$mapper) {
 			$mapper = $this->get_registry()->get_utility($this->_mapper_interface);
 		}
 		parent::initialize($mapper, $properties);
+	}
+
+	function get_images()
+	{
+		$mapper = C_Image_Mapper::get_instance();
+		return $mapper->find_all(array('galleryid = %d', $this->gid));
 	}
 }

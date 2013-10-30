@@ -290,16 +290,19 @@ class Mixin_Fs_Instance_Methods extends Mixin
 
             // determine if each piece should be appended to $retval
             foreach ($pieces as $ndx => $val) {
+                if ($val === '') continue;
                 $one = array_search($val, $retval);
                 $two = array_search($val, $pieces);
                 $one = (FALSE === $one ? 0 : count($one) + 1);
                 $two = (FALSE === $two ? 0 : count($two) + 1);
                 if (!empty($protocol)) {
-                    if (@$retval[$ndx] !== $val || $two >= $one)
+					$existing_val = isset($retval[$ndx]) ? $retval[$ndx] : NULL;
+                    if ($existing_val !== $val || $two >= $one)
                         $retval[] = $val;
                 }
                 else {
-                    if (@$retval[$ndx] !== $val && $two >= $one)
+					$existing_val = isset($retval[$ndx]) ? $retval[$ndx] : NULL;
+                    if ($existing_val !== $val && $two >= $one)
                         $retval[] = $val;
                 }
             }

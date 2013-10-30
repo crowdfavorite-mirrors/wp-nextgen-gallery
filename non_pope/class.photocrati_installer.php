@@ -104,9 +104,18 @@ if (!class_exists('C_Photocrati_Installer'))
 				// The cache should be flushed
 				C_Photocrati_Cache::flush();
 
+				// Remove all NGG created cron jobs
+				self::refresh_cron();
+
 				// Delete auto-update cache
 				update_option('photocrati_auto_update_admin_update_list', null);
 				update_option('photocrati_auto_update_admin_check_date', '');
+
+				// Other Pope applications might be loaded, and therefore
+				// all singletons should be destroyed, so that they can be
+				// adapted as necessary. For now, we'll just assume that the factory
+				// is the only singleton that will be used by other Pope applications
+				C_Component_Factory::$_instances = array();
 
 				foreach ($modules as $module_name) {
 					if (($handler = self::get_handler_instance(array_shift(explode('|', $module_name))))) {
@@ -153,6 +162,25 @@ if (!class_exists('C_Photocrati_Installer'))
 				$retval[$module_id] = "{$module_id}|{$module_version}";
 			}
 			return $retval;
+		}
+
+		static function refresh_cron()
+		{
+			@ini_set('memory_limit', -1);
+
+			// Remove all cron jobs created by NextGEN Gallery
+			$cron = _get_cron_array();
+			if (is_array($cron)) {
+				foreach ($cron as $timestamp => $job) {
+					if (is_array($job)) {
+						unset($cron[$timestamp]['ngg_delete_expired_transients']);
+						if (empty($cron[$timestamp])) {
+							unset($cron[$timestamp]);
+						}
+					}
+				}
+			}
+			_set_cron_array($cron);
 		}
 	}
 }

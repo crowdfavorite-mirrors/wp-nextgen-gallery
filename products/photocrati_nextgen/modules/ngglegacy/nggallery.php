@@ -119,6 +119,8 @@ if (!class_exists('nggLoader')) {
                 case 'image':
                     require_once (dirname (__FILE__) . '/nggshow.php');
                     break;
+                default:
+                    return;
             }
 			C_NextGEN_Bootstrap::shutdown();
 		}
@@ -261,10 +263,6 @@ if (!class_exists('nggLoader')) {
 			require_once (dirname (__FILE__) . '/lib/navigation.php');		        // 242.016
 			require_once (dirname (__FILE__) . '/nggfunctions.php');		        // n.a.
 			require_once (dirname (__FILE__) . '/lib/shortcodes.php'); 		        // 92.664
-
-			//Just needed if you access remote to WordPress
-			if ( defined('XMLRPC_REQUEST') )
-				require_once (dirname (__FILE__) . '/lib/xmlrpc.php');
 
 			// We didn't need all stuff during a AJAX operation
 			if ( defined('DOING_AJAX') )

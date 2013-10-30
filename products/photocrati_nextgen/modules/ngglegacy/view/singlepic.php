@@ -18,9 +18,14 @@ Please note : A Image resize or watermarking operation will remove all meta info
 **/
 ?>
 <?php if (!defined ('ABSPATH')) die ('No direct access allowed'); ?><?php if (!empty ($image)) : ?>
-
-<a href="<?php echo $image->imageURL ?>" title="<?php echo $image->linktitle ?>" <?php echo $image->thumbcode ?> >
-	<img class="<?php echo $image->classname ?>" src="<?php echo $image->thumbnailURL ?>" alt="<?php echo $image->alttext ?>" title="<?php echo $image->alttext ?>" />
+<a href="<?php echo $image->imageURL; ?>"
+   title="<?php echo $image->linktitle; ?>"
+   <?php if(!empty($target)) { ?>target="<?php echo esc_attr($target); ?>"<?php } ?>
+   <?php echo $image->thumbcode; ?>>
+	<img class="<?php echo $image->classname; ?>"
+         src="<?php echo $image->thumbnailURL; ?>"
+         alt="<?php echo $image->alttext; ?>"
+         title="<?php echo $image->alttext; ?>"/>
 </a>
 <?php if (!empty ($image->caption)) : ?><span><?php echo $image->caption ?></span><?php endif; ?>
 <?php endif; ?>

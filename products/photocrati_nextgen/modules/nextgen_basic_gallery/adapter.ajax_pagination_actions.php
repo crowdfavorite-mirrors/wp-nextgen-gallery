@@ -13,6 +13,7 @@ class A_Ajax_Pagination_Actions extends Mixin
             $factory           = $this->object->get_registry()->get_utility('I_Component_Factory');
             $displayed_gallery = $factory->create('displayed_gallery', $mapper);
             $displayed_gallery->apply_transient($id);
+            $displayed_gallery->transient_id = $id;
 
             // Prevent future "show slideshow" links from using the AJAX request URI
             if ($displayed_gallery->display_settings['ajax_pagination'])

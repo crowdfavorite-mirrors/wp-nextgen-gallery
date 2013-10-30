@@ -260,7 +260,7 @@ jQuery(function($){
 	 * A collection that can fetch it's entities from the server
 	**/
 	Ngg.Models.Remote_Collection			= Ngg.Models.SelectableItems.extend({
-		fetch_limit: 50,
+		fetch_limit: 5000,
 		in_progress: false,
 		fetch_url:   photocrati_ajax.url,
 		action: 	 '',
@@ -1038,6 +1038,7 @@ jQuery(function($){
 
 			fill_image_sortorder_options: function(){
 				this.sortorder_options.reset();
+				this.sortorder_options.push(this.create_sortorder_option('', 'None'));
 				this.sortorder_options.push(this.create_sortorder_option('sortorder', 'Custom'));
 				this.sortorder_options.push(this.create_sortorder_option(Ngg.DisplayTab.instance.image_key, 'Image ID'));
 				this.sortorder_options.push(this.create_sortorder_option('filename', 'Filename'));
@@ -1047,6 +1048,7 @@ jQuery(function($){
 
 			fill_gallery_sortorder_options: function(){
 				this.sortorder_options.reset();
+				this.sortorder_options.push(this.create_sortorder_option('', 'None'));
 				this.sortorder_options.push(this.create_sortorder_option('sortorder' ,'Custom'));
 				this.sortorder_options.push(this.create_sortorder_option('name', 'Name'));
 				this.sortorder_options.push(this.create_sortorder_option('galdesc', 'Description'));
@@ -1056,7 +1058,19 @@ jQuery(function($){
 				this.sortorder_options.each(function(item){
 					item.set('selected', model.get('value') == item.get('value') ? true : false, {silent: true});
 				});
-				this.displayed_gallery.set('order_by', model.get('value'));
+
+				this.displayed_gallery.set('sortorder', []);
+
+				var sort_by = model.get('value');
+
+				// If "None" was selected, then clear the "sortorder" property
+				if (model.get('value').length == 0) {
+					sort_by = 'sortorder';
+				}
+
+				// Change the "sort by" parameter
+				this.displayed_gallery.set('order_by', sort_by);
+
 				this.entities.reset();
 				this.$el.find('a.sortorder').each(function(){
 					var $item = $(this);
@@ -1068,6 +1082,7 @@ jQuery(function($){
 			},
 
 			sortdirection_changed: function(model){
+
 				this.sortdirection_options.each(function(item){
 					item.set('selected', model.get('value') == item.get('value') ? true : false, {silent: true});
 				});
