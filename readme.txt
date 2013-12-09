@@ -1,8 +1,8 @@
 === NextGEN Gallery ===
 Contributors: photocrati
 Tags:gallery,image,images,photo,photos,picture,pictures,slideshow,flash,media,thumbnails,photo-albums,nextgen-gallery,nextgen
-Requires at least: 3.6
-Tested up to: 3.6
+Requires at least: 3.6.1
+Tested up to: 3.7.1
 Stable tag: trunk
 License: GPLv2
 
@@ -112,7 +112,7 @@ If you do want to work with shortcodes, we've also introduce a new, more powerfu
 
 **<a href="http://www.nextgen-gallery.com/nextgen-gallery-shortcodes">Learn About NextGEN Gallery 2.0 Shortcodes</a>**
 
-Legacy shortcodes? For reference, we're also maintaining documentation on NextGEN Legacy shortcakes used in NextGEN 1.9.x and earlier. <a href="http://www.nextgen-gallery.com/shortcodes">See more on Legacy shortcakes</a>.  
+Legacy shortcodes? For reference, we're also maintaining documentation on NextGEN Legacy shortcodes used in NextGEN 1.9.x and earlier. <a href="http://www.nextgen-gallery.com/shortcodes">See more on Legacy shortcodes</a>.
 
 For more information, feel free to visit the official website for the NextGEN Gallery <a href="http://www.nextgen-gallery.com" target="_blank">WordPress Gallery Plugin</a>.
 
@@ -198,6 +198,39 @@ For more information, feel free to visit the official website for the NextGEN Ga
 
 
 == Changelog ==
+
+= V2.0.40 - 11.26.2013 =
+* NEW:     Added the ability to apply lightbox effects to non-NGG images
+* NEW:     Added NGG_HIDE_STRICT_ERRORS constant. Define and set to TRUE to hide strict errors
+* NEW:     Added NEXTGEN_GALLERY_IMPORT_ROOT constant. Define and set to TRUE to browse from a custom directory
+* NEW:     Added NGG_DEBUG constant. Define and set to TRUE to display helpful messages for debugging
+* NEW:     Each custom table record will have an associated custom post record for expansion
+* NEW:     Display helpful error messages when there's a problem uploading images
+* NEW:     Add data-(src|thumbnail|image-id|title|description) attribute to gallery image anchors
+* NEW:     Variant support for displayed gallery sources. Random images is limited to 5 variations
+* Fixed:   Excessive creation of transients for random galleries
+* Fixed:   Many issues prohibiting the ability to upload images
+* Fixed:   Compatibility with NextGEN Gallery Export Plugin for Adobe Lightroom (thanks Vladimir!)
+* Fixed:   Sorting in the Attach to Post interface
+* Fixed:   HTML allowed in gallery/album descriptions
+* Fixed:   Requests for galleries within albums that have numeric names are broken
+* Fixed:   Call to a non-member function get() on WP_Query
+* Fixed:   Ability to sort by Image ID in the Attach to Post interface
+* Fixed:   Isolate the Attach to Post from implicit third-party script inclusion
+* Fixed:   Check for the existance of thumbnails when generating urls, and if missing, generate new ones
+* Fixed:   Compatibility with NextGEN Facebook OpenGraph+ plugin
+* Fixed:   Various XML-RPC issues
+* Fixed:   Widgets stylesheet not included
+* Fixed:   Issue with color not being pre-selected when previewing Watermark
+* Fixed:   E_NOTICE emitted when cleaning up cached image files
+* Fixed:   E_NOTICE emitted when viewing display type settings
+* Fixed:   Typo adjusting pcre.backtrack_limit for shortcodes
+* Fixed:   Content within the tabs of the Attach to Post interface cut-off
+* Fixed:   Routing problem which would cause conflicts with different display types on the same page
+* Fixed:   Broken Dynamic CSS links on GoDaddy
+* Fixed:   Ability to use HTML in gallery/album descriptions
+* Fixed:   Sub-album requests conflicting with paginated galleries on the same page
+* Merged:  Pull request from andreasE (https://bitbucket.org/photocrati/nextgen-gallery/pull-request/6/)
 
 = V2.0.33 - 10.21.2013 =
 * NEW:     Requests /ngg_tag/[tagname] will create a displayed gallery

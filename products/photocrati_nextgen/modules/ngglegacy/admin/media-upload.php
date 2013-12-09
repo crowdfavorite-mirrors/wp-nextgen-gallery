@@ -41,7 +41,7 @@ function media_upload_nextgen() {
         $args = array(
             'display_type' => NEXTGEN_BASIC_SINGLEPIC_MODULE_NAME
         );
-        $displayed_gallery = $factory->create('displayed_gallery', $mapper, $args);
+        $displayed_gallery = $factory->create('displayed_gallery', $args, $mapper);
         $width  = $displayed_gallery->display_settings['width'];
         $height = $displayed_gallery->display_settings['height'];
 

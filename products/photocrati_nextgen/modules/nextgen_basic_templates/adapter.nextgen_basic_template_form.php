@@ -210,5 +210,9 @@ class A_NextGen_Basic_Template_Form extends Mixin
             $this->module_version,
             TRUE
         );
+		$atp = $this->object->get_registry()->get_utility('I_Attach_To_Post_Controller');
+	
+	if ($atp != null) {
+		$atp->mark_script('ngg_template_settings');	}
 	}
 }

@@ -50,13 +50,12 @@
             $.post(photocrati_ajax.url, post_params, function(response){
                 if (typeof(response) != 'object') response = JSON.parse(response);
                 if (typeof(response.error) == 'string') {
-                    progress_bar.set("Error occurred");
-                    alert(response.error);
+                    progress_bar.set(response.error);
                 }
                 else {
                     progress_bar.set('Done! Successfully imported '+response.image_ids.length+' images.');
                 }
-                progress_bar.close();
+                progress_bar.close(2000);
             });
         })
     });

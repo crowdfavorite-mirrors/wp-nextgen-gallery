@@ -17,7 +17,7 @@ class M_NextGen_Basic_Tagcloud extends C_Base_Module
 			NEXTGEN_BASIC_TAG_CLOUD_MODULE_NAME,
             'NextGen Basic Tagcloud',
             'Provides a tagcloud for NextGEN Gallery',
-            '0.4',
+            '0.5',
             'http://www.photocrati.com',
             'Photocrati Media',
             'http://www.photocrati.com'
@@ -65,18 +65,19 @@ class M_NextGen_Basic_Tagcloud extends C_Base_Module
 			'A_NextGen_Basic_TagCloud_Urls'
 		);
 
-		// Adds a display settings form
-		$this->get_registry()->add_adapter(
-			'I_Form',
-			'A_NextGen_Basic_TagCloud_Form',
-			$this->module_id
-		);
-
-        // Provides the forms for the settings
-        $this->get_registry()->add_adapter(
-            'I_Form_Manager',
-            'A_NextGen_Basic_TagCloud_Forms'
-        );
+        if (is_admin()) {
+            // Adds a display settings form
+            $this->get_registry()->add_adapter(
+                'I_Form',
+                'A_NextGen_Basic_TagCloud_Form',
+                $this->module_id
+            );
+            // Provides the forms for the settings
+            $this->get_registry()->add_adapter(
+                'I_Form_Manager',
+                'A_NextGen_Basic_TagCloud_Forms'
+            );
+        }
     }
 
 	function _register_hooks()
@@ -88,7 +89,8 @@ class M_NextGen_Basic_Tagcloud extends C_Base_Module
             array(
                 $this->get_registry()->get_utility('I_Taxonomy_Controller'),
                 'detect_ngg_tag'),
-            -10
+            -10,
+            2
         );
 	}
 

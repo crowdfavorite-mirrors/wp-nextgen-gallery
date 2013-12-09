@@ -274,8 +274,13 @@ class C_Image_Wrapper
 						$this->_orig_image->meta_data
 					);
 				}
-                $w = $this->_orig_image->meta_data['thumbnail']['width'];
-                $h = $this->_orig_image->meta_data['thumbnail']['height'];
+				if (!isset($this->_orig_image->meta_data['thumbnail'])) {
+					$storage = $this->get_storage();
+					$storage->generate_thumbnail($this->_orig_image);
+				}
+				$w = $this->_orig_image->meta_data['thumbnail']['width'];
+				$h = $this->_orig_image->meta_data['thumbnail']['height'];
+
                 return "width='{$w}' height='{$h}'";
 
             case 'slug':
@@ -422,7 +427,13 @@ class C_Image_Wrapper
 
         $retval = apply_filters('ngg_get_thumbcode', $retval, $this);
 
-        $retval .= ' data-image-id="' . $this->__get('id') . '"';
+        // ensure some additional data- fields are added; provides Pro-Lightbox compatibility
+        $retval .= ' data-image-id="'    . $this->__get('id')           . '"';
+        $retval .= ' data-src="'         . $this->__get('imageURL')     . '"';
+        $retval .= ' data-thumbnail="'   . $this->__get('thumbnailURL') . '"';
+        $retval .= ' data-image-id="'    . $this->__get('pid')          . '"';
+        $retval .= ' data-title="'       . $this->__get('alttext')      . '"';
+        $retval .= ' data-description="' . $this->__get('description')  . '"';
 
         $this->_cache['thumbcode'] = $retval;
         return $retval;

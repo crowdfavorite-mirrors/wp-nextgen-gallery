@@ -808,6 +808,9 @@ jQuery(function($){
 				this.entities.remove(model, {silent: true});
 				this.entities.add(model, {at: model.changed.sortorder, silent: true});
 				this.displayed_gallery.set('sortorder', this.entities.entity_ids());
+				if (typeof(console) != 'undefined' && typeof(console.log) != 'undefined') {
+					console.log(this.entities.entity_ids());
+				}
 				this.displayed_gallery.set('order_by', 'sortorder');
 			}, this);
 
@@ -1014,6 +1017,8 @@ jQuery(function($){
 					}
 				]);
 				this.sortdirection_options.on('change:selected', this.sortdirection_changed, this);
+				this.displayed_gallery.on('change:order_by', this.displayed_gallery_order_changed, this);
+				this.displayed_gallery.on('change.order_direction', this.displayed_gallery_order_dir_changed, this);
 			},
 
 			populate_sorting_fields: function(){
@@ -1052,6 +1057,15 @@ jQuery(function($){
 				this.sortorder_options.push(this.create_sortorder_option('sortorder' ,'Custom'));
 				this.sortorder_options.push(this.create_sortorder_option('name', 'Name'));
 				this.sortorder_options.push(this.create_sortorder_option('galdesc', 'Description'));
+			},
+
+			displayed_gallery_order_changed: function(e){
+				this.sortorder_options.findWhere({value: e.get('order_by')}).set('selected', true);
+			},
+
+
+			displayed_gallery_order_dir_changed: function(e){
+				this.sortdirection_options.findWhere({value: e.get('order_direction')}).set('selected', true);
 			},
 
 			sortoption_changed: function(model){
@@ -1162,10 +1176,15 @@ jQuery(function($){
 					this[key] = value;
 				}, this);
 				this.model.on('change', this.render, this);
+				if (this.model.get('sortorder') == 0) {
+					this.model.set('sortorder', -1, {silent: true});
+				}
 				this.id = this.model.get('id_field')+'_'+this.model.entity_id()
 			},
 
 			item_dropped: function(e, index){
+				Ngg.DisplayTab.instance.displayed_gallery.set('order_by', 'sortorder');
+				//Ngg.DisplayTab.instance.displayed_gallery.set('order_direction', 'ASC');
 				this.model.set('sortorder', index);
 			},
 
@@ -1375,7 +1394,7 @@ jQuery(function($){
 			var request = <?php echo $sec_token?>;
 			request = _.extend(request, {
 				action: 'save_displayed_gallery',
-				displayed_gallery: this.displayed_gallery.toJSON()
+				displayed_gallery: JSON.stringify(this.displayed_gallery.toJSON())
 			});
 
 			var self = this;
@@ -1476,6 +1495,7 @@ jQuery(function($){
 			this.display_type_order_step = <?php echo NEXTGEN_DISPLAY_PRIORITY_STEP; ?>;
 			this.entities = new Ngg.DisplayTab.Models.Entity_Collection();
 			this.entities.extra_data.displayed_gallery = this.displayed_gallery;
+			this.image_key = "<?php echo $image_primary_key ?>";
 
 			// Pre-select current displayed gallery values
 			if (this.displayed_gallery.get('source')) {

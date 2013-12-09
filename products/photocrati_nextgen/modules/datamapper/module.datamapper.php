@@ -14,7 +14,7 @@ class M_DataMapper extends C_Base_Module
 			'photocrati-datamapper',
 			'DataMapper',
 			'Provides a database abstraction layer following the DataMapper pattern',
-			'0.3',
+			'0.4',
 			'http://www.photocrati.com',
 			'Photocrati Media',
 			'http://www.photocrati.com'
@@ -49,6 +49,7 @@ class M_DataMapper extends C_Base_Module
 	function set_custom_wp_query($sql, &$wp_query)
 	{
 		if ($wp_query->get('datamapper')) {
+
 			// Set the custom query
 			if (($custom_sql = $wp_query->get('custom_sql'))) {
 				$sql = $custom_sql;

@@ -9,7 +9,7 @@ class Hook_NextGen_Basic_Imagebrowser_Alt_URLs extends Hook {
      * @param string $size
      * @return null
      */
-    function get_image_url($image, $size='full')
+    function get_image_url($image, $size='full', $check_existance=FALSE)
     {
         // Get the method to be returned
         $retval = $this->object->get_method_property(

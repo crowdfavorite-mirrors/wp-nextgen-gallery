@@ -91,7 +91,7 @@ class Mixin_Legacy_Template_Locator extends Mixin
         }
         elseif (is_string($prefix))
         {
-            $regex_iterator = new RegexIterator($iterator, "#(.*)/{$prefix}\-?.*\.php$#i", RecursiveRegexIterator::GET_MATCH);
+            $regex_iterator = new RegexIterator($iterator, "#(.*)[/\\\]{$prefix}\-?.*\.php$#i", RecursiveRegexIterator::GET_MATCH);
         }
         else {
             $regex_iterator = new RegexIterator($iterator, '/^.+\.php$/i', RecursiveRegexIterator::GET_MATCH);

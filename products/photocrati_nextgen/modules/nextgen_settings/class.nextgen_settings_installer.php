@@ -71,6 +71,7 @@ class C_NextGen_Settings_Installer
 			// Thumbnail Effect
 			'thumbEffect'  => 'fancybox', // select effect
 			'thumbCode'    => 'class="ngg-fancybox" rel="%GALLERY_NAME%"',
+			'thumbEffectContext'  => 'nextgen_images', // select effect
 
 			// Watermark settings
 			'wmPos'    => 'botRight',             // Postion

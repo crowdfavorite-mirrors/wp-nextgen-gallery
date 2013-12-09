@@ -1,6 +1,6 @@
 <?php
 
-class E_UploadException extends RuntimeException
+class E_UploadException extends E_NggErrorException
 {
 	function __construct($message='', $code=NULL, $previous=NULL)
 	{
@@ -9,17 +9,20 @@ class E_UploadException extends RuntimeException
 	}
 }
 
-class E_InsufficientWriteAccessException extends RuntimeException
+class E_InsufficientWriteAccessException extends E_NggErrorException
 {
 	function __construct($message=FALSE, $filename=NULL, $code=NULL, $previous=NULL)
 	{
 		if (!$message) $message = "Could not write to file. Please check filesystem permissions.";
 		if ($filename) $message .= " Filename: {$filename}";
-		parent::__construct($message, $code, $previous);
+		if (PHP_VERSION_ID >= 50300)
+			parent::__construct($message, $code, $previous);
+		else
+			parent::__construct($message, $code);
 	}
 }
 
-class E_NoSpaceAvailableException extends RuntimeException
+class E_NoSpaceAvailableException extends E_NggErrorException
 {
 	function __construct($message='', $code=NULL, $previous=NULL)
 	{
@@ -27,6 +30,16 @@ class E_NoSpaceAvailableException extends RuntimeException
 		parent::__construct($message, $code, $previous);
 	}
 }
+ 
+class E_No_Image_Library_Exception extends E_NggErrorException
+{
+	function __construct($message='', $code=NULL, $previous=NULL)
+	{
+		if (!$message) $message = "The site does not support the GD Image library. Please ask your hosting provider to enable it.";
+		parent::__construct($message, $code, $previous);
+	}
+}
+
 
 class Mixin_GalleryStorage_Driver_Base extends Mixin
 {
@@ -255,9 +268,9 @@ class Mixin_GalleryStorage_Driver_Base extends Mixin
      * @param int|stdClass|C_Image $image
      * @return string
      */
-    function get_full_url($image)
+    function get_full_url($image, $check_existance=FALSE)
     {
-        return $this->object->get_image_url($image, 'full');
+        return $this->object->get_image_url($image, 'full', $check_existance);
     }
 
     /**
@@ -374,9 +387,9 @@ class Mixin_GalleryStorage_Driver_Base extends Mixin
      * An alias for get_full_abspath()
      * @param int|object $image
      */
-    function get_original_abspath($image)
+    function get_original_abspath($image, $check_existance=FALSE)
     {
-        return $this->object->get_image_abspath($image, 'full');
+        return $this->object->get_image_abspath($image, 'full', $check_existance);
     }
 
     /**
@@ -404,9 +417,9 @@ class Mixin_GalleryStorage_Driver_Base extends Mixin
      * @param int|stdClass|C_Image $image
      * @return string
      */
-    function get_original_url($image)
+    function get_original_url($image, $check_existance=FALSE)
     {
-        return $this->object->get_image_url($image, 'full');
+        return $this->object->get_image_url($image, 'full', $check_existance);
     }
 
 	/**
@@ -487,6 +500,19 @@ class Mixin_GalleryStorage_Driver_Base extends Mixin
         return $retval;
     }
 
+	function is_current_user_over_quota()
+	{
+		$retval = FALSE;
+		$settings = C_NextGen_Settings::get_instance();
+
+		if ((is_multisite()) && $settings->get('wpmuQuotaCheck')) {
+			require_once(ABSPATH . 'wp-admin/includes/ms.php');
+			$retval = upload_is_user_over_quota(FALSE);
+		}
+
+		return $retval;
+	}
+
 
 	/**
 	 * Uploads base64 file to a gallery
@@ -504,12 +530,9 @@ class Mixin_GalleryStorage_Driver_Base extends Mixin
 		$retval		= NULL;
 		if (($gallery_id = $this->object->_get_gallery_id($gallery))) {
 
-			// Ensure that there is capacity available
-            require_once(ABSPATH . 'wp-admin/includes/ms.php');
-			if ( (is_multisite()) && nggWPMU::wpmu_enable_function('wpmuQuotaCheck')) {
-				if (upload_is_user_over_quota(FALSE)) {
-					throw new E_NoSpaceAvailableException();
-				}
+			if ($this->object->is_current_user_over_quota()) {
+				$message = sprintf(__('Sorry, you have used your space allocation. Please delete some files to upload more files.', 'nggallery'));
+				throw new E_NoSpaceAvailableException($message);
 			}
 
 			// Get path information. The use of get_upload_abspath() might
@@ -559,7 +582,6 @@ class Mixin_GalleryStorage_Driver_Base extends Mixin
 			if (($image_id = $this->object->_image_mapper->save($image))) {
 				try {
 					// Try writing the image
-					if (!@file_exists($upload_dir)) wp_mkdir_p($upload_dir);
 					$fp = fopen($abs_filename, 'w');
 					fwrite($fp, $data);
 					fclose($fp);
@@ -604,6 +626,12 @@ class Mixin_GalleryStorage_Driver_Base extends Mixin
 						$gallery_id,
 						array($image->$image_key)
 					);
+				}
+				catch(E_No_Image_Library_Exception $ex) {
+						throw $ex;
+				}
+				catch(E_Clean_Exit $ex) {
+					// pass
 				}
 				catch(Exception $ex) {
 					throw new E_InsufficientWriteAccessException(
@@ -1130,6 +1158,7 @@ class Mixin_GalleryStorage_Driver_Base extends Mixin
 		$crop_frame = isset($params['crop_frame']) ? $params['crop_frame'] : NULL;
 		$destpath   = NULL;
 		$thumbnail  = NULL;
+		$quality	= 100;
 
         // Do this before anything else can modify the original -- $detailed_size
         // may hold IPTC metadata we need to write to our clone
@@ -1308,14 +1337,6 @@ class Mixin_GalleryStorage_Driver_Base extends Mixin
 				}
 
 				$thumbnail->save($destpath, $quality);
-
-                // IF the original contained IPTC metadata we should attempt to copy it
-                if (isset($detailed_size['APP13'])) {
-                    $metadata = iptcembed($detailed_size['APP13'], $destpath);
-                    $fp = fopen($destpath, 'wb');
-                    fwrite($fp, $metadata);
-                    fclose($fp);
-                }
 			}
 		}
 

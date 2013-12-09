@@ -362,7 +362,7 @@ class Mixin_Fs_Instance_Methods extends Mixin
 	 */
 	function set_document_root($value)
 	{
-        // Even for windows hosts we force '/' as the path separator
-		return $this->_document_root = untrailingslashit(str_replace('\\', '/', $value));
+		// IMPORTANT: Even for Windows, we construct the path to be C:/Windows instead of C:\Windows
+		return ($this->_document_root = str_replace("\\", '/', rtrim($value, "/\\")));
 	}
 }

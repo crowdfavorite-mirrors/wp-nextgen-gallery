@@ -54,10 +54,16 @@ class C_Taxonomy_Controller extends C_MVC_Controller
      * @param $posts Wordpress post objects
      * @return array Wordpress post objects
      */
-    function detect_ngg_tag($posts)
+    function detect_ngg_tag($posts, $wp_query_local)
     {
         global $wp;
         global $wp_query;
+        $wp_query_orig = false;
+        
+        if ($wp_query_local != null && $wp_query_local != $wp_query) {
+        	$wp_query_orig = $wp_query;
+        	$wp_query = $wp_query_local;
+        }
 
         // This appears to be necessary for multisite installations, but I can't imagine why. More hackery..
         $tag = (get_query_var('ngg_tag') ? get_query_var('ngg_tag') : get_query_var('name'));
@@ -90,6 +96,10 @@ class C_Taxonomy_Controller extends C_MVC_Controller
 
             unset($wp_query->query['error']);
             $wp_query->query_vars['error'] = '';
+        }
+        
+        if ($wp_query_orig !== false) {
+        	$wp_query = $wp_query_orig;
         }
 
         return $posts;

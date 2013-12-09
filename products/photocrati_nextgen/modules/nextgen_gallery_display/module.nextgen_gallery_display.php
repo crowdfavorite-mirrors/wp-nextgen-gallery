@@ -19,7 +19,7 @@ class M_Gallery_Display extends C_Base_Module
 			'photocrati-nextgen_gallery_display',
 			'Gallery Display',
 			'Provides the ability to display gallery of images',
-			'0.3',
+			'0.7',
 			'http://www.photocrati.com',
 			'Photocrati Media',
 			'http://www.photocrati.com'
@@ -82,10 +82,12 @@ class M_Gallery_Display extends C_Base_Module
 			'I_Component_Factory', 'A_Gallery_Display_Factory'
 		);
 
-		$this->get_registry()->add_adapter(
-			'I_Page_Manager',
-			'A_Display_Settings_Page'
-		);
+        if (is_admin()) {
+            $this->get_registry()->add_adapter(
+                'I_Page_Manager',
+                'A_Display_Settings_Page'
+            );
+        }
 
 		$this->_get_registry()->add_adapter(
 			'I_Ajax_Controller',
@@ -105,6 +107,37 @@ class M_Gallery_Display extends C_Base_Module
         add_action('init', array(&$this, '_register_resources'));
         add_action('admin_bar_menu', array(&$this, 'add_admin_bar_menu'), 100);
         add_filter('the_content', array($this, '_render_related_images'));
+		add_action('wp_enqueue_scripts', array(&$this, 'no_resources_mode'), PHP_INT_MAX-1);
+		add_filter('run_ngg_resource_manager', array(&$this, 'no_resources_mode'));
+	}
+
+
+	function no_resources_mode($valid_request=TRUE)
+	{
+		if (isset($_REQUEST['ngg_no_resources'])) {
+			global $wp_scripts, $wp_styles;
+
+			// Don't enqueue any stylesheets
+			if ($wp_scripts)
+				$wp_scripts->queue = $wp_styles->queue = array();
+
+			// Don't do any actions that we don't have to
+//			remove_all_actions('wp_loaded');
+//			remove_all_actions('get_header');
+//			remove_all_actions('wp_head');
+//			remove_all_actions('get_search_form');
+//			remove_all_actions('loop_end');
+//			remove_all_actions('pre_get_comments');
+//			remove_all_actions('wp_meta');
+//			remove_all_actions('get_footer');
+//			remove_all_actions('wp_footer');
+//			remove_all_actions('wp_print_footer_scripts');
+
+			// Don't run the resource manager
+			$valid_request = FALSE;
+		}
+
+		return $valid_request;
 	}
 
   function _render_related_string()
@@ -199,7 +232,21 @@ class M_Gallery_Display extends C_Base_Module
      */
     function _register_resources()
     {
-        $router = $this->get_registry()->get_utility('I_Router');
+		// Register custom post types for compatibility
+        $types = array(
+			'displayed_gallery'		=>	'NextGEN Gallery - Displayed Gallery',
+			'display_type'			=>	'NextGEN Gallery - Display Type',
+			'gal_display_source'	=>	'NextGEN Gallery - Displayed Gallery Source'
+		);
+		foreach ($types as $type => $label) {
+			register_post_type($type, array(
+				'label'		=>	$label,
+				'publicly_queryable'	=>	FALSE,
+				'exclude_from_search'	=>	TRUE,
+			));
+		}
+
+		$router = $this->get_registry()->get_utility('I_Router');
 
         wp_register_script(
             'nextgen_gallery_display_settings',
