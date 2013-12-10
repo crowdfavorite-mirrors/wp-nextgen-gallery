@@ -362,7 +362,9 @@ class Mixin_Fs_Instance_Methods extends Mixin
 	 */
 	function set_document_root($value)
 	{
+		// CF MODIFIED to allow non-standard wp-content directories.  IMPORTANT This likely doesn't work for WINDOWS
+		return ($this->_document_root = str_replace('/wp/', '/', ABSPATH));
 		// IMPORTANT: Even for Windows, we construct the path to be C:/Windows instead of C:\Windows
-		return ($this->_document_root = str_replace("\\", '/', rtrim($value, "/\\")));
+		// return ($this->_document_root = str_replace("\\", '/', rtrim($value, "/\\")));
 	}
 }
