@@ -428,7 +428,8 @@ class Mixin_GalleryStorage_Driver_Base extends Mixin
 	 */
 	function get_upload_relpath($gallery=FALSE)
 	{
-		return str_replace(ABSPATH, '', $this->object->get_upload_abspath($gallery));
+        $upload_relpath = str_replace(ABSPATH, '', $this->object->get_upload_abspath($gallery));
+		return apply_filters('ngg__get_upload_relpath', $upload_relpath, $gallery, $this);
 	}
 
 	/**
