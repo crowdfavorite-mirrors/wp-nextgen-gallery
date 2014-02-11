@@ -144,10 +144,12 @@ class Mixin_Gallery_Image_Mapper extends Mixin
 			$this->object->_set_default_value($entity, 'alttext', $alttext);
 		}
 
-        // Set unique slug
-        if (isset($entity->alttext)) {
-            $this->object->_set_default_value($entity, 'image_slug', nggdb::get_unique_slug( sanitize_title_with_dashes( $entity->alttext ), 'image' ));
-        }
+	// Set unique slug
+	if (isset($entity->alttext)) {
+		if (!isset($entity->image_slug) || empty($entity->image_slug)) {
+			$this->object->_set_default_value($entity, 'image_slug', nggdb::get_unique_slug( sanitize_title_with_dashes( $entity->alttext ), 'image' ));
+		}
+	}
 
 		// Ensure that the exclude parameter is an integer or boolean-evaluated
 		// value
