@@ -154,9 +154,9 @@ class A_Attach_To_Post_Ajax extends Mixin
 					// name of the gallery or album
 					if (($image = $image_mapper->find($entity->previewpic))) {
 						if ($entity->is_album)
-							$image->alttext = _('Album: ').$entity->name;
+							$image->alttext = sprintf(__('Album: %s', 'nggallery'), $entity->name);
 						else
-							$image->alttext = _('Gallery: ').$entity->title;
+							$image->alttext = sprintf(__('Gallery: %s', 'nggallery'), $entity->title);
 					}
 
 					// Prefix the id of an album with 'a'
@@ -167,14 +167,14 @@ class A_Attach_To_Post_Ajax extends Mixin
                 }
 
 				// Get the thumbnail
-				$entity->thumb_url = $storage->get_image_url($image, 'thumb');
+				$entity->thumb_url = $storage->get_image_url($image, 'thumb', TRUE);
 				$entity->thumb_html	= $storage->get_image_html($image, 'thumb');
 				$entity->max_width  = $settings->thumbwidth;
 				$entity->max_height = $settings->thumbheight;
 			}
 		}
 		else {
-			$response['error'] = _('Missing parameters');
+			$response['error'] = __('Missing parameters', 'nggallery');
 		}
 		return $response;
 	}
@@ -189,7 +189,7 @@ class A_Attach_To_Post_Ajax extends Mixin
 		$mapper = $this->object->get_registry()->get_utility('I_Displayed_Gallery_Mapper');
 
 		// Do we have fields to work with?
-		if ($this->object->validate_ajax_request(true) && ($params = $this->object->param('displayed_gallery'))) {
+		if ($this->object->validate_ajax_request(true) && ($params = json_decode($this->object->param('displayed_gallery')))) {
 
 			// Existing displayed gallery ?
 			if (($id = $this->object->param('id'))) {
@@ -200,7 +200,7 @@ class A_Attach_To_Post_Ajax extends Mixin
 			}
 			else {
 				$factory = $this->object->get_registry()->get_utility('I_Component_Factory');
-				$displayed_gallery = $factory->create('displayed_gallery', $mapper, $params);
+				$displayed_gallery = $factory->create('displayed_gallery', $params, $mapper);
 			}
 
 			// Save the changes
@@ -210,10 +210,10 @@ class A_Attach_To_Post_Ajax extends Mixin
 			}
 			else
 			{
-				$response['error'] = _('Displayed gallery does not exist');
+				$response['error'] = __('Displayed gallery does not exist', 'nggallery');
 			}
 		}
-		else $response['error'] = _('Invalid request');
+		else $response['error'] = __('Invalid request', 'nggallery');
 
 		return $response;
 	}

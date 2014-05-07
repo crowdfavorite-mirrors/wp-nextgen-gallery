@@ -9,7 +9,7 @@ class A_Image_Options_Form extends Mixin
 
 	function get_title()
 	{
-		return 'Image Options';
+		return __('Image Options', 'nggallery');
 	}
 
 	/**
@@ -19,11 +19,11 @@ class A_Image_Options_Form extends Mixin
 	function _get_image_sorting_options()
 	{
 		return array(
-			'Custom'					=>	'sortorder',
-			'Image ID'					=>	'pid',
-			'Filename'					=>	'filename',
-			'Alt/Title Text'			=>	'alttext',
-			'Date/Time'					=>	'imagedate'
+			__('Custom',         'nggallery') => 'sortorder',
+			__('Image ID',       'nggallery') => 'pid',
+			__('Filename',       'nggallery') => 'filename',
+			__('Alt/Title Text', 'nggallery') => 'alttext',
+			__('Date/Time',      'nggallery') => 'imagedate'
 		);
 	}
 
@@ -35,8 +35,8 @@ class A_Image_Options_Form extends Mixin
 	function _get_sorting_direction_options()
 	{
 		return array(
-			'Ascending'					=>	'ASC',
-			'Descending'				=>	'DESC'
+			__('Ascending',  'nggallery') => 'ASC',
+			__('Descending', 'nggallery') => 'DESC'
 		);
 	}
 
@@ -47,8 +47,8 @@ class A_Image_Options_Form extends Mixin
 	function _get_related_image_match_options()
 	{
 		return array(
-			'Categories'				=>	'category',
-			'Tags'						=>	'tags'
+			__('Categories', 'nggallery') => 'category',
+			__('Tags',       'nggallery') => 'tags'
 		);
 	}
         
@@ -78,49 +78,49 @@ class A_Image_Options_Form extends Mixin
 	function render()
 	{
 		if (!$this->object->_create_gallery_storage_dir()) {
-			$this->object->get_model()->add_error( _('Gallery path does not exist and could not be created'), 'gallerypath');
+			$this->object->get_model()->add_error( __('Gallery path does not exist and could not be created', 'nggallery'), 'gallerypath');
 		}
             
 		$settings = $this->object->get_model();
 		return $this->render_partial('photocrati-nextgen_other_options#image_options_tab', array(
-			'gallery_path_label'			=>	_('Where would you like galleries stored?'),
-			'gallery_path_help'				=>	_('Where galleries and their images are stored'),
+			'gallery_path_label'			=>	__('Where would you like galleries stored?', 'nggallery'),
+			'gallery_path_help'				=>	__('Where galleries and their images are stored', 'nggallery'),
 			'gallery_path'					=>	$settings->gallerypath,
-			'delete_image_files_label'		=>	_('Delete Image Files?'),
-			'delete_image_files_help'		=>	_('When enabled, image files will be removed after a Gallery has been deleted'),
+			'delete_image_files_label'		=>	__('Delete Image Files?', 'nggallery'),
+			'delete_image_files_help'		=>	__('When enabled, image files will be removed after a Gallery has been deleted', 'nggallery'),
 			'delete_image_files'			=>	$settings->deleteImg,
-			'show_related_images_label'		=>	_('Show Related Images on Posts?'),
-			'show_related_images_help'		=>	_('When enabled, related images will be appended to each post by matching the posts tags/categories to image tags'),
+			'show_related_images_label'		=>	__('Show Related Images on Posts?', 'nggallery'),
+			'show_related_images_help'		=>	__('When enabled, related images will be appended to each post by matching the posts tags/categories to image tags', 'nggallery'),
 			'show_related_images'			=>	$settings->activateTags,
-			'related_images_hidden_label'	=>	_('(Show Customization Settings)'),
-			'related_images_active_label'	=>	_('(Hide Customization Settings)'),
-			'match_related_images_label'	=>	_('How should related images be match?'),
+			'related_images_hidden_label'	=>	__('(Show Customization Settings)', 'nggallery'),
+			'related_images_active_label'	=>	__('(Hide Customization Settings)', 'nggallery'),
+			'match_related_images_label'	=>	__('How should related images be match?', 'nggallery'),
 			'match_related_images'			=>	$settings->appendType,
 			'match_related_image_options'	=>	$this->object->_get_related_image_match_options(),
-			'max_related_images_label'		=>	_('Maximum # of related images to display'),
+			'max_related_images_label'		=>	__('Maximum # of related images to display', 'nggallery'),
 			'max_related_images'			=>	$settings->maxImages,
-			'related_images_heading_label'	=>	_('Heading for related images'),
-			'related_images_heading'			=>	$settings->relatedHeading,
-			'sorting_order_label'			=>	_("What's the default sorting method?"),
+			'related_images_heading_label'	=>	__('Heading for related images', 'nggallery'),
+			'related_images_heading'		=>	$settings->relatedHeading,
+			'sorting_order_label'			=>	__("What's the default sorting method?", 'nggallery'),
 			'sorting_order_options'			=>	$this->object->_get_image_sorting_options(),
 			'sorting_order'					=>	$settings->galSort,
-			'sorting_direction_label'		=>	_('Sort in what direction?'),
+			'sorting_direction_label'		=>	__('Sort in what direction?', 'nggallery'),
 			'sorting_direction_options'		=>	$this->object->_get_sorting_direction_options(),
 			'sorting_direction'				=>	$settings->galSortDir,
-			'automatic_resize_label'		=>	'Automatically resize images after upload',
-			'automatic_resize_help'			=>	'It is recommended that your images be resized to be web friendly',
+			'automatic_resize_label'		=>	__('Automatically resize images after upload', 'nggallery'),
+			'automatic_resize_help'			=>	__('It is recommended that your images be resized to be web friendly', 'nggallery'),
 			'automatic_resize'				=>	$settings->imgAutoResize,
-			'resize_images_label'			=>	_('What should images be resized to?'),
-			'resize_images_help'			=>	_('After images are uploaded, they will be resized to the above dimensions and quality'),
-			'resized_image_width_label'		=>	_('Width:'),
-			'resized_image_height_label'	=>	_('Height:'),
-			'resized_image_quality_label'	=>	_('Quality:'),
+			'resize_images_label'			=>	__('What should images be resized to?', 'nggallery'),
+			'resize_images_help'			=>	__('After images are uploaded, they will be resized to the above dimensions and quality', 'nggallery'),
+			'resized_image_width_label'		=>	__('Width:', 'nggallery'),
+			'resized_image_height_label'	=>	__('Height:', 'nggallery'),
+			'resized_image_quality_label'	=>	__('Quality:', 'nggallery'),
 			'resized_image_width'			=>	$settings->imgWidth,
 			'resized_image_height'			=>  $settings->imgHeight,
 			'resized_image_quality'			=>	$settings->imgQuality,
-			'backup_images_label'			=>	_('Backup the original images?'),
-			'backup_images_yes_label'		=>	_('Yes'),
-			'backup_images_no_label'		=>	_('No'),
+			'backup_images_label'			=>	__('Backup the original images?', 'nggallery'),
+			'backup_images_yes_label'		=>	__('Yes'),
+			'backup_images_no_label'		=>	__('No'),
 			'backup_images'					=>	$settings->imgBackup
                     
 		), TRUE);

@@ -7,7 +7,7 @@ class A_NextGen_Basic_Slideshow_Form extends Mixin_Display_Type_Form
 {
 	function get_display_type_name()
 	{
-		return NEXTGEN_GALLERY_BASIC_SLIDESHOW;
+		return NGG_BASIC_SLIDESHOW;
 	}
 
     function enqueue_static_resources()
@@ -17,6 +17,12 @@ class A_NextGen_Basic_Slideshow_Form extends Mixin_Display_Type_Form
             $this->get_static_url('photocrati-nextgen_basic_gallery#slideshow/nextgen_basic_slideshow_settings.js'),
             array('jquery.nextgen_radio_toggle')
         );
+	
+	$atp = $this->object->get_registry()->get_utility('I_Attach_To_Post_Controller');
+	
+	if ($atp != null) {
+		$atp->mark_script('nextgen_basic_slideshow_settings-js');
+	}
     }
 
     /**
@@ -28,7 +34,6 @@ class A_NextGen_Basic_Slideshow_Form extends Mixin_Display_Type_Form
             'nextgen_basic_slideshow_gallery_dimensions',
             'nextgen_basic_slideshow_cycle_effect',
             'nextgen_basic_slideshow_cycle_interval',
-            'nextgen_basic_slideshow_images_per_page',
             'nextgen_basic_slideshow_flash_enabled',
             'nextgen_basic_slideshow_flash_background_music',
             'nextgen_basic_slideshow_flash_stretch_image',
@@ -54,26 +59,12 @@ class A_NextGen_Basic_Slideshow_Form extends Mixin_Display_Type_Form
         return $this->_render_number_field(
             $display_type,
             'cycle_interval',
-            'Interval',
+            __('Interval', 'nggallery'),
             $display_type->settings['cycle_interval'],
             '',
             FALSE,
-            '# of seconds',
+            __('# of seconds', 'nggallery'),
             1
-        );
-    }
-
-    function _render_nextgen_basic_slideshow_images_per_page_field($display_type)
-    {
-        return $this->_render_number_field(
-            $display_type,
-            'images_per_page',
-            'Image limit',
-            $display_type->settings['images_per_page'],
-            'Maximum number of images to display with recent or random sources',
-            FALSE,
-            '# of images',
-            0
         );
     }
 
@@ -103,7 +94,8 @@ class A_NextGen_Basic_Slideshow_Form extends Mixin_Display_Type_Form
     {
         return $this->render_partial('photocrati-nextgen_basic_gallery#slideshow/nextgen_basic_slideshow_settings_gallery_dimensions', array(
             'display_type_name' => $display_type->name,
-            'gallery_dimensions_label' => _('Maximum dimensions'),
+            'gallery_dimensions_label' => __('Maximum dimensions', 'nggallery'),
+            'gallery_dimensions_tooltip' => __('Certain themes may allow images to flow over their container if this setting is too large', 'nggallery'),
             'gallery_width' => $display_type->settings['gallery_width'],
             'gallery_height' => $display_type->settings['gallery_height'],
         ), True);
@@ -114,9 +106,9 @@ class A_NextGen_Basic_Slideshow_Form extends Mixin_Display_Type_Form
         return $this->_render_radio_field(
             $display_type,
             'flash_enabled',
-            'Enable flash slideshow',
+            __('Enable flash slideshow', 'nggallery'),
             $display_type->settings['flash_enabled'],
-            'Integrate the flash based slideshow for all flash supported devices'
+            __('Integrate the flash based slideshow for all flash supported devices', 'nggallery')
         );
     }
 
@@ -125,7 +117,7 @@ class A_NextGen_Basic_Slideshow_Form extends Mixin_Display_Type_Form
         return $this->_render_radio_field(
             $display_type,
             'flash_shuffle',
-            'Shuffle',
+            __('Shuffle', 'nggallery'),
             $display_type->settings['flash_shuffle'],
             '',
             empty($display_type->settings['flash_enabled']) ? TRUE : FALSE
@@ -137,7 +129,7 @@ class A_NextGen_Basic_Slideshow_Form extends Mixin_Display_Type_Form
         return $this->_render_radio_field(
             $display_type,
             'flash_next_on_click',
-            'Show next image on click',
+            __('Show next image on click', 'nggallery'),
             $display_type->settings['flash_next_on_click'],
             '',
             empty($display_type->settings['flash_enabled']) ? TRUE : FALSE
@@ -149,7 +141,7 @@ class A_NextGen_Basic_Slideshow_Form extends Mixin_Display_Type_Form
         return $this->_render_radio_field(
             $display_type,
             'flash_navigation_bar',
-            'Show navigation bar',
+            __('Show navigation bar', 'nggallery'),
             $display_type->settings['flash_navigation_bar'],
             '',
             empty($display_type->settings['flash_enabled']) ? TRUE : FALSE
@@ -161,7 +153,7 @@ class A_NextGen_Basic_Slideshow_Form extends Mixin_Display_Type_Form
         return $this->_render_radio_field(
             $display_type,
             'flash_loading_icon',
-            'Show loading icon',
+            __('Show loading icon', 'nggallery'),
             $display_type->settings['flash_loading_icon'],
             '',
             empty($display_type->settings['flash_enabled']) ? TRUE : FALSE
@@ -173,9 +165,9 @@ class A_NextGen_Basic_Slideshow_Form extends Mixin_Display_Type_Form
         return $this->_render_radio_field(
             $display_type,
             'flash_watermark_logo',
-            'Use watermark logo',
+            __('Use watermark logo', 'nggallery'),
             $display_type->settings['flash_watermark_logo'],
-            'Use the watermark image in the Flash object. Note: this does not watermark the image itself, and cannot be applied with text watermarks',
+            __('Use the watermark image in the Flash object. Note: this does not watermark the image itself, and cannot be applied with text watermarks', 'nggallery'),
             empty($display_type->settings['flash_enabled']) ? TRUE : FALSE
         );
     }
@@ -185,7 +177,7 @@ class A_NextGen_Basic_Slideshow_Form extends Mixin_Display_Type_Form
         return $this->_render_select_field(
             $display_type,
             'flash_stretch_image',
-            'Stretch image',
+            __('Stretch image', 'nggallery'),
 			array('true' => 'true', 'false' => 'false', 'fit' => 'fit', 'none' => 'none'),
             $display_type->settings['flash_stretch_image'],
             '',
@@ -222,7 +214,7 @@ class A_NextGen_Basic_Slideshow_Form extends Mixin_Display_Type_Form
         return $this->_render_radio_field(
             $display_type,
             'flash_slow_zoom',
-            'Use slow zooming effect',
+            __('Use slow zooming effect', 'nggallery'),
             $display_type->settings['flash_slow_zoom'],
             '',
             empty($display_type->settings['flash_enabled']) ? TRUE : FALSE
@@ -234,7 +226,7 @@ class A_NextGen_Basic_Slideshow_Form extends Mixin_Display_Type_Form
         return $this->_render_text_field(
             $display_type,
             'flash_background_music',
-            'Background music (url)',
+            __('Background music (url)', 'nggallery'),
             $display_type->settings['flash_background_music'],
             '',
             empty($display_type->settings['flash_enabled']) ? TRUE : FALSE,
@@ -247,7 +239,7 @@ class A_NextGen_Basic_Slideshow_Form extends Mixin_Display_Type_Form
         return $this->_render_radio_field(
             $display_type,
             'flash_xhtml_validation',
-            'Try XHTML validation',
+            __('Try XHTML validation', 'nggallery'),
             $display_type->settings['flash_xhtml_validation'],
             'Uses CDATA. Important: Could cause problems with some older browsers',
             empty($display_type->settings['flash_enabled']) ? TRUE : FALSE
@@ -259,7 +251,7 @@ class A_NextGen_Basic_Slideshow_Form extends Mixin_Display_Type_Form
         return $this->_render_color_field(
             $display_type,
             'flash_background_color',
-            'Background',
+            __('Background', 'nggallery'),
             $display_type->settings['flash_background_color'],
             '',
             empty($display_type->settings['flash_enabled']) ? TRUE : FALSE
@@ -271,7 +263,7 @@ class A_NextGen_Basic_Slideshow_Form extends Mixin_Display_Type_Form
         return $this->_render_color_field(
             $display_type,
             'flash_text_color',
-            'Texts / buttons',
+            __('Texts / buttons', 'nggallery'),
             $display_type->settings['flash_text_color'],
             '',
             empty($display_type->settings['flash_enabled']) ? TRUE : FALSE
@@ -283,7 +275,7 @@ class A_NextGen_Basic_Slideshow_Form extends Mixin_Display_Type_Form
         return $this->_render_color_field(
             $display_type,
             'flash_rollover_color',
-            'Rollover / active',
+            __('Rollover / active', 'nggallery'),
             $display_type->settings['flash_rollover_color'],
             '',
             empty($display_type->settings['flash_enabled']) ? TRUE : FALSE
@@ -295,7 +287,7 @@ class A_NextGen_Basic_Slideshow_Form extends Mixin_Display_Type_Form
         return $this->_render_color_field(
             $display_type,
             'flash_screen_color',
-            'Screen',
+            __('Screen', 'nggallery'),
             $display_type->settings['flash_screen_color'],
             '',
             empty($display_type->settings['flash_enabled']) ? TRUE : FALSE
@@ -313,7 +305,7 @@ class A_NextGen_Basic_Slideshow_Form extends Mixin_Display_Type_Form
         return $this->_render_radio_field(
             $display_type,
             'show_thumbnail_link',
-            'Show thumbnail link',
+            __('Show thumbnail link', 'nggallery'),
             $display_type->settings['show_thumbnail_link']
         );
     }
@@ -329,7 +321,7 @@ class A_NextGen_Basic_Slideshow_Form extends Mixin_Display_Type_Form
         return $this->_render_text_field(
             $display_type,
             'thumbnail_link_text',
-            'Thumbnail link text',
+            __('Thumbnail link text', 'nggallery'),
             $display_type->settings['thumbnail_link_text'],
             '',
             !empty($display_type->settings['show_thumbnail_link']) ? FALSE : TRUE

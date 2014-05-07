@@ -4,7 +4,7 @@ class A_NextGen_AddGallery_Controller extends Mixin
 {
     function get_page_title()
     {
-        return 'Add Gallery / Images';
+        return __('Add Gallery / Images', 'nggallery');
     }
 
     function get_required_permission()

@@ -41,7 +41,7 @@ class Mixin_Display_Type_Form extends Mixin
 	 */
 	function get_title()
 	{
-		return $this->object->get_model()->title;
+		return __($this->object->get_model()->title, 'nggallery');
 	}
         
         

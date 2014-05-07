@@ -1,7 +1,6 @@
 <p>
     <label for='<?php echo $self->get_field_id('title'); ?>'>
-        <?php _e('Title :', 'nggallery'); ?>
-        <br/>
+        <?php _e('Title', 'nggallery'); ?>:<br/>
         <input class='widefat'
                id='<?php echo $self->get_field_id('title'); ?>'
                name='<?php echo $self->get_field_name('title'); ?>'
@@ -34,8 +33,7 @@
 
 <p>
     <label for='<?php echo $self->get_field_id('mrss_text'); ?>'>
-        <?php _e('Text for Media RSS link:', 'nggallery'); ?>
-        <br/>
+        <?php _e('Text for Media RSS link', 'nggallery'); ?>:<br/>
         <input class='widefat'
                id='<?php echo $self->get_field_id('mrss_text'); ?>'
                name='<?php echo $self->get_field_name('mrss_text'); ?>'
@@ -46,8 +44,7 @@
 
 <p>
     <label for='<?php echo $self->get_field_id('mrss_title'); ?>'>
-        <?php _e('Tooltip text for Media RSS link:', 'nggallery'); ?>
-        <br/>
+        <?php _e('Tooltip text for Media RSS link', 'nggallery'); ?>:<br/>
         <input class='widefat'
                id='<?php echo $self->get_field_id('mrss_title'); ?>'
                name='<?php echo $self->get_field_name('mrss_title'); ?>'

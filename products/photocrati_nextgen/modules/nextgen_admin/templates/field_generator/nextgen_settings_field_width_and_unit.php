@@ -18,7 +18,7 @@
                 name="<?php print esc_attr("{$display_type_name}[{$unit_name}]"); ?>"
                 class="<?php print esc_attr("{$display_type_name}_{$unit_name}"); ?> nextgen_settings_field_width_and_unit">
             <?php foreach ($options as $key => $val) { ?>
-                <option value='<?php print $key; ?>' <?php selected($key, $unit_value); ?>><?php print _($val); ?></option>
+                <option value='<?php print $key; ?>' <?php selected($key, $unit_value); ?>><?php print $val; ?></option>
             <?php } ?>
         </select>
     </td>

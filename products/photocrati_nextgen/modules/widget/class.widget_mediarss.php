@@ -90,7 +90,7 @@ class C_Widget_MediaRSS extends WP_Widget
         {
             $icon_url = NGGALLERY_URLPATH . 'images/mrss-icon.gif';
             $out .= "<a href='{$mrss_url}' title='{$title}' class='ngg-media-rss-link'" . ($use_piclens ? ' onclick="PicLensLite.start({feedUrl:\'' . $mrss_url . '\'}); return false;"' : "") . " >";
-            $out .= "<img src='{$icon_url}' alt='MediaRSS Icon' title='" . (!$use_piclens ? $title : __('[View with PicLens]','nggallery')). "' class='ngg-media-rss-icon' />";
+            $out .= "<img src='{$icon_url}' alt='MediaRSS Icon' title='" . (!$use_piclens ? $title : __('[View with PicLens]', 'nggallery')). "' class='ngg-media-rss-icon' />";
             $out .=  "</a> ";
         }
 

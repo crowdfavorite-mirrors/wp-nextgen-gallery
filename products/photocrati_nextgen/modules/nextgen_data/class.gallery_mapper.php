@@ -11,7 +11,7 @@ class C_Gallery_Mapper extends C_CustomTable_DataMapper_Driver
 	 * Define the object
 	 * @param string $context
 	 */
-	function define($context=FALSE)
+	function define($context=FALSE, $not_used=FALSE)
 	{
 		// Add 'gallery' context
 		if (!is_array($context)) $context = array($context);
@@ -22,11 +22,23 @@ class C_Gallery_Mapper extends C_CustomTable_DataMapper_Driver
 		// Continue defining the object
 		parent::define('ngg_gallery', $context);
 		$this->set_model_factory_method('gallery');
+		$this->add_mixin('Mixin_NextGen_Table_Extras');
 		$this->add_mixin('Mixin_Gallery_Mapper');
 		$this->implement('I_Gallery_Mapper');
+
+		// Define the columns
+		$this->define_column('gid',		'BIGINT', 0);
+		$this->define_column('name',	'VARCHAR(255)');
+		$this->define_column('slug',  	'VARCHAR(255');
+		$this->define_column('path',  	'TEXT');
+		$this->define_column('title', 	'TEXT');
+		$this->define_column('pageid', 	'INT', 0);
+		$this->define_column('previewpic', 'INT', 0);
+		$this->define_column('author', 	'INT', 0);
+        $this->define_column('extras_post_id', 'BIGINT', 0);
 	}
 
-	function initialize()
+	function initialize($object_name=FALSE)
 	{
 		parent::initialize('ngg_gallery');
 	}
@@ -57,24 +69,6 @@ class Mixin_Gallery_Mapper extends Mixin
 		return $entity->title;
 	}
 
-	/**
-	 * Override the save method to avoid trying to save the 'new_sortorder' property
-	 * to the database, which will fail since the column doesn't exist in the
-	 * database.
-	 * TODO: This is just a workaround and should be removed when we implement
-	 * https://www.wrike.com/open.htm?id=8250095
-	 * @param stdClass|C_DataMapper_Model $entity
-	 * @return boolean
-	 */
-	function _convert_to_table_data($entity)
-	{
-		$new_sortorder 	= property_exists($entity, 'new_sortorder') ? $entity->new_sortorder : NULL;
-		unset($entity->new_sortorder);
-		$retval = $this->call_parent('_convert_to_table_data', $entity);
-		if ($new_sortorder) $entity->new_sortorder = $new_sortorder;
-		return $retval;
-	}
-
 
     function _save_entity($entity)
     {
@@ -82,7 +76,7 @@ class Mixin_Gallery_Mapper extends Mixin
 
         if ($retval) {
             do_action('ngg_created_new_gallery', $entity->{$entity->id_field});
-			C_Photocrati_Cache::flush();
+			C_Photocrati_Cache::flush('displayed_gallery_rendering');
         }
 
         return $retval;
@@ -91,7 +85,7 @@ class Mixin_Gallery_Mapper extends Mixin
 	function destroy($image)
 	{
 		$retval = $this->call_parent('destroy',$image);
-		C_Photocrati_Cache::flush();
+		C_Photocrati_Cache::flush('displayed_gallery_rendering');
 		return $retval;
 	}
 

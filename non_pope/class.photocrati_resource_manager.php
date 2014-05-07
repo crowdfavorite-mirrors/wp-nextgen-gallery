@@ -4,6 +4,8 @@ class C_Photocrati_Resource_Manager
 {
 	static $instance = NULL;
 
+    public $marker = '<!-- ngg_resource_manager_marker -->';
+
 	var $buffer = '';
 	var $styles = '';
 	var $scripts = '';
@@ -21,9 +23,18 @@ class C_Photocrati_Resource_Manager
 	{
 		// Validate the request
 		$this->validate_request();
-
-		add_action('init',array(&$this, 'start_buffer'), 1);
+		add_action('init', array(&$this, 'start_buffer'), -1);
+        add_action('wp_footer', array(&$this, 'print_marker'), -1);
 	}
+
+    /**
+     * Created early as possible in the wp_footer action this is the string to which we
+     * will move JS resources after
+     */
+    function print_marker()
+    {
+        print $this->marker;
+    }
 
 	/**
 	 * Determines if the resource manager should perform it's routines for this request
@@ -41,6 +52,7 @@ class C_Photocrati_Resource_Manager
 		else if (isset($_GET['display_gallery_iframe'])) 				  $retval = FALSE;
         else if (defined('WP_ADMIN') && WP_ADMIN && defined('DOING_AJAX') && DOING_AJAX) $retval = FALSE;
 		else if (preg_match("/(js|css|xsl|xml|kml)$/", $_SERVER['REQUEST_URI'])) $retval = FALSE;
+        else if (preg_match("#/feed(/?)$#i", $_SERVER['REQUEST_URI']) || !empty($_GET['feed'])) $retval = FALSE;
 		elseif (preg_match("/\\.(\\w{3,4})$/", $_SERVER['REQUEST_URI'], $match)) {
 			if (!in_array($match[1], array('htm', 'html', 'php'))) {
 				$retval = FALSE;
@@ -55,6 +67,9 @@ class C_Photocrati_Resource_Manager
 	 */
 	function start_buffer()
 	{
+        if (defined('NGG_DISABLE_RESOURCE_MANAGER') && NGG_DISABLE_RESOURCE_MANAGER)
+            return;
+
 		if (apply_filters('run_ngg_resource_manager', $this->valid_request)) {
 			ob_start(array(&$this, 'output_buffer_handler'));
 			ob_start(array(&$this, 'get_buffer'));
@@ -117,14 +132,14 @@ class C_Photocrati_Resource_Manager
 				$this->buffer = str_ireplace('</head>', $this->styles.'</head>', $this->buffer);
 			}
 
-			// Move the scripts to the bottom of the page
-			if ($this->scripts) {
-				$this->buffer = str_ireplace('</body>', $this->scripts.'</body>', $this->buffer);
-			}
+            // Move the scripts to the bottom of the page
+            if ($this->scripts) {
+                $this->buffer = str_ireplace($this->marker, $this->marker . $this->scripts, $this->buffer);
+            }
 
-			if ($this->other_output) {
-				$this->buffer = str_replace('</body>', $this->other_output.'</body>', $this->buffer);
-			}
+            if ($this->other_output) {
+                $this->buffer = str_replace($this->marker, $this->marker . $this->other_output, $this->buffer);
+            }
 		}
 	}
 
@@ -139,8 +154,8 @@ class C_Photocrati_Resource_Manager
 
 			// If W3TC is installed and activated, we can't output the
 			// scripts and manipulate the buffer, so we can only provide a warning
-			if (defined('W3TC') && defined('WP_DEBUG') && WP_DEBUG) {
-				if (defined('DONOTCACHEPAGE')) define('DONOTCACHEPAGE', TRUE);
+			if (defined('W3TC') && defined('WP_DEBUG') && WP_DEBUG && !is_admin()) {
+				if (!defined('DONOTCACHEPAGE')) define('DONOTCACHEPAGE', TRUE);
 				if (!did_action('wp_footer')) {
 					error_log("We're sorry, but your theme's page template didn't make a call to wp_footer(), which is required by NextGEN Gallery. Please add this call to your page templates.");
 				}

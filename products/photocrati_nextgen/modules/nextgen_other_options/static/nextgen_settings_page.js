@@ -102,6 +102,20 @@ jQuery(function($){
     });
 	/**** STYLES TAB ****/
 
+    $('input[name="style_settings[activateCSS]"]')
+        .nextgen_radio_toggle_tr('1', $('#tr_photocrati-nextgen_styles_activated_stylesheet'))
+        .nextgen_radio_toggle_tr('1', $('#tr_photocrati-nextgen_styles_show_more'))
+        .bind('change', function() {
+            var $this = $(this);
+            if ($this.val() == '0') {
+                $('#cssfile_contents').prop('disabled', true);
+                $('#advanced_stylesheet_form').hide('slow');
+            } else {
+                $('#cssfile_contents').prop('disabled', false);
+            }
+        });
+
+
 	// When the selected stylesheet changes, fetch it's contents
 	$('#activated_stylesheet').change(function(){
 		var selected = $(this).find(':selected');

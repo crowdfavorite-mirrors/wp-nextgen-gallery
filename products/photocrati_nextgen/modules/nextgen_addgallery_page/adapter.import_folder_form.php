@@ -4,7 +4,7 @@ class A_Import_Folder_Form extends Mixin
 {
     function get_title()
     {
-        return "Import Folder";
+        return __("Import Folder", 'nggallery');
     }
 
     function enqueue_static_resources()

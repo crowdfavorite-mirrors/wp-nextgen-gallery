@@ -4,15 +4,47 @@ class A_Upload_Images_Form extends Mixin
 {
     function get_title()
     {
-        return "Upload Images";
+        return __("Upload Images", 'nggallery');
     }
 
+    /**
+     * Plupload stores its i18n JS *mostly* as "en.js" or "ar.js" - but some as zh_CN.js so we must check both if the
+     * first does not match.
+     *
+     * @return bool|string
+     */
+    function _find_plupload_i18n()
+    {
+        $fs = $this->get_registry()->get_utility('I_Fs');
+        $router = $this->_get_registry()->get_utility('I_Router');
+        $locale = get_locale();
+
+        $dir = $fs->find_static_abspath('photocrati-nextgen_addgallery_page#plupload-2.1.1/i18n') . DIRECTORY_SEPARATOR;
+
+        $tmp = explode('_', $locale, 2);
+
+        $retval = FALSE;
+
+        if (file_exists($dir . $tmp[0] . '.js'))
+            $retval = $tmp[0];
+        else if (file_exists($dir . $locale . '.js'))
+            $retval = $locale;
+
+        if ($retval)
+            $retval = $router->get_static_url('photocrati-nextgen_addgallery_page#plupload-2.1.1/i18n/' . $retval . '.js');
+
+        return $retval;
+    }
 
     function enqueue_static_resources()
     {
-        wp_enqueue_style('plupload.queue');
+        wp_enqueue_style('ngg.plupload.queue');
         wp_enqueue_script('browserplus');
-        wp_enqueue_script('plupload.queue');
+        wp_enqueue_script('ngg.plupload.queue');
+
+        $i18n = $this->_find_plupload_i18n();
+        if (!empty($i18n))
+            wp_enqueue_script('ngg.plupload.i18n', $i18n, array('ngg.plupload.full'));
 
     }
 

@@ -39,9 +39,9 @@ function media_upload_nextgen() {
         $mapper   = $registry->get_utility('I_Displayed_Gallery_Mapper');
         $factory  = $registry->get_utility('I_Component_Factory');
         $args = array(
-            'display_type' => NEXTGEN_BASIC_SINGLEPIC_MODULE_NAME
+            'display_type' => NGG_BASIC_SINGLEPIC
         );
-        $displayed_gallery = $factory->create('displayed_gallery', $mapper, $args);
+        $displayed_gallery = $factory->create('displayed_gallery', $args, $mapper);
         $width  = $displayed_gallery->display_settings['width'];
         $height = $displayed_gallery->display_settings['height'];
 
@@ -200,7 +200,7 @@ if ($chromeless)
 	<br style="clear:both;" />
 </div>
 </form>
-
+<br style="clear:both;"/>
 <form enctype="multipart/form-data" method="post" action="<?php echo esc_attr($form_action_url); ?>" class="media-upload-form" id="library-form">
 
 	<?php wp_nonce_field('ngg-media-form'); ?>
@@ -259,11 +259,11 @@ if ($chromeless)
 						</td>
 					</tr>
 					<tr class="image-size">
-						<th class="label"><label for="image[<?php echo $picid ?>][size]"><span class="alignleft"><?php esc_attr_e("Size") ; ?></span></label>
+						<th class="label"><label for="image[<?php echo $picid ?>][size]"><span class="alignleft"><?php esc_attr_e('Size', 'nggallery') ; ?></span></label>
 						</th>
 						<td class="field">
 							<input name="image[<?php echo $picid ?>][size]" id="image-size-thumb-<?php echo $picid ?>" type="radio" checked="checked" value="thumbnail" />
-							<label for="image-size-thumb-<?php echo $picid ?>"><?php esc_attr_e("Thumbnail") ; ?></label>
+							<label for="image-size-thumb-<?php echo $picid ?>"><?php esc_attr_e('Thumbnail', 'nggallery') ; ?></label>
 							<input name="image[<?php echo $picid ?>][size]" id="image-size-full-<?php echo $picid ?>" type="radio" value="full" />
 							<label for="image-size-full-<?php echo $picid ?>"><?php esc_attr_e("Full size") ; ?></label>
 							<input name="image[<?php echo $picid ?>][size]" id="image-size-singlepic-<?php echo $picid ?>" type="radio" value="singlepic" />

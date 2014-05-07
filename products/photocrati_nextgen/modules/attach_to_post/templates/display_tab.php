@@ -7,5 +7,5 @@
 <?php endforeach ?>
 </div>
 <p>
-	<input type="button" id="save_displayed_gallery" value="Save"/>
+	<input type="button" id="save_displayed_gallery" value="<?php _e('Save', 'nggallery'); ?>"/>
 </p>

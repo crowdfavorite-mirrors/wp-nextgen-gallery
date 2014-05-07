@@ -10,7 +10,7 @@
 		<p><?php echo_h($success);?></p>
 	</div>
 	<?php endif ?>
-	<form method="POST" action="<?php echo esc_url($_SERVER['REQUEST_URI'])?>">
+	<form method="POST" action="<?php echo nextgen_esc_url($_SERVER['REQUEST_URI'])?>">
 		<?php if (isset($form_header)): ?>
 		<?php echo $form_header."\n"; ?>
 		<?php endif ?>
@@ -22,7 +22,7 @@
 		</div>
         <?php if ($show_save_button): ?>
 		<p>
-			<input type="submit" name='action_proxy' value="Save" class="button-primary"/>
+			<input type="submit" name='action_proxy' value="<?php _e('Save', 'nggallery'); ?>" class="button-primary"/>
 		</p>
         <?php endif ?>
 	</form>

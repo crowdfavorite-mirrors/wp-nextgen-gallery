@@ -528,12 +528,12 @@ class C_NextGen_Metadata extends C_Component
     }
 
     /**
-     * nggMeta::i8n_name() -  localize the tag name
+     * nggMeta::i18n_name() -  localize the tag name
      *
      * @param mixed $key
      * @return translated $key
      */
-    function i8n_name($key)
+    function i18n_name($key)
     {
         $tagnames = array(
             'aperture'          => __('Aperture', 'nggallery'),

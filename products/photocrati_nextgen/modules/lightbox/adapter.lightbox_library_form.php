@@ -17,7 +17,7 @@ class A_Lightbox_Library_Form extends Mixin
     {
         return array(
             'lightbox_library_code',
-            'lightbox_library_css_stylesheets',
+            'lightbox_library_styles',
             'lightbox_library_scripts'
         );
     }
@@ -31,7 +31,7 @@ class A_Lightbox_Library_Form extends Mixin
         return $this->_render_text_field(
             $lightbox,
             'code',
-            'Code',
+            __('Code', 'nggallery'),
             $lightbox->code
         );
     }
@@ -40,13 +40,13 @@ class A_Lightbox_Library_Form extends Mixin
      * @param $lightbox
      * @return mixed
      */
-    function _render_lightbox_library_css_stylesheets_field($lightbox)
+    function _render_lightbox_library_styles_field($lightbox)
     {
         return $this->_render_textarea_field(
             $lightbox,
-            'css_stylesheets',
-            'Stylesheet URL',
-            $lightbox->css_stylesheets
+            'styles',
+            __('Stylesheet URL', 'nggallery'),
+            $lightbox->styles
         );
     }
 
@@ -59,7 +59,7 @@ class A_Lightbox_Library_Form extends Mixin
         return $this->_render_textarea_field(
             $lightbox,
             'scripts',
-            'Javascript URL',
+            __('Javascript URL', 'nggallery'),
             $lightbox->scripts
         );
     }

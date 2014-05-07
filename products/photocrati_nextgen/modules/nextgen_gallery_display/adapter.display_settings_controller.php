@@ -14,7 +14,7 @@ class A_Display_Settings_Controller extends Mixin
 
 	function get_page_title()
 	{
-		return 'Gallery Settings';
+		return __('Gallery Settings', 'nggallery');
 	}
 	
 	function get_required_permission()

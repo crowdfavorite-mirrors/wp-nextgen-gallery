@@ -20,7 +20,7 @@ class C_NextGen_Admin_Option_Handler
 				$retval = '1.8';
 				break;
 			case 'jquery_ui_theme_url':
-				$retval = $this->get_router()->get_static_url('photocrati-nextgen_admin#jquery-ui/jquery-ui-1.9.1.custom.css');
+				$retval = $this->get_router()->get_static_url('photocrati-nextgen_admin#jquery-ui/jquery-ui-1.10.4.custom.css');
 				break;
 		}
 

@@ -8,7 +8,7 @@ class A_Other_Options_Controller extends Mixin
 		wp_enqueue_script(
 			'nextgen_settings_page',
 			$this->get_static_url('photocrati-nextgen_other_options#nextgen_settings_page.js'),
-			array('jquery-ui-accordion', 'jquery-ui-tooltip', 'wp-color-picker')
+			array('jquery-ui-accordion', 'jquery-ui-tooltip', 'wp-color-picker', 'jquery.nextgen_radio_toggle')
 		);
 
 		wp_enqueue_style(
@@ -19,7 +19,7 @@ class A_Other_Options_Controller extends Mixin
 
 	function get_page_title()
 	{
-		return 'Other Options';
+		return __('Other Options', 'nggallery');
 	}
 	
 	function get_required_permission()

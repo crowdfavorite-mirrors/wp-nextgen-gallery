@@ -446,7 +446,7 @@ class nggMeta{
      * @param mixed $key
      * @return translated $key
      */
-    function i8n_name($key) {
+    function i18n_name($key) {
 
         $tagnames = array(
             'aperture' 			=> __('Aperture','nggallery'),

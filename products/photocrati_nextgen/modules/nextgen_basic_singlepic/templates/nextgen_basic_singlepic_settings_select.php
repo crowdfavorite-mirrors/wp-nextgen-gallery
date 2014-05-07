@@ -12,7 +12,7 @@
                name="<?php print $display_type_name . '[' . $name . ']'; ?>"
                class="<?php print $display_type_name . '_' . $name; ?>">
             <?php foreach ($options as $key => $val) { ?>
-                <option value='<?php print $key; ?>' <?php selected($key, $value); ?>><?php print _($val); ?></option>
+                <option value='<?php print $key; ?>' <?php selected($key, $value); ?>><?php print $val; ?></option>
             <?php } ?>
         </select>
     </td>

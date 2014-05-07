@@ -13,7 +13,11 @@
 		  $thumbnails_template_height_id = 'thumbnail_dimensions_height';
 		  $thumbnails_template_width_name = 'thumbnail_settings[thumbwidth]';
 		  $thumbnails_template_height_name = 'thumbnail_settings[thumbheight]';
-		  include(path_join(NGGALLERY_ABSPATH, implode(DIRECTORY_SEPARATOR, array('admin', 'thumbnails-template.php'))));
+          include(implode(DIRECTORY_SEPARATOR, array(
+              rtrim(NGGALLERY_ABSPATH, "/\\"),
+              'admin',
+              'thumbnails-template.php'
+          )));
 		?>
 			<p class="description"><?php echo_h($thumbnail_dimensions_help)?></p>
 		</td>
@@ -41,6 +45,7 @@
 			<p class="description"><?php echo_h($thumbnail_crop_help); ?></p>
 		</td>
 	</tr>
+    <?php /*
 	<tr>
 		<td>
 			<label for="thumbnail_quality">
@@ -58,6 +63,7 @@
 			<p class="description"><?php echo_h($thumbnail_quality_help)?></p>
 		</td>
 	</tr>
+    */ ?>
 	<tr>
 		<td>
 			<label for="size_list">

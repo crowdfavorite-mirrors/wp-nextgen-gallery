@@ -28,15 +28,16 @@
     <?php } ?>
 
     <tr>
-		<td colspan="2">
+		<td>
 			<a href="#"
 			   id="lightbox_library_advanced_toggle"
-			   data-hidden_label="<?php echo esc_attr(_('(Show Advanced Settings)'))?>"
-			   data-active_label="<?php echo esc_attr(_('(Hide Advanced Settings)'))?>"
+			   data-hidden_label="<?php echo esc_attr(__('(Show Advanced Settings)', 'nggallery')); ?>"
+			   data-active_label="<?php echo esc_attr(__('(Hide Advanced Settings)', 'nggallery')); ?>"
                data-currently-hidden='true'>
-                <?php echo_h(_("(Show Advanced Settings)"))?>
+                <?php echo_h(__("(Show Advanced Settings)", 'nggallery')); ?>
 			</a>
 		</td>
+        <td>&nbsp;</td>
 	</tr>
 
     <?php foreach ($adv_fields as $name => $form) { ?>
@@ -44,6 +45,24 @@
             <?php echo $form; ?>
         </tbody>
     <?php } ?>
-
+	<tr>
+		<td>&nbsp;
+		</td>
+		<td>&nbsp;
+		</td>
+	</tr>
+	<tr>
+		<td class="column1">
+			<label for="lightbox_global"><?php esc_html_e('What must the lightbox be applied to?', 'nggallery')?></label>
+		</td>
+		<td>
+			<select name="thumbEffectContext" id="lightbox_global">
+                <option value="nextgen_images" <?php selected('nextgen_images', $lightbox_global, TRUE)?>><?php esc_html_e('Only apply to NextGEN images', 'nggallery'); ?></option>
+                <option value="nextgen_and_wp_images" <?php selected('nextgen_and_wp_images', $lightbox_global, TRUE)?>><?php esc_html_e('Only apply to NextGEN and WordPress images', 'nggallery'); ?></option>
+                <option value="all_images" <?php selected('all_images', $lightbox_global, TRUE)?>><?php esc_html_e('Try to apply to all images', 'nggallery'); ?></option>
+                <option value="all_images_direct" <?php selected('all_images_direct', $lightbox_global, TRUE)?>><?php esc_html_e('Try to apply to all images that link to image files', 'nggallery'); ?></option>
+			</select>
+		</td>
+	</tr>
 	</tbody>
 </table>

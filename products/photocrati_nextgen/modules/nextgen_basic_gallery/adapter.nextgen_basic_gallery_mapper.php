@@ -19,17 +19,18 @@ class Hook_NextGen_Basic_Gallery_Defaults extends Hook
 {
 	function set_defaults($entity)
 	{
-		if ($entity->name == NEXTGEN_GALLERY_BASIC_SLIDESHOW)
-            $this->set_slideshow_defaults($entity);
-            
-        else if ($entity->name == NEXTGEN_GALLERY_BASIC_THUMBNAILS)
-            $this->set_thumbnail_defaults($entity);
+		if (isset($entity->name)) {
+			if ($entity->name == NGG_BASIC_SLIDESHOW)
+				$this->set_slideshow_defaults($entity);
+
+			else if ($entity->name == NGG_BASIC_THUMBNAILS)
+				$this->set_thumbnail_defaults($entity);
+		}
 	}
     
     function set_slideshow_defaults($entity)
     {
         $settings = C_NextGen_Settings::get_instance();
-        $this->object->_set_default_value($entity, 'settings', 'images_per_page', 10);
         $this->object->_set_default_value($entity, 'settings', 'gallery_width', $settings->irWidth);
         $this->object->_set_default_value($entity, 'settings', 'gallery_height', $settings->irHeight);
         $this->object->_set_default_value($entity, 'settings', 'thumbnail_width', $settings->thumbwidth);
@@ -89,7 +90,7 @@ class Hook_NextGen_Basic_Gallery_Defaults extends Hook
         $this->object->_set_default_value($entity, 'settings', 'thumbnail_watermark', 0);
 
         // Show piclens link ?
-        $this->object->_set_default_value($entity, 'settings', 'piclens_link_text', _('[Show PicLens]'));
+        $this->object->_set_default_value($entity, 'settings', 'piclens_link_text', __('[Show PicLens]', 'nggallery'));
         $this->object->_set_default_value($entity, 'settings', 'show_piclens_link',
             isset($entity->settings['show_piclens_link']) &&
               preg_match("/^true|yes|y$/", $entity->settings['show_piclens_link']) ?

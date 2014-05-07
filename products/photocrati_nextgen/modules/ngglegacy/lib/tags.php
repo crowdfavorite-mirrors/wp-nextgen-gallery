@@ -143,7 +143,7 @@ class nggTags {
 				$return_value['message'] = sprintf(__('Merge tag(s) &laquo;%1$s&raquo; to &laquo;%2$s&raquo;. %3$s objects edited.', 'nggallery'), $old, $new, $counter);
 			}
 		} else { // Error
-			$return_value['message'] = sprintf(__('Error. No enough tags for rename. Too for merge. Choose !', 'nggallery'), $old);
+			$return_value['message'] = sprintf(__('Error. Not enough tags provided to rename or merge.', 'nggallery'), $old);
 			$return_value['status'] = 'error';
 		}
 

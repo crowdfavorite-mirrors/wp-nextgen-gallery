@@ -4,14 +4,25 @@ class A_NextGen_Basic_Tagcloud_Form extends Mixin_Display_Type_Form
 {
 	function get_display_type_name()
 	{
-		return NEXTGEN_BASIC_TAG_CLOUD_MODULE_NAME;
+		return NGG_BASIC_TAGCLOUD;
 	}
 
 
     function _get_field_names()
     {
         return array(
+            'nextgen_basic_tagcloud_number',
             'nextgen_basic_tagcloud_display_type'
+        );
+    }
+
+    function _render_nextgen_basic_tagcloud_number_field($display_type)
+    {
+        return $this->_render_number_field(
+            $display_type,
+            'number',
+            __('Maximum number of tags', 'nggallery'),
+            $display_type->settings['number']
         );
     }
 
@@ -32,10 +43,10 @@ class A_NextGen_Basic_Tagcloud_Form extends Mixin_Display_Type_Form
         return $this->_render_select_field(
             $display_type,
             'display_type',
-            'Display type',
+            __('Display type', 'nggallery'),
             $types,
             $display_type->settings['display_type'],
-            'The display type that the tagcloud will point its results to'
+            __('The display type that the tagcloud will point its results to', 'nggallery')
         );
     }
 }

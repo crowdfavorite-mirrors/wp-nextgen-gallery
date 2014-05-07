@@ -1,6 +1,6 @@
 <p>
     <label for='<?php echo $self->get_field_id('title'); ?>'>
-        <?php _e('Title:'); ?>
+        <?php _e('Title', 'nggallery'); ?>:
     </label>
 
     <input class='widefat'
@@ -12,7 +12,7 @@
 
 <p>
     <label for='<?php echo $self->get_field_id('galleryid'); ?>'>
-        <?php _e('Select Gallery:', 'nggallery'); ?>
+        <?php _e('Select Gallery', 'nggallery'); ?>:
     </label>
 
     <select size='1'
@@ -37,7 +37,7 @@
 
 <p>
     <label for='<?php echo $self->get_field_id('height'); ?>'>
-        <?php _e('Height:', 'nggallery'); ?>
+        <?php _e('Height', 'nggallery'); ?>:
     </label>
 
     <input id='<?php echo $self->get_field_id('height'); ?>'
@@ -49,7 +49,7 @@
 
 <p>
     <label for='<?php echo $self->get_field_id('width'); ?>'>
-        <?php _e('Width:', 'nggallery'); ?>
+        <?php _e('Width', 'nggallery'); ?>:
     </label>
 
     <input id='<?php echo $self->get_field_id('width'); ?>'

@@ -22,10 +22,10 @@ class Mixin_NextGen_Basic_Album_Form extends Mixin_Display_Type_Form
             'photocrati-nextgen_basic_album#nextgen_basic_album_gallery_display_type',
             array(
                 'display_type_name'             =>  $display_type->name,
-                'gallery_display_type_label'    =>  _('Display galleries as'),
-                'gallery_display_type_help'     =>  _('How would you like galleries to be displayed?'),
+                'gallery_display_type_label'    =>  __('Display galleries as', 'nggallery'),
+                'gallery_display_type_help'     =>  __('How would you like galleries to be displayed?', 'nggallery'),
                 'gallery_display_type'          =>  $display_type->settings['gallery_display_type'],
-                'galleries_per_page_label'      =>  _('Galleries per page'),
+                'galleries_per_page_label'      =>  __('Galleries per page', 'nggallery'),
                 'galleries_per_page'            =>  $display_type->settings['galleries_per_page'],
                 'display_types'                 =>  $mapper->find_by_entity_type('image')
             ),
@@ -44,8 +44,8 @@ class Mixin_NextGen_Basic_Album_Form extends Mixin_Display_Type_Form
             'photocrati-nextgen_basic_album#nextgen_basic_album_galleries_per_page',
             array(
                 'display_type_name'             =>  $display_type->name,
-                'galleries_per_page_label'      =>  _('Items per page'),
-                'galleries_per_page_help'       =>  _('Maximum number of galleries or sub-albums to appear on a single page'),
+                'galleries_per_page_label'      =>  __('Items per page', 'nggallery'),
+                'galleries_per_page_help'       =>  __('Maximum number of galleries or sub-albums to appear on a single page', 'nggallery'),
                 'galleries_per_page'            =>  $display_type->settings['galleries_per_page']
             ),
             TRUE

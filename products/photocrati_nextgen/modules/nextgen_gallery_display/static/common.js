@@ -29,7 +29,7 @@
                         action: 'render_displayed_gallery',
                         displayed_gallery_id: transient_id,
                         ajax_referrer: $link.attr('href')
-                    }
+                    };
 
                     // Notify the user that we're busy
                     obj.do_ajax(request);
@@ -40,6 +40,7 @@
         this.do_ajax = function(request){
 
             var container    = this.container;
+            var self         = this;
 
             // Adjust the user notification
             window['ngg_ajax_operaton_count']++;
@@ -58,7 +59,13 @@
                 // Ensure that the server returned JSON
                 if (typeof(response) != 'object') response = JSON.parse(response);
                 if (response) {
-                    container.replaceWith(response.html);
+                    container.each(function() {
+                        if ($(this).data('nextgen-gallery-id') != self.displayed_gallery_id) {
+                            return true;
+                        }
+                        $(this).replaceWith(response.html);
+                        return true;
+                    });
 
                     // Let the user know that we've refreshed the content
                     $(document).trigger('refreshed');

@@ -122,7 +122,7 @@ class C_Image_Wrapper
         switch ($name)
         {
             case 'alttext':
-                $this->_cache['alttext'] = (empty($this->_cache['alttext'])) ?  ' ' : html_entity_decode(stripslashes(nggGallery::i18n($this->_cache['alttext'], 'pic_' . $this->__get('id') . '_alttext')));
+                $this->_cache['alttext'] = (empty($this->_cache['alttext'])) ?  ' ' : html_entity_decode(stripslashes($this->_cache['alttext']));
                 return $this->_cache['alttext'];
 
             case 'author':
@@ -138,7 +138,7 @@ class C_Image_Wrapper
                 return $this->_cache['author'];
 
             case 'caption':
-                $caption = html_entity_decode(stripslashes(nggGallery::i18n($this->__get('description'), 'pic_' . $this->__get('id') . '_description')));
+                $caption = html_entity_decode(stripslashes($this->__get('description')));
                 if (empty($caption))
                 {
                     $caption = '&nbsp;';
@@ -147,7 +147,7 @@ class C_Image_Wrapper
                 return $this->_cache['caption'];
 
             case 'description':
-                $this->_cache['description'] = (empty($this->_cache['description'])) ? ' ' : html_entity_decode(stripslashes(nggGallery::i18n($this->_cache['description'], 'pic_' . $this->__get('id') . '_description')));
+                $this->_cache['description'] = (empty($this->_cache['description'])) ? ' ' : html_entity_decode(stripslashes($this->_cache['description']));
                 return $this->_cache['description'];
 
             case 'galdesc':
@@ -182,7 +182,7 @@ class C_Image_Wrapper
 
             case 'imageHTML':
                 $tmp  = '<a href="' . $this->__get('imageURL') . '" title="'
-                      . htmlspecialchars(stripslashes(nggGallery::i18n($this->__get('description'), 'pic_' . $this->__get('id') . '_description')))
+                      . htmlspecialchars(stripslashes($this->__get('description')))
                       . '" ' . $this->get_thumbcode($this->__get('name')) . '>' . '<img alt="' . $this->__get('alttext')
                       . '" src="' . $this->__get('imageURL') . '"/>' . '</a>';
                 $this->_cache['href'] = $tmp;
@@ -200,7 +200,7 @@ class C_Image_Wrapper
                 return $this->_cache['imageURL'];
 
             case 'linktitle':
-                $this->_cache['linktitle'] = htmlspecialchars(stripslashes(nggGallery::i18n($this->__get('description'), 'pic_' . $this->__get('id') . '_description')));
+                $this->_cache['linktitle'] = htmlspecialchars(stripslashes($this->__get('description')));
                 return $this->_cache['linktitle'];
 
             case 'name':
@@ -274,8 +274,13 @@ class C_Image_Wrapper
 						$this->_orig_image->meta_data
 					);
 				}
-                $w = $this->_orig_image->meta_data['thumbnail']['width'];
-                $h = $this->_orig_image->meta_data['thumbnail']['height'];
+				if (!isset($this->_orig_image->meta_data['thumbnail'])) {
+					$storage = $this->get_storage();
+					$storage->generate_thumbnail($this->_orig_image);
+				}
+				$w = $this->_orig_image->meta_data['thumbnail']['width'];
+				$h = $this->_orig_image->meta_data['thumbnail']['height'];
+
                 return "width='{$w}' height='{$h}'";
 
             case 'slug':
@@ -296,7 +301,7 @@ class C_Image_Wrapper
 
             case 'thumbHTML':
                 $tmp = '<a href="' . $this->__get('imageURL') . '" title="'
-                     . htmlspecialchars(stripslashes(nggGallery::i18n($this->__get('description'), 'pic_' . $this->__get('id') . '_description')))
+                     . htmlspecialchars(stripslashes($this->__get('description')))
                      . '" ' . $this->get_thumbcode($this->__get('name')) . '>' . '<img alt="' . $this->__get('alttext')
                      . '" src="' . $this->thumbURL . '"/>' . '</a>';
                 $this->_cache['href'] = $tmp;
@@ -422,7 +427,13 @@ class C_Image_Wrapper
 
         $retval = apply_filters('ngg_get_thumbcode', $retval, $this);
 
-        $retval .= ' data-image-id="' . $this->__get('id') . '"';
+        // ensure some additional data- fields are added; provides Pro-Lightbox compatibility
+        $retval .= ' data-image-id="'    . $this->__get('id')           . '"';
+        $retval .= ' data-src="'         . $this->__get('imageURL')     . '"';
+        $retval .= ' data-thumbnail="'   . $this->__get('thumbnailURL') . '"';
+        $retval .= ' data-image-id="'    . $this->__get('pid')          . '"';
+        $retval .= ' data-title="'       . esc_attr($this->__get('alttext'))      . '"';
+        $retval .= ' data-description="' . esc_attr($this->__get('description'))  . '"';
 
         $this->_cache['thumbcode'] = $retval;
         return $retval;

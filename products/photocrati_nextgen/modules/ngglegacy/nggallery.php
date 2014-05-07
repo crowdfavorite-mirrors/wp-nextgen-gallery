@@ -9,9 +9,9 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You 
 if (!class_exists('nggLoader')) {
 	class nggLoader {
 
-		var $version     = NEXTGEN_GALLERY_PLUGIN_VERSION;
+		var $version     = NGG_PLUGIN_VERSION;
 		var $dbversion   = '1.8.1';
-		var $minimum_WP  = '3.6';
+		var $minimum_WP  = '3.6.1';
 		var $donators    = 'http://www.nextgen-gallery.com/donators.php';
 		var $options     = '';
 		var $manage_page;
@@ -26,7 +26,7 @@ if (!class_exists('nggLoader')) {
 
 			// Determine plugin basename based on whether NGG is being used in
 			// it's legacy form, or as a Photocrati Gallery
-			if (defined('NEXTGEN_GALLERY_PLUGIN_BASENAME')) $this->plugin_name = NEXTGEN_GALLERY_PLUGIN_BASENAME;
+			if (defined('NGG_PLUGIN_BASENAME')) $this->plugin_name = NGG_PLUGIN_BASENAME;
 			else $this->plugin_name = basename(dirname(__FILE__)).'/'.basename(__FILE__);
 
 			// Get some constants first
@@ -34,14 +34,6 @@ if (!class_exists('nggLoader')) {
 			$this->define_constant();
 			$this->define_tables();
 			$this->load_dependencies();
-			$this->start_rewrite_module();
-
-			// Init options & tables during activation & deregister init option
-			register_activation_hook( $this->plugin_name, array(&$this, 'activate') );
-			register_deactivation_hook( $this->plugin_name, array(&$this, 'deactivate') );
-
-			// Register a uninstall hook to remove all tables & option automatic
-			register_uninstall_hook( $this->plugin_name, array(__CLASS__, 'uninstall') );
 
 			// Start this plugin once all other plugins are fully loaded
 			add_action( 'plugins_loaded', array(&$this, 'start_plugin') );
@@ -68,12 +60,9 @@ if (!class_exists('nggLoader')) {
 
 			global $nggRewrite;
 
-			// Load the language file
-			$this->load_textdomain();
-
 			// All credits to the tranlator
-			$this->translator  = '<p class="hint">'. __('<strong>Translation by : </strong><a target="_blank" href="http://alexrabe.de/wordpress-plugins/nextgen-gallery/languages/">See here</a>', 'nggallery') . '</p>';
-			$this->translator .= '<p class="hint">'. __('<strong>This translation is not yet updated for Version 1.9.0</strong>. If you would like to help with translation, download the current po from the plugin folder and read <a href="http://alexrabe.de/wordpress-plugins/wordtube/translation-of-plugins/">here</a> how you can translate the plugin.', 'nggallery') . '</p>';
+			$this->translator  = '<p class="hint">'. __('<strong>Translation by : </strong><a target="_blank" href="http://www.nextgen-gallery.com/languages/">See here</a>', 'nggallery') . '</p>';
+			$this->translator .= '<p class="hint">'. __('<strong>This translation is not yet updated for Version 1.9.0</strong>. If you would like to help with translation, download the current po from the plugin folder and read <a href="http://www.nextgen-gallery.com/languages/">here</a> how you can translate the plugin.', 'nggallery') . '</p>';
 
 			// Content Filters
 			add_filter('ngg_gallery_name', 'sanitize_title');
@@ -209,27 +198,29 @@ if (!class_exists('nggLoader')) {
 			//TODO:SHOULD BE REMOVED LATER
 			define('NGGVERSION', $this->version);
 			// Minimum required database version
-			define('NGG_DBVERSION', $this->dbversion);
 
-			// required for Windows & XAMPP
-			define('WINABSPATH', str_replace("\\", "/", ABSPATH) );
+			define('NGG_DBVERSION', $this->dbversion);
 
 			// define URL
 			define('NGGFOLDER', dirname( $this->plugin_name ) );
 
+            // Legacy expects this to have a trailing slash
 			define(
 				'NGGALLERY_ABSPATH',
-				defined('NEXTGEN_GALLERY_NGGLEGACY_MOD_DIR') ?
-					trailingslashit(NEXTGEN_GALLERY_NGGLEGACY_MOD_DIR) :
-					trailingslashit(dirname(__FILE__))
+				defined('NGG_LEGACY_MOD_DIR') ?
+					rtrim(NGG_LEGACY_MOD_DIR, "/\\").DIRECTORY_SEPARATOR :
+					rtrim(dirname(__FILE__), "/\\").DIRECTORY_SEPARATOR
 			);
 
-			define(
-				'NGGALLERY_URLPATH',
-				defined('NEXTGEN_GALLERY_NGGLEGACY_MOD_URL') ?
-					trailingslashit(NEXTGEN_GALLERY_NGGLEGACY_MOD_URL) :
-					trailingslashit( plugins_url( NGGFOLDER ) )
-			);
+            // Legacy expects this to have a trailing slash
+            define(
+                'NGGALLERY_URLPATH',
+                str_replace("\\", '/', str_replace(
+                    rtrim(ABSPATH, "\\/"),
+                    site_url(),
+                    NGG_LEGACY_MOD_DIR.'/'
+                ))
+            );
 
 			// look for imagerotator
 			define('NGGALLERY_IREXIST', !empty( $this->options['irURL'] ));
@@ -281,12 +272,6 @@ if (!class_exists('nggLoader')) {
 			}
 		}
 
-		function load_textdomain() {
-
-			load_plugin_textdomain('nggallery', false, NGGFOLDER . '/lang');
-
-		}
-
 		function load_thickbox_images() {
 			// WP core reference relative to the images. Bad idea
 			echo "\n" . '<script type="text/javascript">tb_pathToImage = "' . site_url() . '/wp-includes/js/thickbox/loadingAnimation.gif";tb_closeImage = "' . site_url() . '/wp-includes/js/thickbox/tb-close.png";</script>'. "\n";
@@ -295,13 +280,6 @@ if (!class_exists('nggLoader')) {
 		function load_options() {
 			// Load the options
 			$this->options = get_option('ngg_options');
-		}
-
-		// Add rewrite rules
-		function start_rewrite_module() {
-			// global $nggRewrite;
-			// if (class_exists('nggRewrite'))
-			//	$nggRewrite = new nggRewrite();
 		}
 
 		// THX to Shiba for the code
@@ -314,97 +292,10 @@ if (!class_exists('nggLoader')) {
 			if (is_plugin_active_for_network( $this->plugin_name )) {
 				$current_blog = $wpdb->blogid;
 				switch_to_blog($blog_id);
-				nggallery_install();
+				$installer = new C_NggLegacy_Installer;
+				nggallery_install($installer);
 				switch_to_blog($current_blog);
 			}
-		}
-
-		/**
-		 * Removes all transients created by NextGEN. Called during activation
-		 * and deactivation routines
-		 */
-		static function remove_transients()
-		{
-			global $wpdb, $_wp_using_ext_object_cache;
-
-			// Fetch all transients
-			$query = "
-				SELECT option_name FROM {$wpdb->options}
-				WHERE option_name LIKE '%ngg_request%'
-			";
-			$transient_names = $wpdb->get_col($query);;
-
-			// Delete all transients in the database
-			$query = "
-				DELETE FROM {$wpdb->options}
-				WHERE option_name LIKE '%ngg_request%'
-			";
-			$wpdb->query($query);
-
-			// If using an external caching mechanism, delete the cached items
-			if ($_wp_using_ext_object_cache) {
-				foreach ($transient_names as $transient) {
-					wp_cache_delete($transient, 'transient');
-					wp_cache_delete(substr($transient, 11), 'transient');
-				}
-			}
-		}
-
-		function activate() {
-			global $wpdb;
-			//Starting from version 1.8.0 it's works only with PHP5.2
-			if (version_compare(PHP_VERSION, '5.2.0', '<')) {
-					deactivate_plugins($this->plugin_name); // Deactivate ourself
-					wp_die("Sorry, but you can't run this plugin, it requires PHP 5.2 or higher.");
-					return;
-			}
-
-			// Clean up transients
-			self::remove_transients();
-
-			include_once (dirname (__FILE__) . '/admin/install.php');
-
-			if (is_multisite()) {
-				$network=isset($_SERVER['SCRIPT_NAME'])?$_SERVER['SCRIPT_NAME']:"";
-				$activate=isset($_GET['action'])?$_GET['action']:"";
-				$isNetwork=($network=='/wp-admin/network/plugins.php')?true:false;
-				$isActivation=($activate=='deactivate')?false:true;
-
-				if ($isNetwork and $isActivation){
-					$old_blog = $wpdb->blogid;
-					$blogids = $wpdb->get_col($wpdb->prepare("SELECT blog_id FROM $wpdb->blogs", NULL));
-					foreach ($blogids as $blog_id) {
-						switch_to_blog($blog_id);
-						nggallery_install();
-					}
-					switch_to_blog($old_blog);
-					return;
-				}
-			}
-
-			// check for tables
-			nggallery_install();
-			// remove the update message
-			delete_option( 'ngg_update_exists' );
-
-		}
-
-		function deactivate() {
-
-			// remove & reset the init check option
-			delete_option( 'ngg_init_check' );
-			delete_option( 'ngg_update_exists' );
-
-			// Clean up transients
-			self::remove_transients();
-		}
-
-		function uninstall() {
-			// Clean up transients
-			self::remove_transients();
-
-			include_once (dirname (__FILE__) . '/admin/install.php');
-			nggallery_uninstall();
 		}
 
 		function disable_upgrade($option){

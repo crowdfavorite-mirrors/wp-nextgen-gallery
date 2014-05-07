@@ -1,7 +1,7 @@
 <!-- title -->
 <p>
     <label for='<?php echo $self->get_field_id('title'); ?>'>
-        <?php _e('Title :', 'nggallery'); ?>
+        <?php _e('Title', 'nggallery'); ?>:
         <input id='<?php echo $self->get_field_id('title'); ?>'
                name='<?php echo $self->get_field_name('title');?>'
                type='text'
@@ -12,7 +12,7 @@
 
 <!-- count & source -->
 <p>
-    <?php _e('Show :', 'nggallery'); ?><br/>
+    <?php _e('Show', 'nggallery'); ?>:<br/>
     <label for='<?php echo $self->get_field_id('items'); ?>'>
         <input style='width: 50px;'
                id='<?php echo $self->get_field_id('items'); ?>'
@@ -47,7 +47,7 @@
                type='radio'
                value='recent'
                <?php checked('recent', $instance['type']); ?>/>
-        <?php _e('recent added ', 'nggallery'); ?>
+        <?php _e('recently added', 'nggallery'); ?>
     </label>
 </p>
 
@@ -65,7 +65,7 @@
 
 <!-- dimensions -->
 <p>
-    <?php _e('Width x Height :', 'nggallery'); ?><br/>
+    <?php _e('Width x Height', 'nggallery'); ?>:<br/>
     <?php
     $thumbnails_template_height_value = $height;
     $thumbnails_template_width_value = $width;
@@ -73,14 +73,18 @@
     $thumbnails_template_width_id = $self->get_field_id('width');
     $thumbnails_template_height_name = $self->get_field_name('height');
     $thumbnails_template_width_name = $self->get_field_name('width');
-    include(path_join(NGGALLERY_ABSPATH, implode(DIRECTORY_SEPARATOR, array('admin', 'thumbnails-template.php'))));
+    include(implode(DIRECTORY_SEPARATOR, array(
+        rtrim(NGGALLERY_ABSPATH, "/\\"),
+        'admin',
+        'thumbnails-template.php'
+    )));
     ?>
 </p>
 
 <!-- which galleries -->
 <p>
     <label for='<?php echo $self->get_field_id('exclude'); ?>'>
-        <?php _e('Select :', 'nggallery'); ?>
+        <?php _e('Select', 'nggallery'); ?>:
         <select id='<?php echo $self->get_field_id('exclude'); ?>'
                 name='<?php echo $self->get_field_name('exclude'); ?>'
                 class='widefat'>
@@ -100,7 +104,7 @@
 <!-- gallery ids -->
 <p>
     <label for='<?php echo $self->get_field_id('list'); ?>'>
-        <?php _e('Gallery ID :', 'nggallery'); ?>
+        <?php _e('Gallery ID', 'nggallery'); ?>:
         <input id='<?php echo $self->get_field_id('list'); ?>'
                name='<?php echo $self->get_field_name('list'); ?>'
                type='text' class='widefat'

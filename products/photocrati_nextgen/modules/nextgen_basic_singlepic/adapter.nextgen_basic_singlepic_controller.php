@@ -40,7 +40,7 @@ class A_NextGen_Basic_Singlepic_Controller extends Mixin
             $effect_code = '';
         }
         else {
-            $display_settings['link'] = $storage->get_image_url($image);
+            $display_settings['link'] = $storage->get_image_url($image, 'full', TRUE);
             $target = '_self';
             $effect_code = $this->object->get_effect_code($displayed_gallery);
         }

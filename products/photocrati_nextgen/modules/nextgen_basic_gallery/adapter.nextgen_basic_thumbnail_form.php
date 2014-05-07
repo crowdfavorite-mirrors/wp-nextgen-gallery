@@ -4,7 +4,7 @@ class A_NextGen_Basic_Thumbnail_Form extends Mixin_Display_Type_Form
 {
 	function get_display_type_name()
 	{
-		return NEXTGEN_GALLERY_BASIC_THUMBNAILS;
+		return NGG_BASIC_THUMBNAILS;
 	}
 
 	/**
@@ -23,6 +23,12 @@ class A_NextGen_Basic_Thumbnail_Form extends Mixin_Display_Type_Form
 			$this->object->get_static_url('photocrati-nextgen_basic_gallery#thumbnails/nextgen_basic_thumbnails_settings.js'),
 			array('jquery.nextgen_radio_toggle')
 		);
+	
+		$atp = $this->object->get_registry()->get_utility('I_Attach_To_Post_Controller');
+	
+		if ($atp != null) {
+			$atp->mark_script('nextgen_basic_thumbnails_settings');
+		}
 	}
 
 	/**
@@ -56,9 +62,9 @@ class A_NextGen_Basic_Thumbnail_Form extends Mixin_Display_Type_Form
         return $this->_render_number_field(
             $display_type,
             'images_per_page',
-            'Images per page',
+            __('Images per page', 'nggallery'),
             $display_type->settings['images_per_page'],
-            '"0" will display all images at once',
+            __('0 will display all images at once', 'nggallery'),
             FALSE,
             '# of images',
             0
@@ -76,11 +82,11 @@ class A_NextGen_Basic_Thumbnail_Form extends Mixin_Display_Type_Form
         return $this->_render_number_field(
             $display_type,
             'number_of_columns',
-            'Number of columns to display',
+            __('Number of columns to display', 'nggallery'),
             $display_type->settings['number_of_columns'],
             '',
             FALSE,
-            '# of columns',
+            __('# of columns', 'nggallery'),
             0
         );
     }
@@ -96,7 +102,7 @@ class A_NextGen_Basic_Thumbnail_Form extends Mixin_Display_Type_Form
         return $this->_render_text_field(
             $display_type,
             'piclens_link_text',
-            'Piclens link text',
+            __('Piclens link text', 'nggallery'),
             $display_type->settings['piclens_link_text'],
             '',
             !empty($display_type->settings['show_piclens_link']) ? FALSE : TRUE
@@ -114,7 +120,7 @@ class A_NextGen_Basic_Thumbnail_Form extends Mixin_Display_Type_Form
         return $this->_render_radio_field(
             $display_type,
             'show_piclens_link',
-            'Show piclens link',
+            __('Show piclens link', 'nggallery'),
             $display_type->settings['show_piclens_link']
         );
     }
@@ -130,9 +136,9 @@ class A_NextGen_Basic_Thumbnail_Form extends Mixin_Display_Type_Form
         return $this->_render_radio_field(
             $display_type,
             'show_all_in_lightbox',
-            'Add Hidden Images',
+            __('Add Hidden Images', 'nggallery'),
             $display_type->settings['show_all_in_lightbox'],
-            'If pagination is used this option will show all images in the modal window (Thickbox, Lightbox etc.) This increases page load.'
+            __('If pagination is used this option will show all images in the modal window (Thickbox, Lightbox etc.) This increases page load.', 'nggallery')
         );
     }
 
@@ -141,9 +147,9 @@ class A_NextGen_Basic_Thumbnail_Form extends Mixin_Display_Type_Form
         return $this->_render_radio_field(
             $display_type,
             'use_imagebrowser_effect',
-            'Use imagebrowser effect',
+            __('Use imagebrowser effect', 'nggallery'),
             $display_type->settings['use_imagebrowser_effect'],
-            'When active each image in the gallery will link to an imagebrowser display and lightbox effects will not be applied.'
+            __('When active each image in the gallery will link to an imagebrowser display and lightbox effects will not be applied.', 'nggallery')
         );
     }
 
@@ -158,9 +164,9 @@ class A_NextGen_Basic_Thumbnail_Form extends Mixin_Display_Type_Form
         return $this->_render_radio_field(
             $display_type,
             'ajax_pagination',
-            'Enable AJAX pagination',
+            __('Enable AJAX pagination', 'nggallery'),
             $display_type->settings['ajax_pagination'],
-            'Browse images without reloading the page.'
+            __('Browse images without reloading the page.', 'nggallery')
         );
     }
 
@@ -175,7 +181,7 @@ class A_NextGen_Basic_Thumbnail_Form extends Mixin_Display_Type_Form
         return $this->_render_radio_field(
             $display_type,
             'show_slideshow_link',
-            'Show slideshow link',
+            __('Show slideshow link', 'nggallery'),
             $display_type->settings['show_slideshow_link']
         );
     }
@@ -191,7 +197,7 @@ class A_NextGen_Basic_Thumbnail_Form extends Mixin_Display_Type_Form
         return $this->_render_text_field(
             $display_type,
             'slideshow_link_text',
-            'Slideshow link text',
+            __('Slideshow link text', 'nggallery'),
             $display_type->settings['slideshow_link_text'],
             '',
             !empty($display_type->settings['show_slideshow_link']) ? FALSE : TRUE

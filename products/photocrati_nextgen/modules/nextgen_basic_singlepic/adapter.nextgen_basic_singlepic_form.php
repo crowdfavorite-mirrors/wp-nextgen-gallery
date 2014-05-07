@@ -8,7 +8,7 @@ class A_NextGen_Basic_SinglePic_Form extends Mixin_Display_Type_Form
 	 */
 	function get_display_type_name()
 	{
-		return NEXTGEN_BASIC_SINGLEPIC_MODULE_NAME;
+		return NGG_BASIC_SINGLEPIC;
 	}
 
 	/**
@@ -34,10 +34,10 @@ class A_NextGen_Basic_SinglePic_Form extends Mixin_Display_Type_Form
             'photocrati-nextgen_basic_singlepic#nextgen_basic_singlepic_settings_dimensions',
             array(
                 'display_type_name' => $display_type->name,
-                'dimensions_label' => _('Thumbnail dimensions'),
-                'width_label' => _('Width'),
+                'dimensions_label' => __('Thumbnail dimensions', 'nggallery'),
+                'width_label' => __('Width'),
                 'width' => $display_type->settings['width'],
-                'height_label' => _('Width'),
+                'height_label' => __('Height'),
                 'height' => $display_type->settings['height'],
             ),
             True
@@ -50,7 +50,7 @@ class A_NextGen_Basic_SinglePic_Form extends Mixin_Display_Type_Form
             'photocrati-nextgen_basic_singlepic#nextgen_basic_singlepic_settings_link',
             array(
                 'display_type_name' => $display_type->name,
-                'link_label' => _('Link'),
+                'link_label' => __('Link'),
                 'link' => $display_type->settings['link'],
             ),
             True
@@ -63,7 +63,7 @@ class A_NextGen_Basic_SinglePic_Form extends Mixin_Display_Type_Form
             'photocrati-nextgen_basic_singlepic#nextgen_basic_singlepic_settings_quality',
             array(
                 'display_type_name' => $display_type->name,
-                'quality_label' => _('Image quality'),
+                'quality_label' => __('Image quality', 'nggallery'),
                 'quality' => $display_type->settings['quality'],
             ),
             True
@@ -75,7 +75,7 @@ class A_NextGen_Basic_SinglePic_Form extends Mixin_Display_Type_Form
         return $this->_render_radio_field(
             $display_type,
             'display_watermark',
-            'Display watermark',
+            __('Display watermark', 'nggallery'),
             $display_type->settings['display_watermark']
         );
     }
@@ -85,7 +85,7 @@ class A_NextGen_Basic_SinglePic_Form extends Mixin_Display_Type_Form
         return $this->_render_radio_field(
             $display_type,
             'display_reflection',
-            'Display reflection',
+            __('Display reflection', 'nggallery'),
             $display_type->settings['display_reflection']
         );
     }
@@ -95,7 +95,7 @@ class A_NextGen_Basic_SinglePic_Form extends Mixin_Display_Type_Form
         return $this->_render_radio_field(
             $display_type,
             'crop',
-            'Crop thumbnail',
+            __('Crop thumbnail', 'nggallery'),
             $display_type->settings['crop']
         );
     }
@@ -105,8 +105,12 @@ class A_NextGen_Basic_SinglePic_Form extends Mixin_Display_Type_Form
         return $this->_render_select_field(
             $display_type,
             'float',
-            'Float',
-            array('' => 'None', 'left' => 'Left', 'right' => 'Right'),
+            __('Float', 'nggallery'),
+            array(
+                '' => __('None', 'nggallery'),
+                'left' => __('Left', 'nggallery'),
+                'right' => __('Right', 'nggallery')
+            ),
             $display_type->settings['float']
         );
     }
