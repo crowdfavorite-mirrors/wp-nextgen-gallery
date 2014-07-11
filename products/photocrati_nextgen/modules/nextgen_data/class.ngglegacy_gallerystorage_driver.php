@@ -215,6 +215,11 @@ class Mixin_NggLegacy_GalleryStorage_Driver extends Mixin
                 );
             }
             else {
+                // Remove the non-valid (and potentially insecure) file from the PHP upload directory
+                if (isset($_FILES['file']['tmp_name'])) {
+                    $filename = $_FILES['file']['tmp_name'];
+                    @unlink($filename);
+                }
                 throw new E_UploadException(__('Invalid image file. Acceptable formats: JPG, GIF, and PNG.', 'nggallery'));
             }
 		}

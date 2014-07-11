@@ -468,6 +468,7 @@ class Mixin_GalleryStorage_Driver_Base extends Mixin
 
         if ((isset($_FILES['file']) && $_FILES['file']['error'] == 0)) {
             $file_info = $_FILES['file'];
+            $filename  = $_FILES['file']['tmp_name'];
 
             if (isset($file_info['type'])) {
                 $type = strtolower($file_info['type']);
@@ -482,10 +483,29 @@ class Mixin_GalleryStorage_Driver_Base extends Mixin
                 $valid_regex = '/\.(jpg|jpeg|gif|png)$/';
 
                 // Is this a valid type?
-                if (in_array($type, $valid_types)) $retval = TRUE;
+                if (in_array($type, $valid_types)) {
+
+                    // If we can, we'll verify the mime type
+                    if (function_exists('exif_imagetype')) {
+                        if (($image_type = @exif_imagetype($filename)) !== FALSE) {
+                            $retval = in_array(image_type_to_mime_type($image_type), $valid_types);
+                        }
+                    }
+
+                    else {
+                        $file_info = @getimagesize($filename);
+                        if (isset($file_info[2])) {
+                            $retval = in_array(image_type_to_mime_type($file_info[2]), $valid_types);
+                        }
+
+                        // We'll assume things are ok as there isn't much else we can do
+                        else $retval = TRUE;
+                    }
+                }
 
                 // Is this a valid extension?
-                else if (strpos($type, 'octem-stream') !== FALSE && preg_match($valid_regex, $type)) {
+                // TODO: Should we remove this?
+                else if (strpos($type, 'octet-stream') !== FALSE && preg_match($valid_regex, $type)) {
                     $retval = TRUE;
                 }
             }
