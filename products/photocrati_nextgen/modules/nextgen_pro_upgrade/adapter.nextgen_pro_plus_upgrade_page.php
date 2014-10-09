@@ -1,6 +1,6 @@
 <?php
 
-class A_NextGen_Pro_Upgrade_Page extends Mixin
+class A_NextGen_Pro_Plus_Upgrade_Page extends Mixin
 {
     function initialize()
     {

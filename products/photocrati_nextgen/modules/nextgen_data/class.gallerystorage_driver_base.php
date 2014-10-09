@@ -228,7 +228,7 @@ class Mixin_GalleryStorage_Driver_Base extends Mixin
         {
             $gallerypath = C_NextGen_Settings::get_instance()->gallerypath;
             $retval = implode(DIRECTORY_SEPARATOR, array(
-               rtrim(C_Fs::get_instance()->get_document_root(), "/\\"),
+               rtrim(C_Fs::get_instance()->get_document_root('gallery'), "/\\"),
                rtrim($gallerypath, "/\\"),
                'cache'
             ));
@@ -442,7 +442,7 @@ class Mixin_GalleryStorage_Driver_Base extends Mixin
 		$fs = C_Fs::get_instance();
 
         $retval = str_replace(
-            $fs->get_document_root(),
+            $fs->get_document_root('gallery'),
             '',
             $this->object->get_upload_abspath($gallery)
         );
@@ -471,8 +471,7 @@ class Mixin_GalleryStorage_Driver_Base extends Mixin
             $filename  = $_FILES['file']['tmp_name'];
 
             if (isset($file_info['type'])) {
-                $type = strtolower($file_info['type']);
-                error_log("Attempted to upload {$type}.");
+                $type = strtolower($file_info['type']);;
                 $valid_types = array(
                     'image/gif',
                     'image/jpg',
@@ -627,7 +626,7 @@ class Mixin_GalleryStorage_Driver_Base extends Mixin
 	 * @param type $filename specifies the name of the file
 	 * @return C_Image
 	 */
-	function upload_base64_image($gallery, $data, $filename=FALSE, $image_id=FALSE)
+    function upload_base64_image($gallery, $data, $filename=FALSE, $image_id=FALSE, $override=FALSE)
 	{
         $settings = C_NextGen_Settings::get_instance();
         $memory_limit = intval(ini_get('memory_limit'));
@@ -659,8 +658,30 @@ class Mixin_GalleryStorage_Driver_Base extends Mixin
 			if (preg_match("/\-(png|jpg|gif|jpeg)$/i", $filename, $match)) {
 				$filename = str_replace($match[0], '.'.$match[1], $filename);
 			}
+
             $abs_filename = implode(DIRECTORY_SEPARATOR, array($upload_dir, $filename));
-			
+
+            // Prevent duplicate filenames: check if the filename exists and
+            // begin appending '-i' until we find an open slot
+            if (!ini_get('safe_mode') && @file_exists($abs_filename) && !$override)
+            {
+                $file_exists = TRUE;
+                $i = 0;
+                do {
+                    $i++;
+                    $parts = explode('.', $filename);
+                    $extension = array_pop($parts);
+                    $new_filename = implode('.', $parts) . '-' . $i . '.' . $extension;
+                    $new_abs_filename = implode(DIRECTORY_SEPARATOR, array($upload_dir, $new_filename));
+                    if (!@file_exists($new_abs_filename))
+                    {
+                        $file_exists = FALSE;
+                        $filename = $new_filename;
+                        $abs_filename = $new_abs_filename;
+                    }
+                } while ($file_exists == TRUE);
+            }
+
 			// Create or retrieve the image object
 			$image	= NULL;
 			if ($image_id) {

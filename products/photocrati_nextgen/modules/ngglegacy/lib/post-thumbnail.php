@@ -65,9 +65,9 @@ class nggPostThumbnail {
 				$iframe_src = add_query_arg('chromeless', '1', $iframe_src);
 				$iframe_src = add_query_arg('TB_iframe', '1', $iframe_src);
 			
-			  $set_thumbnail_link = '<p class="hide-if-no-js"><a title="' . esc_attr__( 'Set NextGEN featured image' ) . '" href="' . nextgen_esc_url( $iframe_src ) . '" id="set-ngg-post-thumbnail" class="thickbox">%s</a></p>';
+			  $set_thumbnail_link = '<p class="hide-if-no-js"><a title="' . esc_attr__( 'Set NextGEN featured image', 'nggallery' ) . '" href="' . nextgen_esc_url( $iframe_src ) . '" id="set-ngg-post-thumbnail" class="thickbox">%s</a></p>';
 			  
-			  $content .= sprintf($set_thumbnail_link, esc_html__( 'Set NextGEN featured image' ));
+			  $content .= sprintf($set_thumbnail_link, esc_html__( 'Set NextGEN featured image', 'nggallery' ));
 			}
 			
 			return $content;
@@ -325,8 +325,8 @@ class nggPostThumbnail {
 	   
 		global $_wp_additional_image_sizes, $post_ID;
 
-	    $set_thumbnail_link = '<p class="hide-if-no-js"><a title="' . esc_attr__( 'Set featured image' ) . '" href="' . nextgen_esc_url( get_upload_iframe_src('image') ) . '" id="set-post-thumbnail" class="thickbox">%s</a></p>';
-	    $content = sprintf($set_thumbnail_link, esc_html__( 'Set featured image' ));
+	    $set_thumbnail_link = '<p class="hide-if-no-js"><a title="' . esc_attr__( 'Set featured image', 'nggallery' ) . '" href="' . nextgen_esc_url( get_upload_iframe_src('image') ) . '" id="set-post-thumbnail" class="thickbox">%s</a></p>';
+	    $content = sprintf($set_thumbnail_link, esc_html__( 'Set featured image', 'nggallery' ));
 		
         $image = nggdb::find_image($thumbnail_id);
         $img_src = false;

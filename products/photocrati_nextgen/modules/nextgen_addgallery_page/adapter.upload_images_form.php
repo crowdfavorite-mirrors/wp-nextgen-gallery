@@ -66,27 +66,31 @@ class A_Upload_Images_Form extends Mixin
         $retval['flash_swf_url']        = includes_url('js/plupload/plupload.flash.swf');
         $retval['silverlight_xap_url']  = includes_url('js/plupload/plupload.silverlight.xap');
         $retval['debug']                = TRUE;
+        $retval['prevent_duplicates']   = TRUE;
 
         return $retval;
     }
 
     function get_plupload_filters()
     {
-        $retval = array();
+        $retval                     = new stdClass;
+        $retval->mime_types         = array();
 
-        $imgs               = new stdClass;
-        $imgs->title        = "Image files";
-        $imgs->extensions   = "jpg,jpeg,gif,png,JPG,JPEG,GIF,PNG";
-        $retval[]           = $imgs;
+        $imgs                       = new stdClass;
+        $imgs->title                = "Image files";
+        $imgs->extensions           = "jpg,jpeg,gif,png,JPG,JPEG,GIF,PNG";
+        $retval->mime_types[]       = $imgs;
 
         $settings = C_NextGen_Settings::get_instance();
         if (!is_multisite() || (is_multisite() && $settings->get('wpmuZipUpload')))
         {
-            $zips             = new stdClass;
-            $zips->title      = "Zip files";
-            $zips->extensions = "zip,ZIP";
-            $retval[]         = $zips;
+            $zips                   = new stdClass;
+            $zips->title            = "Zip files";
+            $zips->extensions       = "zip,ZIP";
+            $retval->mime_types[]   = $zips;
         }
+
+        $retval->xss_protection = TRUE;
 
         return $retval;
     }

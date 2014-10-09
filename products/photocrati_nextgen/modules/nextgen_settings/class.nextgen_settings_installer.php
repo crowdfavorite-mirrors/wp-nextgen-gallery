@@ -33,6 +33,7 @@ class C_NextGen_Settings_Installer
 			'graphicLibrary' => 'gd',              // default graphic library
 			'imageMagickDir' => '/usr/local/bin/', // default path to ImageMagick
 			'useMediaRSS'    => False,             // activate the global Media RSS file
+            'galleries_in_feeds' => FALSE,         // enables rendered gallery output in rss/atom feeds
 			'usePicLens'     => False,             // activate the PicLens Link for galleries
 
 			// Tags / categories

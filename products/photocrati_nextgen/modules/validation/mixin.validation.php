@@ -53,7 +53,7 @@ class Mixin_Validation extends Mixin
             $this->object->_errors = array();
         }
 
-		$errors = &$this->object->_errors;
+		$errors = $this->object->_errors;
 
         if (!isset($errors[$property])) {
             $errors[$property] = array();
@@ -277,7 +277,7 @@ class Mixin_Validation extends Mixin
                                 $default_msg = $this->_get_default_error_message_for('validates_equals');
                                 break;
                             case '<':
-                                $invalid = ($value < $comparion) ? FALSE : TRUE;
+                                $invalid = ($value < $comparison) ? FALSE : TRUE;
                                 $default_msg = $this->_get_default_error_message_for('validates_less_than');
                                 break;
                             case '>':

@@ -66,6 +66,7 @@ class A_NextGen_Basic_SinglePic_Mapper extends Mixin
 			$this->object->_set_default_value($entity, 'settings', 'display_reflection', 0);
 			$this->object->_set_default_value($entity, 'settings', 'float', '');
 			$this->object->_set_default_value($entity, 'settings', 'link', '');
+            $this->object->_set_default_value($entity, 'settings', 'link_target', '_blank');
 			$this->object->_set_default_value($entity, 'settings', 'quality', 100);
 			$this->object->_set_default_value($entity, 'settings', 'crop', 0);
             $this->object->_set_default_value($entity, 'settings', 'template', '');

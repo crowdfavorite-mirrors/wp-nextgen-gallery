@@ -592,10 +592,11 @@ class nggManageGallery {
                                             $storage->delete_image($pid);
                 						}
                 					}
-                					// delete folder
-               						@rmdir( ABSPATH . $gallery->path . '/thumbs' );
-                                    @rmdir( ABSPATH . $gallery->path . '/dynamic' );
-               						@rmdir( ABSPATH . $gallery->path );
+                                    // delete folder. abspath provided by nggdb::find_gallery()
+                                    $fs = C_Fs::get_instance();
+                                    @rmdir($fs->join_paths($gallery->abspath, 'thumbs'));
+                                    @rmdir($fs->join_paths($gallery->abspath, 'dynamic'));
+                                    @rmdir($gallery->abspath);
                 				}
                 			}
                             do_action('ngg_delete_gallery', $id);
@@ -747,12 +748,10 @@ class nggManageGallery {
 
 			switch ($_POST['TB_bulkaction']) {
 				case 'copy_to':
-				// Copy images
-					nggAdmin::copy_images( $pic_ids, $dest_gid );
+                    C_Gallery_Storage::get_instance()->copy_images($pic_ids, $dest_gid);
 					break;
 				case 'move_to':
-				// Move images
-					nggAdmin::move_images( $pic_ids, $dest_gid );
+                    C_Gallery_Storage::get_instance()->move_images($pic_ids, $dest_gid);
 					break;
 			}
 		}

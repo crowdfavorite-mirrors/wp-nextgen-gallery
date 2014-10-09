@@ -27,13 +27,21 @@ class M_MVC extends C_Base_Module
             "http://www.photocrati.com"
         );
 
-		include_once('class.mvc_installer.php');
-		C_Photocrati_Installer::add_handler($this->module_id, 'C_Mvc_Installer');
-
 		include_once('class.mvc_option_handler.php');
-		C_NextGen_Settings::add_option_handler('C_Mvc_Option_Handler', array(
-			'mvc_template_dir'
+		C_NextGen_Settings::get_instance()->add_option_handler('C_Mvc_Option_Handler', array(
+            'mvc_template_dir',
+            'mvc_template_dirname',
+            'mvc_static_dir',
+            'mvc_static_dirname'
 		));
+
+        if (is_multisite()) C_NextGen_Global_Settings::get_instance()->add_option_handler('C_Mvc_Option_Handler', array(
+            'mvc_template_dir',
+            'mvc_template_dirname',
+            'mvc_static_dir',
+            'mvc_static_dirname'
+        ));
+
     }
 
     function _register_utilities()

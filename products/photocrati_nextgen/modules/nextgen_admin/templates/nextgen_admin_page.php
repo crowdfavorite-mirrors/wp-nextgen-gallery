@@ -22,7 +22,7 @@
 		</div>
         <?php if ($show_save_button): ?>
 		<p>
-			<input type="submit" name='action_proxy' value="<?php _e('Save', 'nggallery'); ?>" class="button-primary"/>
+            <button type="submit" name='action_proxy' value="Save" class="button-primary"><?php _e('Save', 'nggallery'); ?></button>
 		</p>
         <?php endif ?>
 	</form>

@@ -765,8 +765,23 @@ jQuery(function($){
 			render: function() {
 				// Create all elements
 				var image_container = $('<div/>').addClass('image_container');
+
+                // 2.0.66 did not support plugins_url, 2.0.66.3+ does
+                var installed_at_version = this.model.get('installed_at_version');
+                var baseurl = photocrati_ajax.wp_plugins_url;
+                var preview_image_relpath = this.model.get('preview_image_relpath');
+                if (typeof installed_at_version == 'undefined') {
+                    baseurl = photocrati_ajax.wp_site_url;
+                    // those who installed 2.0.66.3 lack the 'installed_at_version' setting but have a
+                    // plugin-relative path
+                    if (preview_image_relpath.indexOf('/nextgen-gallery') == 0) {
+                        baseurl = photocrati_ajax.wp_plugins_url;
+                    }
+                }
+
+
 				var img = $('<img/>').attr({
-					src: photocrati_ajax.wp_site_static_url + '/' + this.model.get('preview_image_relpath'),
+					src: baseurl + '/' + preview_image_relpath,
 					title: this.model.get('title'),
 					alt: this.model.get('alt')
 				});

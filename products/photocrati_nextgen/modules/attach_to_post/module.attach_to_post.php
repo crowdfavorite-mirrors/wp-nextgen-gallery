@@ -31,11 +31,16 @@ class M_Attach_To_Post extends C_Base_Module
 		);
 
 		include_once('class.attach_to_post_option_handler.php');
-		C_NextGen_Settings::add_option_handler('C_Attach_To_Post_Option_Handler', array(
+		C_NextGen_Settings::get_instance()->add_option_handler('C_Attach_To_Post_Option_Handler', array(
 			'attach_to_post_url',
 			'gallery_preview_url',
 			'attach_to_post_display_tab_js_url'
 		));
+        if (is_multisite()) C_NextGen_Global_Settings::get_instance()->add_option_handler('C_Attach_To_Post_Option_Handler', array(
+            'attach_to_post_url',
+            'gallery_preview_url',
+            'attach_to_post_display_tab_js_url'
+        ));
 
 		include_once('class.attach_to_post_installer.php');
 		C_Photocrati_Installer::add_handler($this->module_id, 'C_Attach_To_Post_Installer');
@@ -162,27 +167,10 @@ class M_Attach_To_Post extends C_Base_Module
      */
     function substitute_placeholder_imgs($content)
     {
-		// Get some utilities
-		$mapper = $this->get_registry()->get_utility('I_Displayed_Gallery_Mapper');
-		$router	= $this->get_registry()->get_utility('I_Router');
-
-		// To match ATP entries we compare the stored url against a generic path
-		// We must check HTTP and HTTPS as well as permalink and non-permalink forms
-		$preview_url = parse_url($router->join_paths(
-			$router->remove_url_segment('index.php', $router->get_base_url()),
-			'/nextgen-attach_to_post/preview'
-		));
-        $router->debug = TRUE;
-		$preview_url = preg_quote($preview_url['host'] . $preview_url['path'], '#');
-
-		$alt_preview_url = parse_url($router->join_paths(
-			$router->remove_url_segment('index.php', $router->get_base_url()),
-			'index.php/nextgen-attach_to_post/preview'
-		));
-		$alt_preview_url = preg_quote($alt_preview_url['host'] . $alt_preview_url['path'], '#');
-
 		// The placeholder MUST have a gallery instance id
-		if (preg_match_all("#<img.*http(s)?://({$preview_url}|{$alt_preview_url})/id--(\\d+).*\\/>#mi", $content, $matches, PREG_SET_ORDER)) {
+        if (preg_match_all("#<img.*http(s)?://(.*)/" . NGG_ATTACH_TO_POST_SLUG . "/preview/id--(\\d+).*>#mi", $content, $matches, PREG_SET_ORDER))
+        {
+            $mapper = C_Displayed_Gallery_Mapper::get_instance();
 			foreach ($matches as $match) {
 				// Find the displayed gallery
 				$displayed_gallery_id = $match[3];
@@ -246,6 +234,7 @@ class M_Attach_To_Post extends C_Base_Module
             if (get_user_option('rich_editing') == 'true') {
                 add_filter('mce_buttons', array(&$this, 'add_attach_to_post_button'));
                 add_filter('mce_external_plugins', array(&$this, 'add_attach_to_post_tinymce_plugin'));
+                add_filter('wp_mce_translation', array($this, 'add_attach_to_post_tinymce_i18n'));
             }
         }
 	}
@@ -286,6 +275,18 @@ class M_Attach_To_Post extends C_Base_Module
 		$plugins[$this->attach_to_post_tinymce_plugin] = $file;
 		return $plugins;
 	}
+
+
+    /**
+     * Adds the Attach To Post TinyMCE i18n strings
+     * @param $mce_translation
+     * @return mixed
+     */
+    function add_attach_to_post_tinymce_i18n($mce_translation)
+    {
+        $mce_translation['ngg_attach_to_post.title'] = __('Attach NextGEN Gallery to Post', 'nggallery');
+        return $mce_translation;
+    }
 
 
 	/**

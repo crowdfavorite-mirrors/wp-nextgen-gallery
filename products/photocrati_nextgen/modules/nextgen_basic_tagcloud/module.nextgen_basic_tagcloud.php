@@ -17,7 +17,7 @@ class M_NextGen_Basic_Tagcloud extends C_Base_Module
 			NGG_BASIC_TAGCLOUD,
             'NextGen Basic Tagcloud',
             'Provides a tagcloud for NextGEN Gallery',
-            '0.7',
+            '0.9',
             'http://www.photocrati.com',
             'Photocrati Media',
             'http://www.photocrati.com'

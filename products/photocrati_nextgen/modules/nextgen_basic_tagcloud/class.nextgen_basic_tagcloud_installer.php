@@ -9,7 +9,7 @@ class C_NextGen_Basic_Tagcloud_Installer extends C_Gallery_Display_Installer
 	{
 		$this->install_display_type(
 			NGG_BASIC_TAGCLOUD, array(
-				'title'					=>	'NextGEN Basic TagCloud',
+				'title'					=>	__('NextGEN Basic TagCloud', 'nggallery'),
 				'entity_types'			=>	array('image'),
 				'preview_image_relpath'	=>	'photocrati-nextgen_basic_tagcloud#preview.gif',
 				'default_source'		=>	'tags',

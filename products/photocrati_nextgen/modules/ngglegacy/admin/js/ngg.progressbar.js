@@ -108,6 +108,7 @@
 			var progressBar = this;
 			if (s.wait) {
                 $("#" + s.id).delay(1000).hide("slow");
+                progressBar.addNote("Done!");
 				div.click(function () {
 					progressBar.remove_dialog(false, 0);
 	    		});

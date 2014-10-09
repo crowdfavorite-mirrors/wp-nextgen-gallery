@@ -19,6 +19,7 @@ class A_NextGen_Basic_SinglePic_Form extends Mixin_Display_Type_Form
 		return array(
             'nextgen_basic_singlepic_dimensions',
             'nextgen_basic_singlepic_link',
+            'nextgen_basic_singlepic_link_target',
             'nextgen_basic_singlepic_float',
             'nextgen_basic_singlepic_quality',
             'nextgen_basic_singlepic_crop',
@@ -54,6 +55,22 @@ class A_NextGen_Basic_SinglePic_Form extends Mixin_Display_Type_Form
                 'link' => $display_type->settings['link'],
             ),
             True
+        );
+    }
+
+    function _render_nextgen_basic_singlepic_link_target_field($display_type)
+    {
+        return $this->_render_select_field(
+            $display_type,
+            'link_target',
+            __('Link target', 'nggallery'),
+            array(
+                '_self'   => __('Self', 'nggallery'),
+                '_blank'  => __('Blank', 'nggallery'),
+                '_parent' => __('Parent', 'nggallery'),
+                '_top'    => __('Top', 'nggallery'),
+            ),
+            $display_type->settings['link_target']
         );
     }
 

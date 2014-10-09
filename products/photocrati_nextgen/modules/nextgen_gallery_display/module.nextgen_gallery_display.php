@@ -283,7 +283,8 @@ class M_Gallery_Display extends C_Base_Module
             'nextgen_gallery_related_images',
             $router->get_static_url('photocrati-nextgen_gallery_display#nextgen_gallery_related_images.css')
         );
-        wp_enqueue_style('nextgen_gallery_related_images');
+        if (!is_admin())
+            wp_enqueue_style('nextgen_gallery_related_images');
 
         wp_register_script('ngg_common', $router->get_static_url('photocrati-nextgen_gallery_display#common.js'), array('jquery'));
         wp_register_style('ngg_trigger_buttons', $router->get_static_url('photocrati-nextgen_gallery_display#trigger_buttons.css'));

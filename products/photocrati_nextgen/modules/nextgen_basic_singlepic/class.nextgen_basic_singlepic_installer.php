@@ -6,7 +6,7 @@ class C_NextGen_Basic_SinglePic_Installer extends C_Gallery_Display_Installer
 	{
 		$this->install_display_type(
 			NGG_BASIC_SINGLEPIC, array(
-			'title'					=>	'NextGEN Basic SinglePic',
+			'title'					=>	__('NextGEN Basic SinglePic', 'nggallery'),
 			'entity_types'			=>	array('image'),
 			'preview_image_relpath'	=>	'photocrati-nextgen_basic_singlepic#preview.gif',
 			'default_source'		=>	'galleries',

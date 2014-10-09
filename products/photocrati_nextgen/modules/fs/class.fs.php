@@ -336,10 +336,51 @@ class Mixin_Fs_Instance_Methods extends Mixin
 	 * Gets the document root for this application
 	 * @return string
 	 */
-	function get_document_root()
-	{
-		return $this->_document_root;
-	}
+    function get_document_root($type = 'root')
+    {
+        $retval = NULL;
+
+        switch ($type) {
+            case 'plugins':
+            case 'plugin':
+                $retval = WP_PLUGIN_DIR;
+                break;
+            case 'plugins_mu':
+            case 'plugin_mu':
+                $retval = WPMU_PLUGIN_DIR;
+                break;
+            case 'templates':
+            case 'template':
+            case 'themes':
+            case 'theme':
+                $retval = get_template_directory();
+                break;
+            case 'styles':
+            case 'style':
+            case 'stylesheets':
+            case 'stylesheet':
+                $retval = get_stylesheet_directory();
+                break;
+            case 'content':
+                $retval = WP_CONTENT_DIR;
+                break;
+            case 'gallery':
+            case 'galleries':
+                $root_type = defined('NGG_GALLERY_ROOT_TYPE') ? NGG_GALLERY_ROOT_TYPE : 'site';
+                if ($root_type == 'content')
+                    $retval = WP_CONTENT_DIR;
+                else
+                    $retval = $this->_document_root;
+                break;
+            default:
+                $retval = $this->_document_root;
+        }
+
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN')
+            $retval = str_replace('/', DIRECTORY_SEPARATOR, $retval);
+
+        return $retval;
+    }
 
 	/**
 	 * Sets the document root for this application

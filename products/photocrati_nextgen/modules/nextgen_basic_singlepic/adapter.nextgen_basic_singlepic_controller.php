@@ -12,7 +12,10 @@ class A_NextGen_Basic_Singlepic_Controller extends Mixin
         $storage   = $this->object->get_registry()->get_utility('I_Gallery_Storage');
         $dynthumbs = $this->object->get_registry()->get_utility('I_Dynamic_Thumbnails_Manager');
         $display_settings = $displayed_gallery->display_settings;
-		$image = array_shift($displayed_gallery->get_included_entities(1));
+
+        // use this over get_included_entities() so we can display images marked 'excluded'
+        $displayed_gallery->skip_excluding_globally_excluded_images = TRUE;
+        $image = array_shift($displayed_gallery->get_entities(1, FALSE, FALSE, 'included'));
 
         if (!$image)
             return $this->object->render_partial("photocrati-nextgen_gallery_display#no_images_found", array(), $return);
@@ -36,7 +39,7 @@ class A_NextGen_Basic_Singlepic_Controller extends Mixin
 
         if (!empty($display_settings['link']))
         {
-            $target = '_blank';
+            $target = $display_settings['link_target'];
             $effect_code = '';
         }
         else {

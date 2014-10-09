@@ -124,6 +124,8 @@ class nggdb {
      */
     function find_all_galleries($order_by = 'gid', $order_dir = 'ASC', $counter = false, $limit = 0, $start = 0, $exclude = true) {
         global $wpdb;
+        $registry = C_Component_Registry::get_instance();
+        $storage  = $registry->get_utility('I_Gallery_Storage');
 
         // Check for the exclude setting
         $exclude_clause = ($exclude) ? ' AND exclude<>1 ' : '';
@@ -148,7 +150,7 @@ class nggdb {
             $this->galleries[$key]->counter = 0;
             $this->galleries[$key]->title = stripslashes($this->galleries[$key]->title);
             $this->galleries[$key]->galdesc  = stripslashes($this->galleries[$key]->galdesc);
-			$this->galleries[$key]->abspath = ABSPATH . $this->galleries[$key]->path;
+			$this->galleries[$key]->abspath = $storage->get_gallery_abspath($this->galleries[$key]);
             wp_cache_add($key, $this->galleries[$key], 'ngg_gallery');
         }
 
@@ -192,11 +194,14 @@ class nggdb {
 
         // Build the object from the query result
         if ($gallery) {
+            $registry = C_Component_Registry::get_instance();
+            $storage  = $registry->get_utility('I_Gallery_Storage');
+
             // it was a bad idea to use a object, stripslashes_deep() could not used here, learn from it
             $gallery->title = stripslashes($gallery->title);
-            $gallery->galdesc  = stripslashes($gallery->galdesc);
+            $gallery->galdesc = stripslashes($gallery->galdesc);
+            $gallery->abspath = $storage->get_gallery_abspath($gallery);
 
-            $gallery->abspath = ABSPATH . $gallery->path;
             //TODO:Possible failure , $id could be a number or name
             wp_cache_add($id, $gallery, 'ngg_gallery');
 
@@ -1052,8 +1057,9 @@ class nggdb {
         $old_values = $serializer->unserialize( $old_values );
 
         $meta = array_merge( (array)$old_values, (array)$new_values );
+        $meta = $serializer->serialize($meta);
 
-        $result = $wpdb->query( $wpdb->prepare("UPDATE $wpdb->nggpictures SET meta_data = %s WHERE pid = %d", serialize($meta), $id) );
+        $result = $wpdb->query( $wpdb->prepare("UPDATE $wpdb->nggpictures SET meta_data = %s WHERE pid = %d", $meta, $id) );
 
         wp_cache_delete($id, 'ngg_image');
 

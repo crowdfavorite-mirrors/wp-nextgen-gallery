@@ -213,14 +213,7 @@ if (!class_exists('nggLoader')) {
 			);
 
             // Legacy expects this to have a trailing slash
-            define(
-                'NGGALLERY_URLPATH',
-                str_replace("\\", '/', str_replace(
-                    rtrim(ABSPATH, "\\/"),
-                    site_url(),
-                    NGG_LEGACY_MOD_DIR.'/'
-                ))
-            );
+            define('NGGALLERY_URLPATH', plugin_dir_url(__FILE__));
 
 			// look for imagerotator
 			define('NGGALLERY_IREXIST', !empty( $this->options['irURL'] ));

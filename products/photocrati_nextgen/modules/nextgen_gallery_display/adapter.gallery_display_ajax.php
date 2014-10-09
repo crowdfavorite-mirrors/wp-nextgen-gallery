@@ -19,10 +19,10 @@ class A_Gallery_Display_Ajax extends Mixin
 
 			$_SERVER['REQUEST_URI'] = $url;
             $_SERVER['PATH_INFO'] = $parsed_url['path'];
+
             $this->_run_count++;
+            C_Router::$_instances = array();
             $router = C_Router::get_instance();
-            $router->get_routed_app()
-                   ->set_app_request_uri($_SERVER['REQUEST_URI']);
             $router->serve_request();
 		}
 

@@ -85,11 +85,32 @@ class M_Third_Party_Compat extends C_Base_Module
 
         add_filter('headway_gzip', array(&$this, 'headway_gzip'), (PHP_INT_MAX - 1));
         add_filter('ckeditor_external_plugins', array(&$this, 'ckeditor_plugins'), 11);
+        add_filter('bp_do_redirect_canonical', array(&$this, 'fix_buddypress_routing'));
         add_filter('the_content', array(&$this, 'check_weaverii'), -(PHP_INT_MAX-2));
         add_action('wp', array(&$this, 'check_for_jquery_lightbox'));
 
+        // WPML fix
+        if (class_exists('SitePress')) {
+            M_WordPress_Routing::$_use_canonical_redirect = FALSE;
+            M_WordPress_Routing::$_use_old_slugs = FALSE;
+            add_action('template_redirect', array(&$this, 'fix_wpml_canonical_redirect'), 1);
+        }
+
         // TODO: Only needed for NGG Pro 1.0.10 and lower
         add_action('the_post', array(&$this, 'add_ngg_pro_page_parameter'));
+    }
+
+    function fix_buddypress_routing()
+    {
+        M_WordPress_Routing::$_use_canonical_redirect = FALSE;
+
+        return FALSE;
+    }
+
+    function fix_wpml_canonical_redirect()
+    {
+        M_WordPress_Routing::$_use_canonical_redirect = FALSE;
+        M_WordPress_Routing::$_use_old_slugs = FALSE;
     }
 
     /**

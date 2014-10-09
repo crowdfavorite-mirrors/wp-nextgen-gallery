@@ -343,7 +343,7 @@ function ngg_dashboard_quota() {
 
     $settings = C_NextGen_Settings::get_instance();
     $fs = C_Fs::get_instance();
-    $dir = $fs->join_paths($fs->get_document_root(), $settings->gallerypath);
+    $dir = $fs->join_paths($fs->get_document_root('content'), $settings->gallerypath);
 
 	$quota = get_space_allowed();
 	$used = get_dirsize( $dir ) / 1024 / 1024;

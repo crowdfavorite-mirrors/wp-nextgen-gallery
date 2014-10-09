@@ -6,7 +6,7 @@ class C_NextGen_Basic_Gallery_Installer extends C_Gallery_Display_Installer
 	{
 		$this->install_display_type(NGG_BASIC_THUMBNAILS,
 			array(
-				'title'					=>	'NextGEN Basic Thumbnails',
+				'title'					=>	__('NextGEN Basic Thumbnails', 'nggallery'),
 				'entity_types'			=>	array('image'),
 				'preview_image_relpath'	=>	'photocrati-nextgen_basic_gallery#thumb_preview.jpg',
 				'default_source'		=>	'galleries',
@@ -16,7 +16,7 @@ class C_NextGen_Basic_Gallery_Installer extends C_Gallery_Display_Installer
 
 		$this->install_display_type(NGG_BASIC_SLIDESHOW,
 			array(
-				'title'					=>	'NextGEN Basic Slideshow',
+				'title'					=>	__('NextGEN Basic Slideshow', 'nggallery'),
 				'entity_types'			=>	array('image'),
 				'preview_image_relpath'	=>	'photocrati-nextgen_basic_gallery#slideshow_preview.jpg',
 				'default_source'		=>	'galleries',

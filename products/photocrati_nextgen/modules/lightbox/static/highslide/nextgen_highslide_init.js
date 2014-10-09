@@ -12,6 +12,9 @@ var galleryOptions = {
 	  graphicsDir: nextgen_highslide_graphics_dir + '/'
 };
 
+if (typeof ngg_lightbox_i18n != 'undefined') {
+    hs.lang = ngg_lightbox_i18n;
+}
 hs.align            = galleryOptions['align'];
 hs.dimmingOpacity   = galleryOptions['dimmingOpacity'];
 hs.fadeInOut        = galleryOptions['fadeInOut'];

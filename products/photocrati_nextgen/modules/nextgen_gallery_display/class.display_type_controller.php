@@ -124,6 +124,9 @@ class Mixin_Display_Type_Controller extends Mixin
 
 	function enqueue_ngg_styles()
 	{
+        if (defined('NGG_SKIP_LOAD_SCRIPTS') && NGG_SKIP_LOAD_SCRIPTS)
+            return;
+
         $settings = C_NextGen_Settings::get_instance();
         if ((!is_multisite() || (is_multisite() && $settings->wpmuStyle)) && $settings->activateCSS)
         {

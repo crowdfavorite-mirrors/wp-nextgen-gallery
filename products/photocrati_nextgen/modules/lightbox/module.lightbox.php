@@ -20,7 +20,7 @@ class M_Lightbox extends C_Base_Module
             'photocrati-lightbox',
             'Lightbox',
             "Provides integration with several JavaScript lightbox effect libraries",
-            '0.12',
+            '0.14',
             'http://leandrovieira.com/projects/jquery/lightbox/',
             'Photocrati Media',
             'http://www.photocrati.com'
@@ -119,81 +119,92 @@ class M_Lightbox extends C_Base_Module
      */
     static function _register_library_resources($library, $register = TRUE)
     {
-        $i = 0;
-        foreach (explode("\n", $library->scripts) as $script) {
-            if (empty($script))
-                continue;
+        if ($library) {
+            $i = 0;
+            foreach (explode("\n", $library->scripts) as $script) {
+                if (empty($script))
+                    continue;
 
-            $script = self::_handle_url($script);
+                $script = self::_handle_url($script);
 
-            // if _registered_lightboxes exist we should register rather than enqueue
-            if ($register)
-            {
-                // if the module is "wordpress" we leave the rest to Wordpress and only ask that it enqueue
-                // whatever the name of the resource requested may be.
-                if (0 === strpos($script, 'wordpress#'))
+                // if _registered_lightboxes exist we should register rather than enqueue
+                if ($register)
                 {
-                    self::$_registered_lightboxes[] = substr($script, 10);
-                } else {
-                    wp_register_script(
-                        $library->name . '-' . $i,
-                        $script,
-                        array('ngg_common')
-                    );
-                    self::$_registered_lightboxes[] = $library->name . '-' . $i;
+                    // if the module is "wordpress" we leave the rest to Wordpress and only ask that it enqueue
+                    // whatever the name of the resource requested may be.
+                    if (0 === strpos($script, 'wordpress#'))
+                    {
+                        self::$_registered_lightboxes[] = substr($script, 10);
+                    } else {
+                        wp_register_script(
+                            $library->name . '-' . $i,
+                            $script,
+                            array('ngg_common')
+                        );
+                        self::$_registered_lightboxes[] = $library->name . '-' . $i;
+                    }
                 }
-            }
-            else {
-                // same as above, but enqueue now rather than register for later
-                if (0 === strpos($script, 'wordpress#'))
-                {
-                    wp_enqueue_script(substr($script, 10));
-                } else {
-                    wp_enqueue_script(
-                        $library->name . '-' . $i,
-                        $script,
-                        array('ngg_common')
-                    );
+                else {
+                    // same as above, but enqueue now rather than register for later
+                    if (0 === strpos($script, 'wordpress#'))
+                    {
+                        wp_enqueue_script(substr($script, 10));
+                    } else {
+                        wp_enqueue_script(
+                            $library->name . '-' . $i,
+                            $script,
+                            array('ngg_common')
+                        );
+                    }
                 }
-            }
 
-            if ($i == 0 AND isset($library->values))
-            {
-                foreach ($library->values as $name => $value) {
-                    if (empty($value))
-                        continue;
-                    $value = self::_handle_url($value);
-                    self::_add_script_data(
+                if ($i == 0 AND isset($library->values))
+                {
+                    foreach ($library->values as $name => $value) {
+                        if (empty($value))
+                            continue;
+                        $value = self::_handle_url($value);
+                        self::_add_script_data(
+                            $library->name . '-0',
+                            $name,
+                            $value,
+                            FALSE
+                        );
+                    }
+                }
+
+                if ($i == 0 && !empty($library->i18n))
+                {
+                    wp_localize_script(
                         $library->name . '-0',
-                        $name,
-                        $value,
-                        FALSE
+                        'ngg_lightbox_i18n',
+                        $library->i18n
                     );
                 }
+                $i += 1;
             }
-            $i += 1;
-        }
 
-        // in 2.0.41 this field was renamed; use the old attribute as a fallback
-        if (empty($library->styles) && !empty($library->css_stylesheets))
-            $library->styles = $library->css_stylesheets;
+            // in 2.0.41 this field was renamed; use the old attribute as a fallback
+            if (empty($library->styles) && !empty($library->css_stylesheets))
+                $library->styles = $library->css_stylesheets;
 
-        $i = 0;
-        foreach (explode("\n", $library->styles) as $style) {
-            if (empty($style))
-                continue;
-            $style = self::_handle_url($style);
-            if (0 === strpos($style, 'wordpress#'))
-            {
-                wp_enqueue_style(substr($style, 10));
+            $i = 0;
+            foreach (explode("\n", $library->styles) as $style) {
+                if (empty($style))
+                    continue;
+                $style = self::_handle_url($style);
+                if (0 === strpos($style, 'wordpress#'))
+                {
+                    wp_enqueue_style(substr($style, 10));
+                }
+                else {
+                    wp_enqueue_style(
+                        $library->name . '-' . $i,
+                        $style
+                    );
+                }
+                $i += 1;
             }
-            else {
-                wp_enqueue_style(
-                    $library->name . '-' . $i,
-                    $style
-                );
-            }
-            $i += 1;
         }
     }
 
@@ -232,6 +243,9 @@ class M_Lightbox extends C_Base_Module
     
     function _enqueue_resources()
     {
+        if (defined('NGG_SKIP_LOAD_SCRIPTS') && NGG_SKIP_LOAD_SCRIPTS)
+            return;
+
         foreach (((array)self::$_registered_lightboxes) as $library) {
             wp_enqueue_script($library);
         }

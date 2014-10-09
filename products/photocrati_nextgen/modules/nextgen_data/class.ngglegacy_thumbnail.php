@@ -956,8 +956,8 @@ class C_NggLegacy_Thumbnail {
             if (!is_file($this->watermarkImgPath))
             {
                 $fs = C_Fs::get_instance();
-                if (is_file($fs->join_paths($fs->get_document_root(), $this->watermarkImgPath)))
-                    $this->watermarkImgPath = $fs->get_document_root() . $this->watermarkImgPath;
+                if (is_file($fs->join_paths($fs->get_document_root('content'), $this->watermarkImgPath)))
+                    $this->watermarkImgPath = $fs->get_document_root('content') . $this->watermarkImgPath;
             }
 
             // Would you really want to use anything other than a png?

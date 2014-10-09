@@ -527,7 +527,7 @@ function showDialog() {
 <div id="editalbum" style="display: none;" >
 	<form id="form-edit-album" method="POST" accept-charset="utf-8">
 	<?php wp_nonce_field('ngg_thickbox_form') ?>
-	<input type="hidden" id="current_album" name="act_album" value="<?php echo $this->currentID; ?>" />
+	<input type="hidden" id="current_album" name="act_album" value="<?php esc_attr_e($this->currentID); ?>" />
 	<table width="100%" border="0" cellspacing="3" cellpadding="3" >
 	  	<tr>
 	    	<th>
@@ -694,6 +694,7 @@ function showDialog() {
 
 		if ($this->albums) {
 			foreach($this->albums as $album) {
+                if (!is_array($album->sortorder)) continue;
 				foreach($album->sortorder as $galleryid) {
 					if (!in_array($galleryid, $used))
 						$used[] = $galleryid;

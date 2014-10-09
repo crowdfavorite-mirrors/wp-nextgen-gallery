@@ -6,7 +6,7 @@ class C_NextGen_Basic_ImageBrowser_Installer extends C_Gallery_Display_Installer
 	{
 		$this->install_display_type(
 			NGG_BASIC_IMAGEBROWSER, array(
-				'title'					=>	'NextGEN Basic ImageBrowser',
+				'title'					=>	__('NextGEN Basic ImageBrowser', 'nggallery'),
 				'entity_types'			=>	array('image'),
 				'preview_image_relpath'	=>	'photocrati-nextgen_basic_imagebrowser#preview.jpg',
 				'default_source'		=>	'galleries',

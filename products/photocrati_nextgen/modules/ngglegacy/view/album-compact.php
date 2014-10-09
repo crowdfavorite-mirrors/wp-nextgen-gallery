@@ -42,7 +42,7 @@ Follow variables are useable :
             </a>
         </h4>
 		<?php if (@$gallery->counter > 0) : ?>
-		<p><strong><?php echo $gallery->counter ?></strong>&nbsp;<?php _e('Photos', 'nggallery') ?></p>
+		<p class="ngg-album-gallery-image-counter"><strong><?php echo $gallery->counter ?></strong>&nbsp;<?php _e('Photos', 'nggallery') ?></p>
 		<?php endif; ?>
 	</div>
 

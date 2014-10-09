@@ -247,7 +247,7 @@ class Mixin_Displayed_Gallery_Renderer extends Mixin
 
         // Simply throwing our rendered gallery into a feed will most likely not work correctly.
         // The MediaRSS option in NextGEN is available as an alternative.
-        if(is_feed())
+        if (!C_NextGen_Settings::get_instance()->galleries_in_feeds && is_feed())
             return '';
 
 		if ($mode == null)
@@ -277,7 +277,8 @@ class Mixin_Displayed_Gallery_Renderer extends Mixin
 		elseif ($controller->cachable === FALSE) $lookup = FALSE;
 
 		// Enqueue any necessary static resources
-		$controller->enqueue_frontend_resources($displayed_gallery);
+        if (!defined('NGG_SKIP_LOAD_SCRIPTS') || !NGG_SKIP_LOAD_SCRIPTS)
+		    $controller->enqueue_frontend_resources($displayed_gallery);
 
 		// Try cache lookup, if we're to do so
 		$key = null;
@@ -319,7 +320,6 @@ class Mixin_Displayed_Gallery_Renderer extends Mixin
 			// Output debug messages
 			if ($html) $retval .= $this->debug_msg("HIT!");
 			else $retval .= $this->debug_msg("MISS!");
-
 
 			// TODO: This is hack. We need to figure out a more uniform way of detecting dynamic image urls
 			if (strpos($html, C_Photocrati_Settings_Manager::get_instance()->dynamic_thumbnail_slug.'/') !== FALSE) {

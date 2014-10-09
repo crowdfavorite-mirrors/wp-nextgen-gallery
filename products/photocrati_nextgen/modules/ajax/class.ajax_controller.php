@@ -12,6 +12,8 @@ class C_Ajax_Controller extends C_MVC_Controller
 
 	function index_action()
 	{
+        $retval = NULL;
+
         // Inform the MVC framework what type of content we're returning
         $this->set_content_type('json');
 
@@ -24,11 +26,9 @@ class C_Ajax_Controller extends C_MVC_Controller
 			if ($this->has_method($method)) {
 				$retval = $this->call_method($method);
 			}
+            else $retval = array('error' => 'Not a valid AJAX action');
 		}
-
-		// If no retval has been set, then return an error
-		if (is_null($retval))
-			$retval = array('error' => 'Not a valid AJAX action');
+        else $retval = array('error' => 'No action specified');
 
 		// Flush the buffer
 		while (ob_get_level() > 0 ) {

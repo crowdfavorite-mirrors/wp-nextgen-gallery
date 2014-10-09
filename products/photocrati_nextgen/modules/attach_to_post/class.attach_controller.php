@@ -7,7 +7,7 @@ class C_Attach_Controller extends C_NextGen_Admin_Page_Controller
 	var    $_marked_scripts;
 	var 	 $_is_rendering;
 
-	static function &get_instance($context)
+	static function &get_instance($context='all')
 	{
 		if (!isset(self::$_instances[$context])) {
 			$klass = get_class();

@@ -203,13 +203,13 @@ p#ngg-inlinebutton {
 
 #ngg-listimages .column-1,
 #ngg-listimages .column-2 {
-	width: 3%;
-	min-width: 33px;
+	width: 4%;
+    min-width: 33px;
 }
 
 #ngg-listimages .column-3 {
 	min-width: 80px;
-	width: 8%;
+	width: 10%;
 }
 
 #ngg-listimages .column-3 .thumb {

@@ -29,11 +29,25 @@ class A_NextGen_Pro_Upgrade_Controller extends Mixin
 		}
 		else {
 			// Get page content
+
+            $template = 'photocrati-nextgen_pro_upgrade#plus';
+            if (defined('NGG_PLUS_PLUGIN_BASENAME'))
+                $template = 'photocrati-nextgen_pro_upgrade#pro';
+
+            $description = 'Extend NextGEN Gallery with 8 new pro gallery displays, a full screen responsive pro lightbox, commenting / social sharing / deep linking for individual images, ecommerce, digital downloads, and pro email support.';
+            $headline = 'Upgrade to NextGEN Plus or NextGEN Pro';
+
+            if (defined('NGG_PLUS_PLUGIN_BASENAME'))
+            {
+                $description = 'NextGEN Pro now offers ecommerce! Extend NextGEN Gallery and NextGEN Plus with a complete solution for selling prints and digital downloads, including unlimited pricelists, PayPal and Stripe integration, and more.';
+                $headline = 'Upgrade to NextGEN Pro with Ecommerce';
+            }
+
 			$params = array(
-				'btn_url' => $this->object->get_router()->get_static_url('photocrati-nextgen_pro_upgrade#button.png'),
-				'img_url' => $this->object->get_router()->get_static_url('photocrati-nextgen_pro_upgrade#proupgrade.gif')
+                'description' => $description,
+                'headline'    => $headline
 			);
-			$html = $this->render_view('photocrati-nextgen_pro_upgrade#index', $params, TRUE);
+			$html = $this->render_view($template, $params, TRUE);
 
 			// Cache it
 			C_Photocrati_Cache::set($key, $html);

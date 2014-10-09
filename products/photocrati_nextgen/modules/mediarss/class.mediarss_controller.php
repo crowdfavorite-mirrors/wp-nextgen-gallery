@@ -108,7 +108,7 @@ class Mixin_MediaRSS_Controller extends Mixin
 	function get_base_url()
 	{
 		$router		= $this->get_registry()->get_utility('I_Router');
-		return $router->get_base_url();
+		return $router->get_base_url('home');
 	}
 
 	/**

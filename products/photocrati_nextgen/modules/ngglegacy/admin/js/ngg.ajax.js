@@ -16,7 +16,10 @@ nggAjax = {
 			permission: nggAjaxSetup.permission,
 			error: nggAjaxSetup.error,
 			failure: nggAjaxSetup.failure,
-			timeout: 10000
+			timeout: 20000,
+            retries: 0,
+            max_retries: 5,
+            retry_delay: 30000
 		},
 	
 		run: function( index ) {
@@ -24,7 +27,7 @@ nggAjax = {
 			var req = $.ajax({
 				type: "POST",
 			   	url: s.url,
-			   	data:"action=" + s.action + "&operation=" + s.operation + "&_wpnonce=" + s.nonce + "&image=" + s.ids[index],
+			   	data:"action=" + s.action + "&operation=" + s.operation + "&_wpnonce=" + s.nonce + "&image=" + s.ids[index] + "&retries="+nggAjax.settings.retries,
 			   	cache: false,
 			   	timeout: 30000,
 			   	success: function(msg){
@@ -45,22 +48,48 @@ nggAjax = {
 			   		}
 
 			    },
-			    error: function (jqXHR, textStatus, errorThrown) {
-			    	var msg = jqXHR.responseText;
-			    	
-			    	if (msg == '') {
-			    		msg = '( ' + errorThrown + ' )';
-			    	}
-					nggProgressBar.addNote( "<strong>ID " + nggAjax.settings.ids[index] + ":</strong> " + nggAjax.settings.failure, msg);
-				},
-				complete: function () {
-					index++;
-					nggProgressBar.increase( index );
-					// parse the whole array
-					if (index < nggAjax.settings.ids.length)
-						nggAjax.run( index );
-					else 
-						nggProgressBar.finished();
+                error: function(jqXHR, textStatus, errorThrown) {
+                    nggAjax.settings.errorThrown = errorThrown;
+                },
+				complete: function (jqXHR, textStatus) {
+                    index++;
+
+                    if (index < nggAjax.settings.ids.length) {
+                        var run = true;
+
+                        if (textStatus == 'error' || textStatus == 'abort') {
+                            nggAjax.settings.retries += 1;
+                            if (nggAjax.settings.retries <= nggAjax.settings.max_retries) {
+                                var seconds = nggAjax.settings.retry_delay / 1000;
+                                index--;
+                                run = false;
+                                nggProgressBar.addNote("<strong>ID " + nggAjax.settings.ids[length] + ":</strong> " + "Retrying in " + seconds + " seconds; host might be throttling.");
+                                setTimeout(function(){
+                                    nggAjax.run( index );
+                                }, nggAjax.settings.retry_delay);
+                            }
+                            else {
+                                var msg = jqXHR.responseText;
+                                if (msg == '') {
+                                    msg = '( ' + nggAjax.settings.errorThrown + ' )';
+                                }
+                                nggProgressBar.addNote( "<strong>ID " + nggAjax.settings.ids[index] + ":</strong> " + nggAjax.settings.failure, msg);
+                                nggProgressBar.increase(index);
+                            }
+
+                        }
+                        else {
+                            nggAjax.settings.retries = 0;
+                            nggProgressBar.increase(index);
+                        }
+
+                        if (run) nggAjax.run( index );
+                    }
+
+                    // Done processing
+                    else {
+                        nggProgressBar.finished();
+                    }
 				} 
 			});
 		},

@@ -173,6 +173,9 @@ class C_NextGen_Style_Manager
 			}
 		}
 
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN')
+            $retval = str_replace('/', DIRECTORY_SEPARATOR, $retval);
+
 		return $retval;
 	}
 
@@ -185,8 +188,8 @@ class C_NextGen_Style_Manager
 		if (!$selected) $selected = $this->get_selected_stylesheet();
 
 		$retval =  str_replace(
-			C_Fs::get_instance()->get_document_root(),
-            site_url(),
+			C_Fs::get_instance()->get_document_root('content'),
+            content_url(),
 			$this->find_selected_stylesheet_abspath($selected)
 		);
 

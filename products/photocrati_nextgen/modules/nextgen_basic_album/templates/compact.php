@@ -24,7 +24,7 @@
                     <?php echo_safe_html($gallery->title); ?>
                 </a>
             </h4>
-            <p>
+            <p class="ngg-album-gallery-image-counter">
                 <?php if (isset($gallery->counter) && $gallery->counter > 0) { ?>
                     <strong><?php echo $gallery->counter; ?></strong>&nbsp;<?php _e('Photos', 'nggallery'); ?>
                 <?php } else { ?>

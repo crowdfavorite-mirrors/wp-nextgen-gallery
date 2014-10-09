@@ -33,6 +33,39 @@
 		</td>
 	</tr>
     <tr>
+        <td class="column1">
+            <label for="galleries_in_feeds">
+                <?php echo_h($galleries_in_feeds_label)?>
+            </label>
+        </td>
+        <td>
+            <label for="galleries_in_feeds">
+                <?php echo_h($galleries_in_feeds_yes) ?>
+            </label>
+            <input
+                id='galleries_in_feeds'
+                type="radio"
+                name="misc_settings[galleries_in_feeds]"
+                value="1"
+                <?php checked(TRUE, $galleries_in_feeds ? TRUE : FALSE)?>
+                />
+            &nbsp;
+            <label for="galleries_in_feeds_no">
+                <?php echo_h($galleries_in_feeds_no) ?>
+            </label>
+            <input
+                id='galleries_in_feeds_no'
+                type="radio"
+                name="misc_settings[galleries_in_feeds]"
+                value="0"
+                <?php checked(FALSE, $galleries_in_feeds ? TRUE : FALSE)?>
+                />
+            <p class="description">
+                <?php echo_h($galleries_in_feeds_help)?>
+            </p>
+        </td>
+    </tr>
+    <tr>
         <td class='column1'>
             <?php echo $cache_label; ?>
         </td>

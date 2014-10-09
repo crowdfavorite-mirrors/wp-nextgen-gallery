@@ -15,7 +15,7 @@ class C_Frame_Event_Publisher extends C_Component
 	function initialize()
 	{
 		parent::initialize();
-		$this->setting_name = C_NextGen_Settings::get_instance()->frame_communication_option_name;
+		$this->setting_name = C_NextGen_Settings::get_instance()->frame_event_cookie_name;
 	}
 
 	/**

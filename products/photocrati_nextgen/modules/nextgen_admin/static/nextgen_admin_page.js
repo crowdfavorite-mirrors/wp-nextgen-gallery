@@ -8,7 +8,7 @@ jQuery(function($){
     });
 
      // When a submit button is clicked...
-	$('input[type="submit"]').click(function(e){
+	$('input[type="submit"], button[type="submit"]').click(function(e){
 		var $button = $(this);
 		var message = false;
 

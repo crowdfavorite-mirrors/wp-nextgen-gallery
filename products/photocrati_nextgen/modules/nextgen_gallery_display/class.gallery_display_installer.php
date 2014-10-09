@@ -22,9 +22,10 @@ class C_Gallery_Display_Installer
 
 		// Update the properties of the display type
 		$properties['name'] = $name;
+        $properties['installed_at_version'] = NGG_PLUGIN_VERSION;
 		foreach ($properties as $key=>$val) {
 			if ($key == 'preview_image_relpath') {
-				$val = $fs->find_static_relpath($val);
+				$val = $fs->find_static_abspath($val, FALSE, TRUE);
 			}
 			$display_type->$key = $val;
 		}

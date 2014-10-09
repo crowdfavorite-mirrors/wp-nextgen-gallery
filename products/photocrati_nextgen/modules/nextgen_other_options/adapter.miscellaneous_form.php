@@ -23,6 +23,12 @@ class A_Miscellaneous_Form extends Mixin
                 'mediarss_activated_no'    => __('No'),
                 'mediarss_activated_yes'   => __('Yes'),
 
+                'galleries_in_feeds'       => C_NextGen_Settings::get_instance()->galleries_in_feeds,
+                'galleries_in_feeds_label' => __('Display galleries in feeds', 'nggallery'),
+                'galleries_in_feeds_help'  => __('NextGEN hides its gallery displays in feeds other than MediaRSS. This enables image galleries in feeds.', 'nggallery'),
+                'galleries_in_feeds_no'    => __('No'),
+                'galleries_in_feeds_yes'   => __('Yes'),
+
                 'cache_label'        => __('Clear image cache', 'nggallery'),
                 'cache_confirmation' => __("Completely clear the NextGEN cache of all image modifications?\n\nChoose [Cancel] to Stop, [OK] to proceed.", 'nggallery'),
 
@@ -38,7 +44,9 @@ class A_Miscellaneous_Form extends Mixin
                     'maximum_entity_count',
                     __('Maximum image count', 'nggallery'),
                     $this->object->get_model()->maximum_entity_count,
-                    __('This is the maximum limit of images that NextGEN will restrict itself to querying', 'nggallery'),
+                    __('This is the maximum limit of images that NextGEN will restrict itself to querying', 'nggallery')
+                        . " \n "
+                        . __('Note: This limit will not apply to slideshow widgets or random galleries if/when those galleries specify their own image limits', 'nggallery'),
                     FALSE,
                     '',
                     1

@@ -12,7 +12,7 @@
                 <div class="ngg-description">
                     <p><?php echo_safe_html($gallery->galdesc); ?></p>
                     <?php if (isset($gallery->counter) && $gallery->counter > 0) { ?>
-                        <p><strong><?php echo $gallery->counter; ?></strong>&nbsp;<?php _e('Photos', 'nggallery'); ?></p>
+                        <p class="ngg-album-gallery-image-counter"><strong><?php echo $gallery->counter; ?></strong>&nbsp;<?php _e('Photos', 'nggallery'); ?></p>
                     <?php } ?>
                 </div>
             </div>

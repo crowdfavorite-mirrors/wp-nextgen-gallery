@@ -54,7 +54,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You 
 					<th align="left"><?php _e('Gallery path','nggallery') ?></th>
 					<td><input type="text" size="50" name="gallerypath" value="<?php echo $ngg_options['gallerypath']; ?>" /><br />
 					<?php _e('This is the default path for all blogs. With the placeholder %BLOG_ID% you can organize the folder structure better.','nggallery') ?>
-                    <?php echo str_replace('%s', '<code>wp-content/blogs.dir/%BLOG_ID%/files/</code>', __('The default setting should be %s', 'nggallery')); ?>
+                    <?php echo str_replace('%s', '<code>wp-content/uploads/sites/%BLOG_ID%/nggallery/</code>', __('The default setting should be %s', 'nggallery')); ?>
                     </td>
 				</tr>
 				<tr>
