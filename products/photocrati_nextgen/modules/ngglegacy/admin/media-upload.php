@@ -1,15 +1,15 @@
 <?php
 
 /**
- * @title  Add action/filter for the upload tab 
+ * @title  Add action/filter for the upload tab
  * @author Alex Rabe
- * 
+ *
  */
 
 function ngg_wp_upload_tabs ($tabs) {
 
 	$newtab = array('nextgen' => __('NextGEN Gallery','nggallery'));
- 
+
     return array_merge($tabs,$newtab);
 }
 	
@@ -19,7 +19,7 @@ function media_upload_nextgen() {
 	
     // Not in use
     $errors = false;
-    
+
 	// Generate TinyMCE HTML output
 	if ( isset($_POST['send']) ) {
 		$keys = array_keys($_POST['send']);
@@ -46,7 +46,7 @@ function media_upload_nextgen() {
         $height = $displayed_gallery->display_settings['height'];
 
 		// Build output
-		if ($image['size'] == "thumbnail") 
+		if ($image['size'] == "thumbnail")
 			$html = "<img src='{$image['thumb']}' alt='{$alttext}' class='{$class}' />";
         else
             $html = '';
@@ -54,10 +54,10 @@ function media_upload_nextgen() {
 		// Wrap the link to the fullsize image around
 		$html = "<a {$thumbcode} href='{$image['url']}' title='{$clean_description}'>{$html}</a>";
 
-		if ($image['size'] == "full") 
+		if ($image['size'] == "full")
 			$html = "<img src='{$image['url']}' alt='{$alttext}' class='{$class}' />";
 		
-		if ($image['size'] == "singlepic") 
+		if ($image['size'] == "singlepic")
 			$html = "[singlepic id={$send_id} w={$width} h={$height} float={$image['align']}]";
 			
 		media_upload_nextgen_save_image();
@@ -85,7 +85,7 @@ function media_upload_nextgen_save_image() {
 		if ( !empty($_POST['image']) ) foreach ( $_POST['image'] as $image_id => $image ) {
 		
     		// create a unique slug
-            $image_slug = nggdb::get_unique_slug( sanitize_title( $image['alttext'] ), 'image' ); 
+            $image_slug = nggdb::get_unique_slug( sanitize_title( $image['alttext'] ), 'image' );
     		$wpdb->query( $wpdb->prepare ("UPDATE $wpdb->nggpictures SET image_slug= '%s', alttext= '%s', description = '%s' WHERE pid = %d", $image_slug, $image['alttext'], $image['description'], $image_id));
             wp_cache_delete($image_id, 'ngg_image');
 	}
@@ -131,7 +131,7 @@ function media_upload_nextgen_form($errors) {
 		
 ?>
 
-<script type="text/javascript"> 
+<script type="text/javascript">
 <!--
 	function NGGSetAsThumbnail(id, nonce){
 		var $link = jQuery('a#ngg-post-thumbnail-' + id);
@@ -147,6 +147,14 @@ function media_upload_nextgen_form($errors) {
 			} else if (str == '-1') {
 				// image removed
 			} else {
+				jQuery('a.ngg-post-thumbnail').each(function() { jQuery(this).show(); });
+				jQuery('a.ngg-post-thumbnail-standin').each(function() { jQuery(this).hide(); });
+				$link.hide();
+
+				var $dummy = $link.next();
+				$dummy.attr('id', 'wp-post-thumbnail-' + str);
+				$dummy.show();
+
 				WPSetAsThumbnail(str, nonce);
 			}
 		}
@@ -158,9 +166,9 @@ function media_upload_nextgen_form($errors) {
 <form id="filter" action="" method="get">
 <input type="hidden" name="type" value="<?php echo esc_attr( $GLOBALS['type'] ); ?>" />
 <input type="hidden" name="tab" value="<?php echo esc_attr( $GLOBALS['tab'] ); ?>" />
-<?php 
+<?php
 if ($chromeless)
-{ 
+{
 ?>
 <input type="hidden" name="chromeless" value="<?php echo esc_attr( $chromeless ); ?>" />
 <?php	
@@ -280,13 +288,14 @@ if ($chromeless)
 							if ( $calling_post_id && current_theme_supports( 'post-thumbnails', get_post_type( $calling_post_id ) ) )
 								$ajax_nonce = wp_create_nonce( "set_post_thumbnail-$calling_post_id" );
 								echo "<a class='ngg-post-thumbnail' id='ngg-post-thumbnail-" . $picid . "' href='#' onclick='NGGSetAsThumbnail(\"$picid\", \"$ajax_nonce\");return false;'>" . esc_html__( 'Use as featured image' ) . "</a>";
+								echo "<a class='ngg-post-thumbnail-standin' href='#' style='display:none;'></a>";
 							?>
-							<button type="submit" class="button" value="1" name="send[<?php echo $picid ?>]"><?php esc_html_e( 'Insert into Post' ); ?></button>
+							<button type="submit" id="ngg-mlitp-<?php echo esc_attr($picid); ?>" class="button ngg-mlitp" value="1" name="send[<?php echo $picid ?>]"><?php esc_html_e( 'Insert into Post' ); ?></button>
 						</td>
 				   </tr>
 			  </tbody></table>
 			</div>
-		<?php		  
+		<?php		
 		}
 	}
 	?>
@@ -297,6 +306,16 @@ if ($chromeless)
 	<input type="hidden" name="post_id" id="post_id" value="<?php echo (int) $post_id; ?>" />
 	<input type="hidden" name="select_gal" id="select_gal" value="<?php echo (int) $galleryID; ?>" />
 </form>
+
+<script type="text/javascript">
+jQuery(function($) {
+	// reset the media library modal tab
+	var mlmodal = top.wp.media.editor.get();
+	mlmodal.on('close', function() {
+		mlmodal.setState('insert');
+	});
+});
+</script>
 
 <?php
 }

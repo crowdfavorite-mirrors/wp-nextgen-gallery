@@ -13,11 +13,15 @@
             $(window).data('ready', true);
         else return;
 
+	    // Post params
+	    var browse_params = <?php echo $browse_sec_token->get_json() ?>;
+	    browse_params.action = 'browse_folder';
+
         // Render file browser
         $('#file_browser').fileTree({
             root:           '/',
             script:         photocrati_ajax.url,
-            post_params:    {action: 'browse_folder', token: ''}
+            post_params:    browse_params
         }, function(file){
             selected_folder = file;
             $('#file_browser a').each(function(){
@@ -42,21 +46,29 @@
             });
 
             // Start importing process
-            var post_params = {
-                action: 'import_folder',
-                folder: selected_folder,
-                keep_location: $('#import_keep_location').is(":checked") ? 'on' : 'off'
-            };
+	        var post_params = <?php echo $import_sec_token->get_json()?>;
+	        post_params.action = 'import_folder';
+	        post_params.folder = selected_folder;
+	        post_params.keep_location =  $('#import_keep_location').is(":checked") ? 'on' : 'off';
+
             $.post(photocrati_ajax.url, post_params, function(response){
                 if (typeof(response) != 'object') response = JSON.parse(response);
                 if (typeof(response.error) == 'string') {
                     progress_bar.set(response.error);
+                    progress_bar.close(4000);
                 }
                 else {
-                    var message = "<?php __('Done! Successfully imported %s images', 'nggallery'); ?>";
-                    progress_bar.set(message.replace('%s', response.image_ids.length));
+                    <?php $url = admin_url() . 'admin.php?page=nggallery-manage-gallery&mode=edit&gid={gid}'; ?>
+                    var message = '<?php echo sprintf(__('Done! Successfully imported {count} images. <a href="%s" target="_blank">Manage gallery</a>', 'nggallery'), $url); ?>';
+                    message = message.replace('{count}', response.image_ids.length);
+                    message = message.replace('{gid}', response.gallery_id);
+                    progress_bar.close(100);
+                    $.gritter.add({
+                        title: '<?php _e("Upload complete", 'nggallery'); ?>',
+                        text: message,
+                        sticky: true
+                    });
                 }
-                progress_bar.close(2000);
             });
         })
     });

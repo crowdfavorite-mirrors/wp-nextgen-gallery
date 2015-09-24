@@ -2,7 +2,7 @@
 	<tr>
 		<td class="column1">
 			<label for="watermark_source">
-				<?php echo_h($watermark_source_label)?>
+				<?php esc_html_e($watermark_source_label)?>
 			</label>
 		</td>
 		<td>
@@ -12,7 +12,7 @@
 					<option
 						value="<?php echo esc_attr($value)?>"
 						<?php selected($value, $watermark_source) ?>
-						><?php echo_h($label)?></option>
+						><?php esc_html_e($label)?></option>
 				<?php endforeach ?>
 				</select>
 			</div>
@@ -55,13 +55,13 @@
                    name='watermark_options[wmXpos]'
                    placeholder='0'
                    min='0'
-                   value='<?php echo $offset_x; ?>'/> /
+                   value='<?php echo esc_attr($offset_x) ?>'/> /
             <input type='number'
                    id='nextgen_settings_wmYpos'
                    name='watermark_options[wmYpos]'
                    placeholder='0'
                    min='0'
-                   value='<?php echo $offset_y; ?>'/>
+                   value='<?php echo esc_attr($offset_y) ?>'/>
             <label for='nextgen_settings_wmYpos'>h</label>
         </td>
     </tr>
@@ -87,7 +87,7 @@
 				hidden_label="<?php echo esc_attr($hidden_label)?>"
 				active_label="<?php echo esc_attr($active_label)?>"
 			>
-			<?php echo_h($hidden_label)?>
+			<?php esc_html_e($hidden_label)?>
 			</a>
 		</td>
 	</tr>

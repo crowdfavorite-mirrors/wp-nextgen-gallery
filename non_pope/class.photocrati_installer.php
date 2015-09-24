@@ -1,5 +1,40 @@
 <?php
 
+/**
+ * Class C_Gallery_Display_Installer
+ *
+ * This is a class added to 2.0.68 for compatiblity reasons, and can be removed after NextGEN Pro 2.2 is released
+ */
+class C_Gallery_Display_Installer
+{
+	static $_proxy = NULL;
+
+	function get_proxy()
+	{
+		if (!self::$_proxy) {
+			self::$_proxy = new C_Display_Type_Installer;
+		}
+		return self::$_proxy;
+	}
+
+	function install($reset=FALSE)
+	{
+		$this->get_proxy()->install($reset);
+	}
+
+	function uninstall()
+	{
+		$this->get_proxy()->uninstall();
+	}
+
+
+	function __call($method, $args)
+	{
+		$klass = new ReflectionMethod($this->get_proxy(), $method);
+		return $klass->invokeArgs($this->get_proxy(), $args);
+	}
+}
+
 if (!class_exists('C_Photocrati_Installer'))
 {
 	class C_Photocrati_Installer
@@ -79,13 +114,28 @@ if (!class_exists('C_Photocrati_Installer'))
 
         static function done_upgrade()
         {
-            update_option('ngg_doing_upgrade', FALSE);
+            delete_option('ngg_doing_upgrade');
         }
 
 		static function update($reset=FALSE)
 		{
 			$local_settings     = C_NextGen_Settings::get_instance();
             $global_settings    = C_NextGen_Global_Settings::get_instance();
+
+            // Somehow some installations are missing several default settings
+            // Because gallerystorage_driver is essential to know we do a 'soft' reset here
+            // by filling in any missing options from the default settings
+            if (is_null($local_settings->gallerystorage_driver)) {
+                $settings_installer = new C_NextGen_Settings_Installer();
+
+                $local_settings->reset();
+                $settings_installer->install_local_settings();
+                $local_settings->save();
+
+                $global_settings->reset();
+                $settings_installer->install_global_settings();
+                $global_settings->save();
+            }
 
             // This is a specific hack/work-around/fix and can probably be removed sometime after 2.0.20's release
             //
@@ -119,19 +169,26 @@ if (!class_exists('C_Photocrati_Installer'))
                 }
             }
 
+			// Get last module list and current module list. Compare...
             $last_module_list = self::_get_last_module_list($reset);
 			$current_module_list = self::_generate_module_info();
+			$diff = array_diff($current_module_list, $last_module_list);
+			$do_upgrade = (count($diff)>0 || count($last_module_list) != count($current_module_list));
+			$can_upgrade = $do_upgrade ? self::can_do_upgrade() : FALSE;
+			if ($can_upgrade && !$diff) $diff = $current_module_list;
 
-            if (count(($modules = array_diff($current_module_list, $last_module_list))) > 0 && self::can_do_upgrade())
-            {
+			if ($can_upgrade && $do_upgrade) {
+
                 // Clear APC cache
                 if (function_exists('apc_clear_cache')) {
                     @apc_clear_cache('opcode');
                     apc_clear_cache();
                 }
 
-				// The cache should be flushed
-				C_Photocrati_Cache::flush('all');
+				// We flush ALL transients
+				wp_cache_flush();
+				global $wpdb;
+				$wpdb->query("DELETE FROM {$wpdb->options} WHERE option_name LIKE '_transient%'");
 
 				// Remove all NGG created cron jobs
 				self::refresh_cron();
@@ -146,15 +203,12 @@ if (!class_exists('C_Photocrati_Installer'))
 				// is the only singleton that will be used by other Pope applications
 				C_Component_Factory::$_instances = array();
 
-				foreach ($modules as $module_name) {
+				foreach ($diff as $module_name) {
 					if (($handler = self::get_handler_instance(array_shift(explode('|', $module_name))))) {
 						if (method_exists($handler, 'install'))
                             $handler->install($reset);
 					}
 				}
-
-				// Update the module list
-                update_option('pope_module_list', $current_module_list);
 
                 // NOTE & TODO: if the above section that declares $global_settings_to_keep is removed this should also
                 // Since a hard-reset of the settings was forced we must again re-apply our previously saved values
@@ -167,8 +221,6 @@ if (!class_exists('C_Photocrati_Installer'))
 				// Save any changes settings
 				$global_settings->save();
 				$local_settings->save();
-
-                self::done_upgrade();
             }
 
             // Another workaround to an issue caused by NextGen's lack of multisite compatibility. It's possible
@@ -182,6 +234,12 @@ if (!class_exists('C_Photocrati_Installer'))
                 $local_settings->gallerypath = $settings_installer->gallerypath_replace($global_settings->gallerypath);
                 $local_settings->save();
             }
+
+			// Update the module list, and remove the update flag
+			if ($can_upgrade) {
+				update_option('pope_module_list', $current_module_list);
+				self::done_upgrade();
+			}
 		}
 
         static function _get_last_module_list($reset=FALSE)
@@ -204,10 +262,21 @@ if (!class_exists('C_Photocrati_Installer'))
 		{
 			$retval = array();
 			$registry = C_Component_Registry::get_instance();
-			foreach ($registry->get_module_list() as $module_id) {
-				$module_version = $registry->get_module($module_id)->module_version;
-				$retval[] = "{$module_id}|{$module_version}";
+			$products  = array('photocrati-nextgen');
+			foreach ($registry->get_product_list() as $product_id) {
+				if ($product_id != 'photocrati-nextgen') $products[] = $product_id;
 			}
+
+			foreach ($products as $product_id) {
+				foreach ($registry->get_module_list($product_id) as $module_id) {
+					if (($module = $registry->get_module($module_id))) {
+						$module_version = $module->module_version;
+						$module_string = "{$module_id}|{$module_version}";
+						if (!in_array($module_string, $retval)) $retval[] = $module_string;
+					}
+				}
+			}
+
 			return $retval;
 		}
 

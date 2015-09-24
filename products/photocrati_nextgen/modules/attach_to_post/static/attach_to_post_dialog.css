@@ -54,3 +54,10 @@
 	right: 30px !important;
 }
 
+#ngg_attach_to_post_dialog-body {
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+    background: rgba(255, 255, 255, 0.6);
+    border-top: none;
+}

@@ -10,7 +10,7 @@
 </div>
 
 <div id="uploader">
-    <p><?php _e("You browser doesn't have Flash, Silverlight, HTML5, or HTML4 support.", 'nggallery'); ?></p>
+    <p><?php _e("Your browser doesn't have Silverlight, HTML5, or HTML4 support.", 'nggallery'); ?></p>
 </div>
 <script type="text/javascript">
     // Listen for events emitted in other frames
@@ -43,8 +43,11 @@
 
                 // Sets the plupload url with necessary parameters in the QS
                 window.set_plupload_url = function(gallery_id, gallery_name) {
-                    var qs = "?action=upload_image&gallery_id="+urlencode(gallery_id);
+                    var qs = "&action=upload_image&gallery_id="+urlencode(gallery_id);
                     qs += "&gallery_name="+urlencode(gallery_name);
+	                <?php foreach ($sec_token->get_request_list() as $name=>$value): ?>
+	                qs += "&<?php echo $name?>=<?php echo $value?>";
+	                <?php endforeach ?>
                     return photocrati_ajax.url + qs;
                 };
 
@@ -161,13 +164,19 @@
 
                             // Determine appropriate message to display
                             var upload_count = window.uploaded_image_ids.length;
-                            var msg = "<?php _e('%s images were uploaded successfully', 'nggallery'); ?>";
-                            msg = msg.replace('%s', upload_count);
-                            if (upload_count == 1) {
-                                msg = "<?php _e('1 image was uploaded successfully', 'nggallery'); ?>";
-                            }
-                            else if (upload_count == 0) {
+                            var msg = '';
+
+                            <?php $url = admin_url() . 'admin.php?page=nggallery-manage-gallery&mode=edit&gid={gid}'; ?>
+
+                            if (upload_count == 0) {
                                 msg = "<?php _e('0 images were uploaded', 'nggallery'); ?>";
+                            } else {
+                                msg = '<?php printf(__('{count} images were uploaded successfully. <a href="%s" target="_blank">Manage gallery</a>', 'nggallery'), $url); ?>';
+                                if (upload_count == 1) {
+                                    msg = '<?php printf(__('1 image was uploaded successfully. <a href="%s" target="_blank">Manage gallery</a>', 'nggallery'), $url); ?>';
+                                }
+                                msg = msg.replace('{gid}', $gallery_id.val());
+                                msg = msg.replace('{count}', upload_count);
                             }
 
                             // Display message/notification
@@ -227,7 +236,7 @@
 									var option = $('<option/>').attr('value', response.gallery_id).html(response.gallery_name);
 									$gallery_id.append(option);
 									$gallery_id.val(response.gallery_id);
-									option.attr('selected', 'selected');
+									option.prop('selected', true);
 								}
 
 								// our Frame-Event-Publisher hooks onto the jQuery ajaxComplete action which plupload

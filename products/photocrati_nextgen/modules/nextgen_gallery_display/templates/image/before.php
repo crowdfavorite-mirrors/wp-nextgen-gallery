@@ -4,4 +4,4 @@
 		$id = 'ngg-image-' . $index;
 	}
 ?>
-<div id="<?php echo_h($id) ?>" class="<?php echo_h($class) ?>" <?php if (isset($image->style)) echo $image->style; ?>>
+<div id="<?php echo esc_attr($id) ?>" class="<?php echo esc_attr($class) ?>" <?php if (isset($image->style)) echo $image->style; ?>>
