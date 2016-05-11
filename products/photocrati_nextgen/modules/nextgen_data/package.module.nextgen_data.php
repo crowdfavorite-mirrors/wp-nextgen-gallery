@@ -226,14 +226,19 @@ class Mixin_NextGen_Gallery_Validation
     {
         // If a title is present, we can auto-populate some other properties
         if ($this->object->title) {
+            // Strip html
+            $this->object->title = M_NextGen_Data::strip_html($this->object->title, TRUE);
+            $sanitized_title = str_replace(' ', '-', $this->object->title);
+            if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+                $sanitized_title = remove_accents($sanitized_title);
+            }
             // If no name is present, use the title to generate one
             if (!$this->object->name) {
-                $this->object->name = sanitize_file_name(sanitize_title($this->object->title));
-                $this->object->name = apply_filters('ngg_gallery_name', $this->object->name);
+                $this->object->name = apply_filters('ngg_gallery_name', sanitize_file_name($sanitized_title));
             }
             // If no slug is set, use the title to generate one
             if (!$this->object->slug) {
-                $this->object->slug = nggdb::get_unique_slug(sanitize_title($this->object->title), 'gallery');
+                $this->object->slug = nggdb::get_unique_slug($sanitized_title, 'gallery');
             }
         }
         // Set what will be the path to the gallery
@@ -241,6 +246,9 @@ class Mixin_NextGen_Gallery_Validation
             $storage = C_Gallery_Storage::get_instance();
             $this->object->path = $storage->get_upload_relpath($this->object);
             unset($storage);
+        } else {
+            $this->object->path = M_NextGen_Data::strip_html($this->object->path);
+            $this->object->path = str_replace(array('"', '\'\'', '>', '<'), array('', '', '', ''), $this->object->path);
         }
         $this->object->validates_presence_of('title');
         $this->object->validates_presence_of('name');
@@ -351,6 +359,30 @@ class Mixin_Gallery_Mapper extends Mixin
     }
     public function _save_entity($entity)
     {
+        // A bug in NGG 2.1.24 allowed galleries to be created with spaces in the directory name, unreplaced by dashes
+        // This causes a few problems everywhere, so we here allow users a way to fix those galleries by just re-saving
+        if (FALSE !== strpos($entity->path, ' ')) {
+            $storage = C_Gallery_Storage::get_instance();
+            $abspath = $storage->get_gallery_abspath($entity->{$entity->id_field});
+            $pre_path = $entity->path;
+            $entity->path = str_replace(' ', '-', $entity->path);
+            $entity->slug = str_replace(' ', '-', $entity->slug);
+            $new_abspath = str_replace($pre_path, $entity->path, $abspath);
+            // Begin adding -1, -2, etc until we have a safe target: rename() will overwrite existing directories
+            if (@file_exists($new_abspath)) {
+                $max_count = 100;
+                $count = 0;
+                $corrected_abspath = $new_abspath;
+                while (@file_exists($corrected_abspath) && $count <= $max_count) {
+                    $count++;
+                    $corrected_abspath = $new_abspath . '-' . $count;
+                }
+                $new_abspath = $corrected_abspath;
+                $entity->path = $entity->path . '-' . $count;
+            }
+            $entity->slug = nggdb::get_unique_slug($entity->slug, 'gallery');
+            @rename($abspath, $new_abspath);
+        }
         $retval = $this->call_parent('_save_entity', $entity);
         if ($retval) {
             do_action('ngg_created_new_gallery', $entity->{$entity->id_field});
@@ -1179,7 +1211,7 @@ class Mixin_GalleryStorage_Driver_Base extends Mixin
         }
         return $retval;
     }
-    public function import_gallery_from_fs($abspath, $gallery_id = FALSE, $move_files = TRUE)
+    public function import_gallery_from_fs($abspath, $gallery_id = FALSE, $create_new_gallerypath = TRUE, $gallery_title = NULL, $filenames = array())
     {
         $retval = FALSE;
         if (@file_exists($abspath)) {
@@ -1197,7 +1229,13 @@ class Mixin_GalleryStorage_Driver_Base extends Mixin
                 if (is_dir($file_abspath) && $i === 0) {
                     $files[] = $file_abspath;
                 } elseif ($this->is_image_file($file_abspath)) {
-                    $files[] = $file_abspath;
+                    if ($filenames && array_search($file_abspath, $filenames) !== FALSE) {
+                        $files[] = $file_abspath;
+                    } else {
+                        if (!$filenames) {
+                            $files[] = $file_abspath;
+                        }
+                    }
                 }
             }
             if (!empty($files)) {
@@ -1205,13 +1243,13 @@ class Mixin_GalleryStorage_Driver_Base extends Mixin
                 $gallery_mapper = C_Gallery_Mapper::get_instance();
                 // Sometimes users try importing a directory, which actually has all images under another directory
                 if (is_dir($files[0])) {
-                    return $this->import_gallery_from_fs($files[0], $gallery_id, $move_files);
+                    return $this->import_gallery_from_fs($files[0], $gallery_id, $create_new_gallerypath, $gallery_title, $filenames);
                 }
                 // If no gallery has been specified, then use the directory name as the gallery name
                 if (!$gallery_id) {
                     // Create the gallery
-                    $gallery = $gallery_mapper->create(array('title' => M_I18n::mb_basename($abspath)));
-                    if (!$move_files) {
+                    $gallery = $gallery_mapper->create(array('title' => $gallery_title ? $gallery_title : M_I18n::mb_basename($abspath)));
+                    if (!$create_new_gallerypath) {
                         $gallery->path = str_ireplace(ABSPATH, '', $abspath);
                     }
                     // Save the gallery
@@ -1227,7 +1265,7 @@ class Mixin_GalleryStorage_Driver_Base extends Mixin
                             continue;
                         }
                         $image = null;
-                        if ($move_files) {
+                        if ($create_new_gallerypath) {
                             $image = $this->object->upload_base64_image($gallery_id, file_get_contents($file_abspath), str_replace(' ', '_', M_I18n::mb_basename($file_abspath)));
                         } else {
                             // Create the database record ... TODO cleanup, some duplication here from upload_base64_image
@@ -1722,6 +1760,13 @@ class Mixin_NextGen_Gallery_Image_Validation extends Mixin
 {
     public function validation()
     {
+        // Additional checks...
+        if (isset($this->object->description)) {
+            $this->object->description = M_NextGen_Data::strip_html($this->object->description, TRUE);
+        }
+        if (isset($this->object->alttext)) {
+            $this->object->alttext = M_NextGen_Data::strip_html($this->object->alttext, TRUE);
+        }
         $this->validates_presence_of('galleryid', 'filename', 'alttext', 'exclude', 'sortorder', 'imagedate');
         $this->validates_numericality_of('galleryid');
         $this->validates_numericality_of($this->id());
@@ -2565,7 +2610,7 @@ class C_NextGen_Metadata extends C_Component
                     $meta['make'] = $exif['Make'];
                 }
                 if (!empty($exif['ImageDescription'])) {
-                    $meta['title'] = utf8_encode($exif['ImageDescription']);
+                    $meta['title'] = $this->utf8_encode($exif['ImageDescription']);
                 }
                 if (!empty($exif['Orientation'])) {
                     $meta['Orientation'] = $exif['Orientation'];
@@ -2575,19 +2620,19 @@ class C_NextGen_Metadata extends C_Component
             if (isset($this->exif_data['WINXP'])) {
                 $exif = $this->exif_data['WINXP'];
                 if (!empty($exif['Title']) && empty($meta['title'])) {
-                    $meta['title'] = utf8_encode($exif['Title']);
+                    $meta['title'] = $this->utf8_encode($exif['Title']);
                 }
                 if (!empty($exif['Author'])) {
-                    $meta['author'] = utf8_encode($exif['Author']);
+                    $meta['author'] = $this->utf8_encode($exif['Author']);
                 }
                 if (!empty($exif['Keywords'])) {
-                    $meta['tags'] = utf8_encode($exif['Keywords']);
+                    $meta['tags'] = $this->utf8_encode($exif['Keywords']);
                 }
                 if (!empty($exif['Subject'])) {
-                    $meta['subject'] = utf8_encode($exif['Subject']);
+                    $meta['subject'] = $this->utf8_encode($exif['Subject']);
                 }
                 if (!empty($exif['Comments'])) {
-                    $meta['caption'] = utf8_encode($exif['Comments']);
+                    $meta['caption'] = $this->utf8_encode($exif['Comments']);
                 }
             }
             $this->exif_array = $meta;
@@ -2640,7 +2685,7 @@ class C_NextGen_Metadata extends C_Component
             $meta = array();
             foreach ($iptcTags as $key => $value) {
                 if (isset($this->iptc_data[$key])) {
-                    $meta[$value] = trim(utf8_encode(implode(', ', $this->iptc_data[$key])));
+                    $meta[$value] = trim($this->utf8_encode(implode(', ', $this->iptc_data[$key])));
                 }
             }
             $this->iptc_array = $meta;
@@ -2887,6 +2932,33 @@ class C_NextGen_Metadata extends C_Component
     {
         $this->sanitize = true;
     }
+    /**
+     * Wrapper to utf8_encode() that avoids double encoding
+     *
+     * Regex adapted from http://www.w3.org/International/questions/qa-forms-utf-8.en.php
+     * to determine if the given string is already UTF-8. mb_detect_encoding() is not
+     * always available and is limited in accuracy
+     *
+     * @param string $str
+     * @return string
+     */
+    public function utf8_encode($str)
+    {
+        $is_utf8 = preg_match('%^(?:
+              [\\x09\\x0A\\x0D\\x20-\\x7E]            # ASCII
+            | [\\xC2-\\xDF][\\x80-\\xBF]             # non-overlong 2-byte
+            |  \\xE0[\\xA0-\\xBF][\\x80-\\xBF]        # excluding overlongs
+            | [\\xE1-\\xEC\\xEE\\xEF][\\x80-\\xBF]{2}  # straight 3-byte
+            |  \\xED[\\x80-\\x9F][\\x80-\\xBF]        # excluding surrogates
+            |  \\xF0[\\x90-\\xBF][\\x80-\\xBF]{2}     # planes 1-3
+            | [\\xF1-\\xF3][\\x80-\\xBF]{3}          # planes 4-15
+            |  \\xF4[\\x80-\\x8F][\\x80-\\xBF]{2}     # plane 16
+            )*$%xs', $str);
+        if (!$is_utf8) {
+            utf8_encode($str);
+        }
+        return $str;
+    }
 }
 class Mixin_NggLegacy_GalleryStorage_Driver extends Mixin
 {
@@ -3049,9 +3121,8 @@ class Mixin_NggLegacy_GalleryStorage_Driver extends Mixin
             $image_abspath = $this->object->get_image_abspath($image, $size, $check_existance);
         }
         if ($image_abspath) {
-            // encode the filename: because filesystems will let you name things like%@this.jpg
+            // Use multibyte pathinfo() in case of UTF8 gallery or file names
             $parts = M_I18n::mb_pathinfo($image_abspath);
-            $parts['basename'] = rawurlencode($parts['basename']);
             $image_abspath = $parts['dirname'] . DIRECTORY_SEPARATOR . $parts['basename'];
             $doc_root = $fs->get_document_root('gallery');
             if ($doc_root != null) {
@@ -3064,6 +3135,12 @@ class Mixin_NggLegacy_GalleryStorage_Driver extends Mixin
                 $request_uri = $image_abspath;
             }
             $request_uri = '/' . ltrim(str_replace('\\', '/', $request_uri), '/');
+            // Because like%@this.jpg is a valid directory and filename
+            $request_uri = explode('/', $request_uri);
+            foreach ($request_uri as $ndx => $segment) {
+                $request_uri[$ndx] = rawurlencode($segment);
+            }
+            $request_uri = implode('/', $request_uri);
             $retval = $router->remove_url_segment('/index.php', $router->get_url($request_uri, FALSE, 'gallery'));
         }
         return apply_filters('ngg_get_image_url', $retval, $image, $size);

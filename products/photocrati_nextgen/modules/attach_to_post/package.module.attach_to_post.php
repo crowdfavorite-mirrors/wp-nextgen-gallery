@@ -204,7 +204,7 @@ class A_Gallery_Storage_Frame_Event extends Mixin
             $event->pid = $image->{$image->id_field};
             $event->id_field = $image->id_field;
             $event->thumb_url = $image->thumb_url;
-            C_Frame_Event_Publisher::get_instance()->add_event(array('event' => 'thumbnail_modified', 'image' => $event));
+            C_Frame_Event_Publisher::get_instance('attach_to_post')->add_event(array('event' => 'thumbnail_modified', 'image' => $event));
         }
         return $retval;
     }
@@ -303,7 +303,7 @@ class Mixin_Attach_To_Post extends Mixin
         $this->mark_script('iris');
         $this->mark_script('wp-color-picker');
         $this->mark_script('nextgen_admin_page');
-        $this->mark_script('select2');
+        $this->mark_script('ngg_select2');
         // Enqueue frame event publishing
         wp_enqueue_script('frame_event_publisher');
         $this->object->mark_script('frame_event_publisher');
@@ -311,28 +311,28 @@ class Mixin_Attach_To_Post extends Mixin
         wp_enqueue_script('jquery-ui-tabs');
         wp_enqueue_script('jquery-ui-sortable');
         wp_enqueue_script('jquery-ui-tooltip');
-        wp_enqueue_script('ngg_tabs', $this->get_static_url('photocrati-attach_to_post#ngg_tabs.js'));
+        wp_enqueue_script('ngg_tabs', $this->get_static_url('photocrati-attach_to_post#ngg_tabs.js'), FALSE, NGG_SCRIPT_VERSION);
         $this->object->mark_script('jquery-ui-tabs');
         $this->object->mark_script('jquery-ui-sortable');
         $this->object->mark_script('jquery-ui-tooltip');
         $this->object->mark_script('ngg_tabs');
         // Ensure select2
-        wp_enqueue_style('select2');
-        wp_enqueue_script('select2');
-        $this->object->mark_script('select2');
+        wp_enqueue_style('ngg_select2');
+        wp_enqueue_script('ngg_select2');
+        $this->object->mark_script('ngg_select2');
         // Ensure that the Photocrati AJAX library is loaded
         wp_enqueue_script('photocrati_ajax');
         $this->object->mark_script('photocrati_ajax');
         // Enqueue logic for the Attach to Post interface as a whole
-        wp_enqueue_script('ngg_attach_to_post', $this->get_static_url('photocrati-attach_to_post#attach_to_post.js'));
-        wp_enqueue_style('ngg_attach_to_post', $this->get_static_url('photocrati-attach_to_post#attach_to_post.css'));
+        wp_enqueue_script('ngg_attach_to_post', $this->get_static_url('photocrati-attach_to_post#attach_to_post.js'), FALSE, NGG_SCRIPT_VERSION);
+        wp_enqueue_style('ngg_attach_to_post', $this->get_static_url('photocrati-attach_to_post#attach_to_post.css'), FALSE, NGG_SCRIPT_VERSION);
         $this->object->mark_script('ngg_attach_to_post');
         // Enqueue backbone.js library, required by the Attach to Post display tab
         wp_enqueue_script('backbone');
         // provided by WP
         $this->object->mark_script('backbone');
         // Ensure underscore sting, a helper utility
-        wp_enqueue_script('underscore.string', $this->get_static_url('photocrati-attach_to_post#underscore.string.js'), array('underscore'), '2.3.0');
+        wp_enqueue_script('underscore.string', $this->get_static_url('photocrati-attach_to_post#underscore.string.js'), array('underscore'), NGG_SCRIPT_VERSION);
         $this->object->mark_script('underscore.string');
         // Enqueue the backbone app for the display tab
         $settings = C_NextGen_Settings::get_instance();
@@ -341,7 +341,7 @@ class Mixin_Attach_To_Post extends Mixin
         if ($this->object->_displayed_gallery->id()) {
             $display_tab_js_url .= '&id=' . $this->object->_displayed_gallery->id();
         }
-        wp_enqueue_script('ngg_display_tab', $display_tab_js_url, array('backbone', 'underscore.string', 'photocrati_ajax'));
+        wp_enqueue_script('ngg_display_tab', $display_tab_js_url, array('backbone', 'underscore.string', 'photocrati_ajax'), NGG_SCRIPT_VERSION);
         wp_localize_script('ngg_display_tab', 'ngg_displayed_gallery_preview_url', $settings->gallery_preview_url);
         $this->object->mark_script('ngg_display_tab');
         // TODO: for now mark Pro scripts to ensure they are enqueued properly, remove this after Pro upgrade with tagging added

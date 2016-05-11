@@ -154,8 +154,8 @@ class A_NextGen_AddGallery_Ajax extends Mixin
             if ($dir = urldecode($this->param('dir'))) {
                 $fs = C_Fs::get_instance();
                 $root = $this->get_import_root_abspath();
-                if (!(strpos($dir, '.') === 0 || strpos($dir, '/.') === 0 || strpos($dir, '\\.') === 0)) {
-                    $browse_path = $fs->join_paths($root, $dir);
+                $browse_path = $fs->join_paths($root, $dir);
+                if (strpos(realpath($browse_path), realpath($root)) !== FALSE) {
                     if (@file_exists($browse_path)) {
                         $files = scandir($browse_path);
                         natcasesort($files);
@@ -197,8 +197,8 @@ class A_NextGen_AddGallery_Ajax extends Mixin
                 try {
                     $keep_files = $this->param('keep_location') == 'on';
                     $root = $this->get_import_root_abspath();
-                    if ($folder != '.' && $folder != '..') {
-                        $import_path = $fs->join_paths($root, $folder);
+                    $import_path = $fs->join_paths($root, $folder);
+                    if (strpos(realpath($import_path), realpath($root)) !== FALSE) {
                         $retval = $storage->import_gallery_from_fs($import_path, FALSE, !$keep_files);
                         if (!$retval) {
                             $retval = array('error' => 'Could not import folder. No images found.');
@@ -367,7 +367,7 @@ class A_Upload_Images_Form extends Mixin
         wp_enqueue_script('ngg.plupload.queue');
         $i18n = $this->_find_plupload_i18n();
         if (!empty($i18n)) {
-            wp_enqueue_script('ngg.plupload.i18n', $i18n, array('ngg.plupload.full'));
+            wp_enqueue_script('ngg.plupload.i18n', $i18n, array('ngg.plupload.full'), NGG_SCRIPT_VERSION);
         }
     }
     public function render()
