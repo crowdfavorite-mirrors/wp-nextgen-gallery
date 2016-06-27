@@ -18,9 +18,9 @@ class M_WordPress_Routing extends C_Base_Module
 			'WordPress Routing',
 			"Integrates the MVC module's routing implementation with WordPress",
 			'0.6',
-			'http://www.nextgen-gallery.com',
+			'https://www.imagely.com/wordpress-gallery-plugin/nextgen-gallery/',
 			'Photocrati Media',
-			'http://www.photocrati.com'
+			'https://www.imagely.com'
 		);
 	}
 

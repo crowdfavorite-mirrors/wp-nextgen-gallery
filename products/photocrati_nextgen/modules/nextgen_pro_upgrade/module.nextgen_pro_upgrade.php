@@ -15,9 +15,9 @@ class M_NextGen_Pro_Upgrade extends C_Base_Module
             'NextGEN Pro Page',
             'NextGEN Gallery Pro Upgrade Page',
             '0.4',
-            'http://www.nextgen-gallery.com',
+            'https://www.imagely.com/wordpress-gallery-plugin/nextgen-gallery/',
             'Photocrati Media',
-            'http://www.photocrati.com'
+            'https://www.imagely.com'
         );
     }
 

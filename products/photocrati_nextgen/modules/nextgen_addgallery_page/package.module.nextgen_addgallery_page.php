@@ -334,6 +334,10 @@ class A_Upload_Images_Form extends Mixin
     {
         return __('Upload Images', 'nggallery');
     }
+    public function get_i18n_strings()
+    {
+        return array('no_image_uploaded' => __('No images were uploaded successfully.', 'nggallery'), 'one_image_uploaded' => __('1 image was uploaded successfully.', 'nggallery'), 'x_images_uploaded' => __('{count} images were uploaded successfully.', 'ngallery'), 'manage_gallery' => __('Manage gallery', 'nggallery'));
+    }
     /**
      * Plupload stores its i18n JS *mostly* as "en.js" or "ar.js" - but some as zh_CN.js so we must check both if the
      * first does not match.
@@ -365,6 +369,7 @@ class A_Upload_Images_Form extends Mixin
         wp_enqueue_style('ngg.plupload.queue');
         wp_enqueue_script('browserplus');
         wp_enqueue_script('ngg.plupload.queue');
+        wp_localize_script('ngg.plupload.queue', 'NggUploadImages_i18n', $this->object->get_i18n_strings());
         $i18n = $this->_find_plupload_i18n();
         if (!empty($i18n)) {
             wp_enqueue_script('ngg.plupload.i18n', $i18n, array('ngg.plupload.full'), NGG_SCRIPT_VERSION);

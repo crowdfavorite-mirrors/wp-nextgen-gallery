@@ -5,7 +5,7 @@
 
     <h2><?php echo $description; ?></h2>
 
-    <a href='http://www.nextgen-gallery.com/nextgen-pro' target='_blank' class="button-primary">
+    <a href='https://www.imagely.com/wordpress-gallery-plugin/nextgen-pro/' target='_blank' class="button-primary">
         Learn More About NextGEN Pro
     </a>
 

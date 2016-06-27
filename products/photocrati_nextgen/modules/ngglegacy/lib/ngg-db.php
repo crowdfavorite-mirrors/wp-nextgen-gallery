@@ -498,7 +498,7 @@ class nggdb
      * @param $pids array of picture_ids
      * @return An array of nggImage objects representing the images
      */
-    function find_images_in_list( $pids, $exclude = false, $order = 'ASC' ) {
+    static function find_images_in_list( $pids, $exclude = false, $order = 'ASC' ) {
         global $wpdb;
 
         $result = array();
@@ -900,9 +900,11 @@ class nggdb
         $old_values = $serializer->unserialize( $old_values );
 
         $meta = array_merge( (array)$old_values, (array)$new_values );
-        $meta = $serializer->serialize($meta);
+        $serialized_meta = $serializer->serialize($meta);
 
-        $result = $wpdb->query( $wpdb->prepare("UPDATE $wpdb->nggpictures SET meta_data = %s WHERE pid = %d", $meta, $id) );
+        $result = $wpdb->query( $wpdb->prepare("UPDATE $wpdb->nggpictures SET meta_data = %s WHERE pid = %d", $serialized_meta, $id) );
+
+        do_action('ngg_updated_image_meta', $id, $meta);
 
         wp_cache_delete($id, 'ngg_image');
 

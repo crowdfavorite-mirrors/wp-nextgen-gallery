@@ -389,8 +389,10 @@ class Mixin_Attach_To_Post extends Mixin
             }
         }
         // Were we able to find a preview pic? If so, then render it
-        $image_size = $dyn_thumbs->get_size_name(array('width' => 200, 'height' => 200, 'quality' => 90, 'type' => 'jpg'));
+        $image_size = $dyn_thumbs->get_size_name(array('width' => 300, 'height' => 200, 'quality' => 90, 'type' => 'jpg', 'watermark' => FALSE, 'crop' => TRUE));
+        add_filter('ngg_before_save_thumbnail', array(&$this, 'set_igw_placeholder_text'));
         $found_preview_pic = $storage->render_image($image, $image_size, TRUE);
+        remove_filter('ngg_before_save_thumbnail', array(&$this, 'set_igw_placeholder_text'));
         // Render invalid image if no preview pic is found
         if (!$found_preview_pic) {
             $filename = $this->object->get_static_abspath('photocrati-attach_to_post#invalid_image.png');
@@ -398,6 +400,27 @@ class Mixin_Attach_To_Post extends Mixin
             readfile($filename);
             $this->render();
         }
+    }
+    /**
+     * Filter for ngg_before_save_thumbnail
+     */
+    public function set_igw_placeholder_text($thumbnail)
+    {
+        $settings = C_NextGen_Settings::get_instance();
+        $thumbnail->applyFilter(IMG_FILTER_BRIGHTNESS, -25);
+        $watermark_settings = apply_filters('ngg_igw_placeholder_line_1_settings', array('text' => __('NextGEN Gallery', 'nggallery'), 'font_color' => 'ffffff', 'font' => 'YanoneKaffeesatz-Bold.ttf', 'font_size' => 32));
+        if ($watermark_settings) {
+            $thumbnail->watermarkText = $watermark_settings['text'];
+            $thumbnail->watermarkCreateText($watermark_settings['font_color'], $watermark_settings['font'], $watermark_settings['font_size'], 100);
+            $thumbnail->watermarkImage('topCenter', 0, 72);
+        }
+        $watermark_settings = apply_filters('ngg_igw_placeholder_line_2_settings', array('text' => __('Click to edit', 'nggallery'), 'font_color' => 'ffffff', 'font' => 'YanoneKaffeesatz-Bold.ttf', 'font_size' => 15));
+        if ($watermark_settings) {
+            $thumbnail->watermarkText = $watermark_settings['text'];
+            $thumbnail->watermarkCreateText($watermark_settings['font_color'], $watermark_settings['font'], $watermark_settings['font_size'], 100);
+            $thumbnail->watermarkImage('topCenter', 0, 108);
+        }
+        return $thumbnail;
     }
     /**
      * Returns the page title of the Attach to Post interface

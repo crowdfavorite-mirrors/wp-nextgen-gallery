@@ -17,7 +17,7 @@ class A_MVC_Fs extends Mixin
     public function initialize()
     {
         register_shutdown_function(array(&$this, 'cache_lookups'));
-        self::$_lookups = C_Photocrati_Transient_Manager::fetch($this->_get_cache_key(), array());
+        //self::$_lookups = C_Photocrati_Transient_Manager::fetch($this->_get_cache_key(), array());
         self::$_non_minified_modules = apply_filters('ngg_non_minified_modules', array());
     }
     public function cache_lookups()
@@ -145,7 +145,7 @@ class A_MVC_Router extends Mixin
         if (NULL === $retval) {
             $formatted_path = $fs->parse_formatted_path($path);
             $abspath = $fs->join_paths($this->object->get_static_override_dir($formatted_path[1]), $formatted_path[0]);
-            if (@file_exists($abspath)) {
+            if (@is_file($abspath)) {
                 $abspath = str_replace($fs->get_document_root('content'), '', $abspath);
                 $retval = self::$_lookups[$key] = $this->object->join_paths($this->object->get_base_url('content'), str_replace('\\', '/', $abspath));
             }
@@ -170,8 +170,9 @@ class A_MVC_Router extends Mixin
                 $retval = self::$_lookups[$key] = $this->object->join_paths($this->object->get_base_url('root'), str_replace('\\', '/', $path));
             }
         }
-        // For "roots" and others that make use of relative URL
-        if (current_theme_supports('root-relative-urls') && strpos($retval, '/') !== 0) {
+        // For the "Sage" theme and others using the "Soil" plugin "Roots" theme was re-branded to "Sage" theme
+        // 2015-02-25; see https://roots.io/new-website-sage-and-the-future/
+        if ((current_theme_supports('soil-relative-urls') || current_theme_supports('root-relative-urls')) && strpos($retval, '/') !== 0) {
             $retval = '/' . $retval;
         }
         return $retval;

@@ -19,9 +19,9 @@ class M_NextGen_Basic_Album extends C_Base_Module
             'NextGEN Basic Album',
             "Provides support for NextGEN's Basic Album",
             '0.10',
-            'http://nextgen-gallery.com',
+            'https://www.imagely.com/wordpress-gallery-plugin/nextgen-gallery/',
             'Photocrati Media',
-            'http://www.photocrati.com'
+            'https://www.imagely.com'
         );
 
 		C_Photocrati_Installer::add_handler($this->module_id, 'C_NextGen_Basic_Album_Installer');

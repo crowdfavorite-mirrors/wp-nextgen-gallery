@@ -165,18 +165,24 @@
                             // Determine appropriate message to display
                             var upload_count = window.uploaded_image_ids.length;
                             var msg = '';
-
-                            <?php $url = admin_url() . 'admin.php?page=nggallery-manage-gallery&mode=edit&gid={gid}'; ?>
+                            var gallery_url = '<?php echo admin_url("/admin.php?page=nggallery-manage-gallery&mode=edit&gid=")?>' + $gallery_id.val();
 
                             if (upload_count == 0) {
-                                msg = "<?php _e('0 images were uploaded', 'nggallery'); ?>";
-                            } else {
-                                msg = '<?php printf(__('{count} images were uploaded successfully. <a href="%s" target="_blank">Manage gallery</a>', 'nggallery'), $url); ?>';
-                                if (upload_count == 1) {
-                                    msg = '<?php printf(__('1 image was uploaded successfully. <a href="%s" target="_blank">Manage gallery</a>', 'nggallery'), $url); ?>';
-                                }
-                                msg = msg.replace('{gid}', $gallery_id.val());
+                                msg = NggUploadImages_i18n.no_images_uploaded;
+                            }
+                            else {
+                                msg = upload_count == 1 ? NggUploadImages_i18n.one_image_uploaded : NggUploadImages_i18n.x_images_uploaded;
                                 msg = msg.replace('{count}', upload_count);
+
+                                // If we're outside of the IGW, we will then display a link to manage the gallery
+                                if ($('#iframely').length == 0) {
+                                    var $link = $('<a/>').attr({
+                                        href: gallery_url,
+                                        target: '_blank'
+                                    });
+                                    $link.text(NggUploadImages_i18n.manage_gallery);
+                                    msg = msg + ' ' + $link[0].outerHTML;
+                                }
                             }
 
                             // Display message/notification

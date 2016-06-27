@@ -6,11 +6,11 @@
     <h2><?php echo $description; ?></h2>
     <h2>LEARN MORE:</h2>
 
-    <a href='http://www.nextgen-gallery.com/nextgen-plus' target='_blank' class="button-primary" id="nextgen_pro_upgrade_first_link">
+    <a href='https://www.imagely.com/wordpress-gallery-plugin/nextgen-plus/' target='_blank' class="button-primary" id="nextgen_pro_upgrade_first_link">
         NextGEN Plus (Displays Only)
     </a>
 
-    <a href='http://www.nextgen-gallery.com/nextgen-pro' target='_blank' class="button-primary">
+    <a href='https://www.imagely.com/wordpress-gallery-plugin/nextgen-pro/' target='_blank' class="button-primary">
         NextGEN Pro (Displays + Ecommerce)
     </a>
 

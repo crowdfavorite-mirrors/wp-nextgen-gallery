@@ -2,11 +2,11 @@
 Contributors: photocrati, imagely
 Tags: nextgen, nextgen gallery, gallery, galleries, image, images, image gallery, photo, photos, photo gallery, picture, pictures, picture gallery, album, albums, photo albums, image album, media, media gallery, thumbnails, thumbnail gallery, thumbnail galleries, slideshow, slideshows, slideshow gallery, slideshow galleries, fancybox, lightbox, responsive, responsive gallery, responsive galleries, wordpress responsive gallery, nextcellent, wordpress gallery plugin, wordpress photo gallery plugin, wp gallery, wp gallery plugins, best gallery plugin, free photo gallery, singlepic, image captions imagebrowser, watermarks, watermarking, photography, photographer
 Requires at least: 4.0.0
-Stable tag: 2.1.31
-Tested up to: 4.4.2
+Stable tag: 2.1.46
+Tested up to: 4.5.3
 License: GPLv2
 
-The most popular WordPress gallery plugin and one of the most popular plugins of all time with over 14 million downloads.
+The most popular WordPress gallery plugin and one of the most popular plugins of all time with over 15 million downloads.
 
 == Description ==
 
@@ -59,6 +59,7 @@ Learn more or connect with us:<br>
 == Credits ==
 
 Copyright:<br>
+Imagely 2016
 Photocrati Media 2012-2016<br>
 Alex Rabe 2007-2011
 
@@ -185,6 +186,46 @@ For more information, feel free to visit the official website for the NextGEN Ga
 
 
 == Changelog ==
+
+= V2.1.46 - 06.23.2016 =
+* Fixed:   Remove inner nextgen-gallery folder due to build issue
+
+= V2.1.45 - 06.22.2016 =
+* Fixed:   Freemius assets should not be minified
+
+= V2.1.44 - 06.22.2016 =
+* NEW:     "Add Gallery" button added next to "Add Media" button on Create/Edit Post screen
+* NEW:     IGW placeholder images are watermarked
+* NEW:     Added API for communicating with Lightroom plugin
+* NEW:     Gulp build system
+* NEW:     Added "ngg_igw_placeholder_line_2_settings" and "ngg_igw_placeholder_line_1_settings" filters
+* NEW:     Added "ngg_settings_during_image_generation" filter to adjust image generation
+* NEW:     Added "ngg_before_save_thumbnail" filter for image manipulation abilities
+* NEW:     Added the ability to apply GD filters during image generation
+* NEW:     Integrated with WordPress SEO sitemaps to show include NGG images in image counts
+* Changed: Links to manage a gallery after it's been created don't appear in the IGW
+* Fixed:   Freemius code shouldn't be minified
+* Fixed:   When a datamapper entity is saved, it's corresponding cache should be cleared
+* Fixed:   IGW placeholder images aren't used by WordPress SEO's OpenGraph analysis
+
+= V2.1.43 - 05.25.2016 =
+* NEW:     Added Freemius integration
+* NEW:     Added actions actions ngg_updated_image_meta, ngg_recovered_image, ngg_generated_image, ngg_moved_images, and ngg_copied_images
+* NEW:     Added patch from WPML copyping ATP galleries to new language pages when duplicating a page to a new language
+* Changed: Moved 'ngg_delete_picture' action to before the image has been removed
+* Changed: Now prevent maximum_entity_count from being set to 0 or lower in Other Options
+* Changed: Updated "Roots" relative url support to re-branded "Soil" relative url
+* Changed: Updated branding so all publicly visible instances of "Photocrati" are now "Imagely"
+* Changed: Upgraded FontAwesome to 4.6.1
+* Fixed:   Album breadcrumbs when used with legacy templates
+* Fixed:   Compatibility with added WP role objects without a remove_cap() method
+* Fixed:   Default watermark setting causing images to be watermarked by text even though "image" is shown chosen on "Other Options"
+* Fixed:   Navigating to albums with UTF8 characters in their name
+* Fixed:   Replaced use of get_currentuserinfo() with wp_get_current_user()
+
+= V2.1.33 - 04.25.2016 =
+* Fixed:   Compatibility with themes and plugins which enqueue underscore.js in the head of the document
+* Fixed:   Ensure that shutter reloaded can find it's image assets
 
 = V2.1.31 - 04.05.2016 =
 * NEW:     Added constant NGG_SCRIPT_VERSION that is either the plugin version or rand() should SCRIPT_DEBUG be on

@@ -311,7 +311,7 @@ class A_NextGen_Basic_Album_Controller extends Mixin_NextGen_Basic_Pagination
         } elseif (isset($displayed_gallery->display_settings['original_settings']) && isset($displayed_gallery->display_settings['original_settings']['original_album_entities'])) {
             $original_album_entities = $displayed_gallery->display_settings['original_settings']['original_album_entities'];
         }
-        $breadcrumbs = $this->object->render_legacy_template_breadcrumbs($displayed_gallery, $original_album_entities, $displayed_gallery->conatiner_ids);
+        $breadcrumbs = $this->object->render_legacy_template_breadcrumbs($displayed_gallery, $original_album_entities, $displayed_gallery->container_ids);
         if (!empty($breadcrumbs)) {
             $html = $breadcrumbs . $html;
         }

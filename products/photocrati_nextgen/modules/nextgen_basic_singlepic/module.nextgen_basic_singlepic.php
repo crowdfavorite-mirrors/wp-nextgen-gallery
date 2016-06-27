@@ -18,9 +18,9 @@ class M_NextGen_Basic_Singlepic extends C_Base_Module
             'NextGen Basic Singlepic',
             'Provides a singlepic gallery for NextGEN Gallery',
             '0.11',
-            'http://www.photocrati.com',
+            'https://www.imagely.com',
             'Photocrati Media',
-            'http://www.photocrati.com'
+            'https://www.imagely.com'
         );
 
 		C_Photocrati_Installer::add_handler($this->module_id, 'C_NextGen_Basic_SinglePic_Installer');

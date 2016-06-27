@@ -147,8 +147,16 @@ class A_NextGen_Basic_Template_Form extends Mixin
         } else {
             $return['pagination'] = NULL;
         }
-        $return['next'] = $params['next'];
-        $return['prev'] = $params['prev'];
+        if (!empty($params['next'])) {
+            $return['next'] = $params['next'];
+        } else {
+            $return['next'] = FALSE;
+        }
+        if (!empty($params['prev'])) {
+            $return['prev'] = $params['prev'];
+        } else {
+            $return['prev'] = FALSE;
+        }
         return $return;
     }
     public function enqueue_static_resources()

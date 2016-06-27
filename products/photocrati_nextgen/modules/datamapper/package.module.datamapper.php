@@ -368,6 +368,8 @@ class Mixin_CustomPost_DataMapper_Driver extends Mixin
             // Save properties as post meta
             $this->object->_flush_and_update_postmeta($post_id, $entity instanceof stdClass ? $entity : $entity->get_entity());
             $entity->{$primary_key} = $post_id;
+            // Clean cache
+            $this->object->_cache = array();
         }
         $entity->id_field = $primary_key;
         return $post_id;
@@ -462,6 +464,8 @@ class Mixin_CustomPost_DataMapper_Driver extends Mixin
         if ($query->get('datamapper')) {
             $query->query_vars = $this->object->_query_args;
         }
+        $filter = isset($query->query_vars['suppress_filters']) ? $query->query_vars['suppress_filters'] : FALSE;
+        $query->query_vars['suppress_filters'] = apply_filters('wpml_suppress_filters', $filter);
     }
     /**
      * Fetches the last row
@@ -901,6 +905,10 @@ class C_CustomTable_DataMapper_Driver_Mixin extends Mixin
             }
         }
         $entity->id_field = $primary_key;
+        // Clean cache
+        if ($retval) {
+            $this->object->_cache = array();
+        }
         return $retval;
     }
     /**

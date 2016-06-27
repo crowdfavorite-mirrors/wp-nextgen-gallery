@@ -20,9 +20,9 @@ class M_NextGen_Admin extends C_Base_Module
 			'NextGEN Administration',
 			'Provides a framework for adding Administration pages',
 			'0.9',
-			'http://www.nextgen-gallery.com',
+			'https://www.imagely.com/wordpress-gallery-plugin/nextgen-gallery/',
 			'Photocrati Media',
-			'http://www.photocrati.com'
+			'https://www.imagely.com'
 		);
 
 		C_Photocrati_Installer::add_handler($this->module_id, 'C_NextGen_Admin_Installer');

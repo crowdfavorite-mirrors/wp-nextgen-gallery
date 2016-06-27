@@ -12,7 +12,7 @@
                 <li>for both NextGEN Gallery and NextGEN Pro.</li>
             </ul>
 
-            <a href='http://www.nextgen-gallery.com/nextgen-pro' target='_blank'>
+            <a href='https://www.imagely.com/wordpress-gallery-plugin/nextgen-pro/' target='_blank'>
                 <img src='<?php print $btn_url; ?>' alt='Learn More' title='Learn More'/>
             </a>
         </div>

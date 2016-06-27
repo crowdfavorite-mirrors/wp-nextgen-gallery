@@ -16,9 +16,9 @@ class M_Cache extends C_Base_Module
 			'Cache',
 			'Handles clearing of NextGen caches',
 			'0.2',
-			'http://www.nextgen-gallery.com',
+			'https://www.imagely.com/wordpress-gallery-plugin/nextgen-gallery/',
 			'Photocrati Media',
-			'http://www.photocrati.com'
+			'https://www.imagely.com'
 		);
 	}
 
